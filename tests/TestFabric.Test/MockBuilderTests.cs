@@ -442,4 +442,276 @@ public class MockBuilderTests
         // Assert
         Assert.Equal(expectedResult, actual);
     }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsync_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var sut = new FooMockBuilder()
+            .WithDoAsync(() => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync();
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsyncWithOneArgument_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var arg1 = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithDoAsync(_ => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync(arg1);
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsyncWithTwoArguments_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var arg1 = _fix.Create<double>();
+        var arg2 = _fix.Create<bool>();
+        var sut = new FooMockBuilder()
+            .WithDoAsync((_, _) => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync(arg1, arg2);
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsyncWithThreeArguments_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var arg1 = _fix.Create<bool>();
+        var arg2 = _fix.Create<double>();
+        var arg3 = _fix.Create<string>();
+        var sut = new FooMockBuilder()
+            .WithDoAsync((_, _, _) => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync(arg1, arg2, arg3);
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsyncWithFourArguments_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var arg1 = _fix.Create<string>();
+        var arg2 = _fix.Create<bool>();
+        var arg3 = _fix.Create<double>();
+        var arg4 = _fix.Create<Guid>();
+        var sut = new FooMockBuilder()
+            .WithDoAsync((_, _, _, _) => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync(arg1, arg2, arg3, arg4);
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Nothing_When_ConfigureDoAsyncWithFiveArguments_Then_CallbackExecuted()
+    {
+        // Arrange
+        var callbackExecuted = false;
+        var arg1 = _fix.Create<Guid>();
+        var arg2 = _fix.Create<bool>();
+        var arg3 = _fix.Create<double>();
+        var arg4 = _fix.Create<string>();
+        var arg5 = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithDoAsync((_, _, _, _, _) => { callbackExecuted = true; });
+
+        // Act
+        var actual = sut.Create();
+        await actual.Object.DoAsync(arg1, arg2, arg3, arg4, arg5);
+
+        // Assert
+        Assert.True(callbackExecuted);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsync_Then_MockReturnsResult()
+    {
+        // Arrange
+        var expectedResult = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync(expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync();
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Results_When_ConfigureCalculateAsync_Then_MockReturnsResult()
+    {
+        // Arrange
+        var expectedResult = _fix.CreateMany<int>(3)
+            .ToArray();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync(expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual1 = await mock.Object.CalculateAsync();
+        var actual2 = await mock.Object.CalculateAsync();
+        var actual3 = await mock.Object.CalculateAsync();
+
+        // Assert
+        Assert.Equal(expectedResult[0], actual1);
+        Assert.Equal(expectedResult[1], actual2);
+        Assert.Equal(expectedResult[2], actual3);
+    }
+
+    [Fact]
+    public async Task Given_EmptyResultSequence_When_ConfigureCalculateAsync_Then_NotConfigured()
+    {
+        // Arrange
+        int[]? expectedResult = null;
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync(expectedResult!);
+
+        // Act + Assert
+        var mock = sut.Create();
+        await Assert.ThrowsAsync<MockException>(async () => await mock.Object.CalculateAsync());
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFunc_Then_MockReturnsResult()
+    {
+        // Arrange
+        var expectedResult = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync(() => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync();
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFuncWithOneArgument_Then_MockReturnsResult()
+    {
+        // Arrange
+        var arg1 = _fix.Create<double>();
+        var expectedResult = _fix.Create<bool>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync(_ => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync(arg1);
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFuncWithTwoArguments_Then_MockReturnsResult()
+    {
+        // Arrange
+        var arg1 = _fix.Create<double>();
+        var arg2 = _fix.Create<bool>();
+        var expectedResult = _fix.Create<string>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync((_, _) => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync(arg1, arg2);
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFuncWithThreeArguments_Then_MockReturnsResult()
+    {
+        // Arrange
+        var arg1 = _fix.Create<bool>();
+        var arg2 = _fix.Create<double>();
+        var arg3 = _fix.Create<string>();
+        var expectedResult = _fix.Create<double>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync((_, _, _) => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3);
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFuncWithFourArguments_Then_MockReturnsResult()
+    {
+        // Arrange
+        var arg1 = _fix.Create<string>();
+        var arg2 = _fix.Create<bool>();
+        var arg3 = _fix.Create<double>();
+        var arg4 = _fix.Create<Guid>();
+        var expectedResult = _fix.Create<Guid>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync((_, _, _, _) => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3, arg4);
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
+
+    [Fact]
+    public async Task Given_Result_When_ConfigureCalculateAsyncFromFuncWithFiveArguments_Then_MockReturnsResult()
+    {
+        // Arrange
+        var arg1 = _fix.Create<Guid>();
+        var arg2 = _fix.Create<bool>();
+        var arg3 = _fix.Create<double>();
+        var arg4 = _fix.Create<string>();
+        var arg5 = _fix.Create<int>();
+        var expectedResult = _fix.Create<byte>();
+        var sut = new FooMockBuilder()
+            .WithCalculateAsync((_, _, _, _, _) => expectedResult);
+
+        // Act
+        var mock = sut.Create();
+        var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3, arg4, arg5);
+
+        // Assert
+        Assert.Equal(expectedResult, actual);
+    }
 }

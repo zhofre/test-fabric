@@ -159,4 +159,107 @@ internal class FooMockBuilder : MockBuilder<IFoo>
             @delegate);
         return this;
     }
+
+    public FooMockBuilder WithDoAsync(Action callback)
+    {
+        WithActionAsync(x => x.DoAsync(), callback);
+        return this;
+    }
+
+    public FooMockBuilder WithDoAsync(Action<int> callback)
+    {
+        WithActionAsync(x => x.DoAsync(It.IsAny<int>()), callback);
+        return this;
+    }
+
+    public FooMockBuilder WithDoAsync(Action<double, bool> callback)
+    {
+        WithActionAsync(x => x.DoAsync(It.IsAny<double>(), It.IsAny<bool>()), callback);
+        return this;
+    }
+
+    public FooMockBuilder WithDoAsync(Action<bool, double, string> callback)
+    {
+        WithActionAsync(
+            x => x.DoAsync(It.IsAny<bool>(), It.IsAny<double>(), It.IsAny<string>()),
+            callback);
+        return this;
+    }
+
+    public FooMockBuilder WithDoAsync(Action<string, bool, double, Guid> callback)
+    {
+        WithActionAsync(
+            x => x.DoAsync(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<double>(), It.IsAny<Guid>()),
+            callback);
+        return this;
+    }
+
+    public FooMockBuilder WithDoAsync(Action<Guid, bool, double, string, int> callback)
+    {
+        WithActionAsync(
+            x => x.DoAsync(It.IsAny<Guid>(), It.IsAny<bool>(), It.IsAny<double>(), It.IsAny<string>(), It.IsAny<int>()),
+            callback);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(int result)
+    {
+        WithFunctionAsync(x => x.CalculateAsync(), result);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(int[] result)
+    {
+        WithFunctionAsync(x => x.CalculateAsync(), result);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<int> @delegate)
+    {
+        WithFunctionAsync(x => x.CalculateAsync(), @delegate);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<double, bool> @delegate)
+    {
+        WithFunctionAsync(x => x.CalculateAsync(It.IsAny<double>()), @delegate);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<double, bool, string> @delegate)
+    {
+        WithFunctionAsync(
+            x => x.CalculateAsync(It.IsAny<double>(), It.IsAny<bool>()),
+            @delegate);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<bool, double, string, double> @delegate)
+    {
+        WithFunctionAsync(
+            x => x.CalculateAsync(It.IsAny<bool>(), It.IsAny<double>(), It.IsAny<string>()),
+            @delegate);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<string, bool, double, Guid, Guid> @delegate)
+    {
+        WithFunctionAsync(
+            x => x.CalculateAsync(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<double>(), It.IsAny<Guid>()),
+            @delegate);
+        return this;
+    }
+
+    public FooMockBuilder WithCalculateAsync(Func<Guid, bool, double, string, int, byte> @delegate)
+    {
+        WithFunctionAsync(
+            x => x.CalculateAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<bool>(),
+                It.IsAny<double>(),
+                It.IsAny<string>(),
+                It.IsAny<int>()),
+            @delegate);
+        return this;
+    }
 }
