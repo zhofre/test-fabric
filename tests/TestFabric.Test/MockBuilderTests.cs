@@ -714,4 +714,132 @@ public class MockBuilderTests
         // Assert
         Assert.Equal(expectedResult, actual);
     }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValue_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValueWithOneArgument_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(
+            _fix.Create<string>(),
+            out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValueWithTwoArguments_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(
+            _fix.Create<string>(),
+            _fix.Create<int>(),
+            out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValueWithThreeArguments_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(
+            _fix.Create<string>(),
+            _fix.Create<int>(),
+            _fix.Create<bool>(),
+            out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValueWithFourArguments_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(
+            _fix.Create<string>(),
+            _fix.Create<int>(),
+            _fix.Create<bool>(),
+            _fix.Create<double>(),
+            out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
+
+    [Fact]
+    public void Given_ResultAndOutValue_When_ConfigureTryGetValueWithFiveArguments_Then_MockReturnsResultAndOutValue()
+    {
+        // Arrange
+        var result = _fix.Create<bool>();
+        var outValue = _fix.Create<int>();
+        var sut = new FooMockBuilder()
+            .WithTryGetValue(result, outValue);
+
+        // Act
+        var mock = sut.Create();
+        var actualResult = mock.Object.TryGetValue(
+            _fix.Create<string>(),
+            _fix.Create<int>(),
+            _fix.Create<bool>(),
+            _fix.Create<double>(),
+            _fix.Create<Guid>(),
+            out var actualOutValue);
+
+        // Assert
+        Assert.Equal(result, actualResult);
+        Assert.Equal(outValue, actualOutValue);
+    }
 }

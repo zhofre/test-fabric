@@ -28,4 +28,10 @@ public interface IFoo
     Task<double> CalculateAsync(bool arg1, double arg2, string arg3);
     Task<Guid> CalculateAsync(string arg1, bool arg2, double arg3, Guid arg4);
     Task<byte> CalculateAsync(Guid arg1, bool arg2, double arg3, string arg4, int arg5);
+    bool TryGetValue(out int value);
+    bool TryGetValue(string arg1, out int value);
+    bool TryGetValue(string arg1, int arg2, out int value);
+    bool TryGetValue(string arg1, int arg2, bool arg3, out int value);
+    bool TryGetValue(string arg1, int arg2, bool arg3, double arg4, out int value);
+    bool TryGetValue(string arg1, int arg2, bool arg3, double arg4, Guid arg5, out int value);
 }

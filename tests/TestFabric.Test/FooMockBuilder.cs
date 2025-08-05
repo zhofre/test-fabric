@@ -262,4 +262,44 @@ internal class FooMockBuilder : MockBuilder<IFoo>
             @delegate);
         return this;
     }
+
+    public FooMockBuilder WithTryGetValue(bool result, int outValue)
+    {
+        WithTryGet(
+            x => x.TryGetValue(out outValue),
+            result,
+            outValue);
+        WithTryGet<string, int>(
+            x => x.TryGetValue(It.IsAny<string>(), out outValue),
+            result,
+            outValue);
+        WithTryGet<string, int, int>(
+            x => x.TryGetValue(It.IsAny<string>(), It.IsAny<int>(), out outValue),
+            result,
+            outValue);
+        WithTryGet<string, int, bool, int>(
+            x => x.TryGetValue(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<bool>(), out outValue),
+            result,
+            outValue);
+        WithTryGet<string, int, bool, double, int>(
+            x => x.TryGetValue(
+                It.IsAny<string>(),
+                It.IsAny<int>(),
+                It.IsAny<bool>(),
+                It.IsAny<double>(),
+                out outValue),
+            result,
+            outValue);
+        WithTryGet<string, int, bool, double, Guid, int>(
+            x => x.TryGetValue(
+                It.IsAny<string>(),
+                It.IsAny<int>(),
+                It.IsAny<bool>(),
+                It.IsAny<double>(),
+                It.IsAny<Guid>(),
+                out outValue),
+            result,
+            outValue);
+        return this;
+    }
 }

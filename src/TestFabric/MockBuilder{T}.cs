@@ -308,4 +308,173 @@ public abstract class MockBuilder<T> where T : class
     }
 
     #endregion
+
+
+    #region TryGet Functions Setup
+
+    protected delegate void OutCallback<TOut>(out TOut outValue);
+
+    protected void WithTryGet<TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    protected delegate void OutCallback<in T1, TOut>(T1 arg1, out TOut outValue);
+
+    protected void WithTryGet<T1, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (T1 _, out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<T1, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<T1, TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    protected delegate void OutCallback<in T1, in T2, TOut>(T1 arg1, T2 arg2, out TOut outValue);
+
+    protected void WithTryGet<T1, T2, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (T1 _, T2 _, out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<T1, T2, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<T1, T2, TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    protected delegate void OutCallback<in T1, in T2, in T3, TOut>(T1 arg1, T2 arg2, T3 arg3, out TOut outValue);
+
+    protected void WithTryGet<T1, T2, T3, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (T1 _, T2 _, T3 _, out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<T1, T2, T3, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<T1, T2, T3, TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    protected delegate void OutCallback<in T1, in T2, in T3, in T4, TOut>(T1 arg1, T2 arg2, T3 arg3, T4 arg4,
+        out TOut outValue);
+
+    protected void WithTryGet<T1, T2, T3, T4, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (T1 _, T2 _, T3 _, T4 _, out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<T1, T2, T3, T4, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<T1, T2, T3, T4, TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    protected delegate void OutCallback<in T1, in T2, in T3, in T4, in T5, TOut>(T1 arg1, T2 arg2, T3 arg3, T4 arg4,
+        T5 arg5, out TOut outValue);
+
+    protected void WithTryGet<T1, T2, T3, T4, T5, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        TOut outValue)
+    {
+        WithTryGet(
+            expression,
+            result,
+            (T1 _, T2 _, T3 _, T4 _, T5 _, out TOut y) =>
+            {
+                y = outValue;
+            });
+    }
+
+    protected void WithTryGet<T1, T2, T3, T4, T5, TOut>(
+        Expression<Func<T, bool>> expression,
+        bool result,
+        OutCallback<T1, T2, T3, T4, T5, TOut> callback)
+    {
+        Mock
+            .Setup(expression)
+            .Callback(callback)
+            .Returns(result);
+    }
+
+    #endregion
 }
