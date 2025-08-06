@@ -4,6 +4,10 @@ Provides common mock builders.
 
 - [#2](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
   `Microsoft.Extensions.Logging.ILogger<T>` interface.
+- [#4](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
+  `System.IProgress<T>` interface.
+- [#4](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
+  `System.Collections.Generic.IEqualityComparer<T>` interface.
 
 ## 📦 NuGet
 
