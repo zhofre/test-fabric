@@ -1,0 +1,53 @@
+name: CD to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger only on version tags (e.g., v1.2.3)
+
+permissions:
+  contents: write  # Required to create GitHub Releases
+  
+jobs:
+  build-pack-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Extract version from tag
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Pack NuGet package
+        run: dotnet pack ./src/TestFabric/TestFabric.csproj --no-build --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.get_version.outputs.version }}
+
+      - name: List generated packages
+        run: ls -lh ./nupkg
+
+      - name: Publish to NuGet.org
+        run: dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: "Release ${{ github.ref_name }}"
+          body: |
+            Published NuGet package version ${{ steps.get_version.outputs.version }}.
+
+            This release was triggered automatically by pushing the Git tag `${{ github.ref_name }}`.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
