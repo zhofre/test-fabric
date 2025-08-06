@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Title>Test Fabric</Title>
+        <Authors>Geoffrey Decan</Authors>
+        <Description>Testing toolkit leveraging Moq and AutoFixture to simplify creating unit and integration tests in .NET projects.</Description>
+        <Copyright>2025</Copyright>
+        <PackageProjectUrl>https://github.com/zhofre/test-fabric</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/zhofre/test-fabric?tab=MIT-1-ov-file#readme</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/zhofre/test-fabric</RepositoryUrl>
+        <RepositoryType>github</RepositoryType>
+        <PackageTags>tdd, unittest, moq, autofixture</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoFixture" Version="4.18.1" />
+      <PackageReference Include="Moq" Version="4.20.72" />
+    </ItemGroup>
+
+</Project>
