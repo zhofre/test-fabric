@@ -32,7 +32,7 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Pack NuGet package
-        run: dotnet pack ./src/TestFabric/TestFabric.csproj --no-build --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.get_version.outputs.version }}
+        run: dotnet pack ./src/TestFabric/TestFabric.csproj --no-build --configuration Release --output ./nupkg /p:PackageVersion=${{ steps.get_version.outputs.version }} /p:PackageReleaseNotes="See the [release notes](https://github.com/zhofre/test-fabric/blob/main/.github/release-notes/v${{ steps.get_version.outputs.version }}.md)"
 
       - name: List generated packages
         run: ls -lh ./nupkg
