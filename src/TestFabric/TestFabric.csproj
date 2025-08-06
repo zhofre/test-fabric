@@ -6,18 +6,29 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Title>Test Fabric</Title>
         <Authors>Geoffrey Decan</Authors>
+        <Company>Zhofre</Company>
         <Description>Testing toolkit leveraging Moq and AutoFixture to simplify creating unit and integration tests in .NET projects.</Description>
-        <Copyright>2025</Copyright>
+        <Copyright>2019-2025 Zhofre</Copyright>
+        <PackageId>TestFabric</PackageId>
+        <PackageVersion>0.1.0</PackageVersion>
         <PackageProjectUrl>https://github.com/zhofre/test-fabric</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/zhofre/test-fabric?tab=MIT-1-ov-file#readme</PackageLicenseUrl>
+        <PackageTags>tdd;unittest;moq;autofixture</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>test-fabric-logo.png</PackageIcon>
         <RepositoryUrl>https://github.com/zhofre/test-fabric</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
-        <PackageTags>tdd, unittest, moq, autofixture</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoFixture" Version="4.18.1" />
-      <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="AutoFixture" Version="4.18.1"/>
+        <PackageReference Include="Moq" Version="4.20.72"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="\"/>
+        <None Include="../../assets/test-fabric-logo.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>
