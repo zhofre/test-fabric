@@ -16,6 +16,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>test-fabric-logo.png</PackageIcon>
+        <PackageReleaseNotes>release-notes.md</PackageReleaseNotes>
         <RepositoryUrl>https://github.com/zhofre/test-fabric</RepositoryUrl>
         <RepositoryType>github</RepositoryType>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -29,6 +30,7 @@
     <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="\"/>
         <None Include="../../assets/test-fabric-logo.png" Pack="true" PackagePath="\"/>
+        <None Include="../../.github/release-notes/release-notes.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
 </Project>

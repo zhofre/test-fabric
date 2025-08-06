@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write  # Required to create GitHub Releases
-  
+
 jobs:
   build-pack-push:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
       - name: Extract version from tag
         id: get_version
         run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-        
+
       - name: Restore dependencies
         run: dotnet restore
 
@@ -45,9 +45,6 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: "Release ${{ github.ref_name }}"
-          body: |
-            Published NuGet package version ${{ steps.get_version.outputs.version }}.
-
-            This release was triggered automatically by pushing the Git tag `${{ github.ref_name }}`.
+          body_path: .github/release-notes/release-notes.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
