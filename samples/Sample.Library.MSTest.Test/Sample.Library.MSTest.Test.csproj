@@ -17,8 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\TestFabric\TestFabric.csproj" />
-      <ProjectReference Include="..\Sample.Library\Sample.Library.csproj" />
+        <ProjectReference Include="..\Sample.Library.TestTools\Sample.Library.TestTools.csproj"/>
     </ItemGroup>
 
 </Project>
