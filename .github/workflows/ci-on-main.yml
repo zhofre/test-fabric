@@ -29,7 +29,7 @@ jobs:
         run: dotnet build --no-restore --configuration Debug
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Debug --verbosity normal --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults
+        run: dotnet test ./tests/TestFabric.Test/TestFabric.Test.csproj --no-build --configuration Debug --verbosity normal --logger "trx;LogFileName=test_results.trx" --results-directory ./TestResults/TestFabric
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -41,6 +41,6 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: Unit Tests
-          path: ./TestResults/test_results.trx
+          name: TestFabric Tests
+          path: ./TestResults/TestFabric/test_results.trx
           reporter: dotnet-trx
