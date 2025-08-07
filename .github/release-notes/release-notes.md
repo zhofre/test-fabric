@@ -1,18 +1,13 @@
-Provides common mock builders.
+Provides common Equality Comparers.
 
-## 🛠 Enhancements
+## ✨ New Features
 
-- [#2](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
-  `Microsoft.Extensions.Logging.ILogger<T>` interface.
-- [#4](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
-  `System.IProgress<T>` interface.
-- [#4](https://github.com/zhofre/test-fabric/issues/2) Added a mock builder for the
-  `System.Collections.Generic.IEqualityComparer<T>` interface.
+- [#6](https://github.com/zhofre/test-fabric/issues/6) Added relative and absolute double comparers.
 
 ## 📦 NuGet
 
 Package available at: [NuGet.org](https://www.nuget.org/packages/TestFabric)
 
 ```
-dotnet add package TestFabric --version 0.1.1
+dotnet add package TestFabric --version 0.2.0
 ```
