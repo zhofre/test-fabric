@@ -25,6 +25,10 @@ Testing toolkit leveraging Moq and AutoFixture to simplify creating unit and int
 dotnet add package TestFabric
 ```
 
+### License
+
+This project is licensed under the MIT License.
+
 ## MockBuilder&lt;T&gt;
 
 The `MockBuilder<T>` is a base class that provides helper methods
@@ -273,6 +277,479 @@ public void Should_Use_Custom_Equality()
 }
 ``` 
 
-## License
+## Equality Comparers
 
-This project is licensed under the MIT License.
+Test Fabric provides a comprehensive set of equality comparers designed to simplify testing scenarios where precise
+equality comparisons are needed. These are particularly useful with assertion methods like `Assert.Equal` that accept
+custom equality comparers.
+
+### Object Equality Comparer
+
+Base class for creating custom object comparers with specific equality rules.
+
+```csharp
+// Custom object comparer implementation
+public class UserIdComparer : ObjectEqualityComparer<User>
+{
+    protected override bool EqualsImpl(User x, User y)
+    {
+        return x.Id == y.Id;
+    }
+}
+
+// Usage in assertions
+var comparer = new UserIdComparer();
+var user1 = new User { Id = 1, Name = "John", Email = "john@test.com" };
+var user2 = new User { Id = 1, Name = "Jane", Email = "jane@test.com" };
+
+Assert.Equal(user1, user2, comparer); // true - same ID despite different names/emails
+
+// Use cases:
+[Fact]
+public void Should_Find_User_By_Id_Regardless_Of_Other_Properties()
+{
+    // Arrange
+    var repository = new UserRepository();    
+    var expectedUser = new User { Id = 42, Name = "John Doe", Email = "john.doe@example.com" };
+    
+    // Act
+    var foundUser = repository.FindById(42);
+    
+    // Assert - Compare only by ID, ignoring other properties
+    Assert.Equal(expectedUser, foundUser, new UserIdComparer());
+}
+```
+
+### Compare Factory
+
+The `Compare` class provides a factory for creating commonly used equality comparers:
+
+#### Double Comparers
+
+##### Absolute Double Comparer
+
+Compares double values within an absolute tolerance. Perfect for testing floating-point calculations where you need to
+account for precision errors.
+
+```csharp
+// Factory method
+IEqualityComparer<double> comparer = Compare.DoubleAbsolute(0.01);
+
+// Usage in assertions
+Assert.Equal(1.001, 0.999, Compare.DoubleAbsolute(0.01)); // true - difference is 0.002, within tolerance
+Assert.Equal(3.14159, 3.14, Compare.DoubleAbsolute(0.002)); // true - difference is 0.00159, within tolerance
+Assert.Equal(10.0, 9.5, Compare.DoubleAbsolute(0.1)); // false - difference is 0.5, exceeds tolerance
+
+// Use cases:
+[Fact]
+public void Should_Calculate_Area_With_Precision()
+{
+    // Arrange
+    var calculator = new CircleAreaCalculator();
+    
+    // Act
+    double result = calculator.CalculateArea(radius: 5.0);
+    
+    // Assert - Account for floating-point precision errors
+    Assert.Equal(78.54, result, Compare.DoubleAbsolute(0.01));
+}
+```
+
+**When to use:**
+
+- Testing mathematical calculations with known precision requirements
+- Comparing results from different calculation methods that should be equivalent
+- Unit testing scientific or engineering calculations
+
+##### Relative Double Comparer
+
+Compares double values based on relative percentage difference. Ideal when the tolerance should scale with the size
+of the values being compared.
+
+```csharp
+// Factory method
+IEqualityComparer<double> comparer = Compare.DoubleRelative(0.05); // 5% tolerance
+
+// Usage in assertions
+Assert.Equal(100.0, 102.0, Compare.DoubleRelative(0.05)); // true - 2% difference, within 5% tolerance
+Assert.Equal(1000.0, 1030.0, Compare.DoubleRelative(0.05)); // true - 3% difference, within 5% tolerance
+Assert.Equal(10.0, 12.0, Compare.DoubleRelative(0.05)); // false - 20% difference, exceeds 5% tolerance
+
+// Use cases:
+[Fact]
+public void Should_Calculate_Growth_Rate_Within_Expected_Range()
+{
+    // Arrange
+    var analyzer = new PerformanceAnalyzer();
+    var baselineMetric = 1000.0;
+    
+    // Act
+    double actualGrowth = analyzer.CalculateGrowthRate(baselineMetric);
+    double expectedGrowth = 1050.0; // Expected 5% growth
+    
+    // Assert - Allow 2% variance in growth calculation
+    Assert.Equal(expectedGrowth, actualGrowth, Compare.DoubleRelative(0.02));
+}
+```
+
+**When to use:**
+
+- Testing percentage-based calculations (growth rates, discounts, interest)
+- Comparing scaled values where absolute differences would be misleading
+- Performance metrics that should be proportionally similar
+
+#### Collection Comparers
+
+##### Array Equality Comparer
+
+Compares arrays element-by-element, supporting custom element comparers.
+
+```csharp
+// Basic array comparison
+var comparer = new ArrayEqualityComparer<int>();
+Assert.Equal(new[] { 1, 2, 3 }, new[] { 1, 2, 3 }, comparer); // true
+
+// Array comparison with custom element comparer
+var doubleArrayComparer = new ArrayEqualityComparer<double>(Compare.DoubleAbsolute(0.01));
+Assert.Equal(
+    new[] { 1.001, 2.002, 3.003 }, 
+    new[] { 1.000, 2.000, 3.000 }, 
+    doubleArrayComparer); // true
+
+// Use cases:
+[Fact]
+public void Should_Process_Data_Arrays_Correctly()
+{
+    // Arrange
+    var processor = new DataProcessor();
+    var input = new[] { 1.1, 2.2, 3.3 };
+    var expected = new[] { 2.2, 4.4, 6.6 }; // Input doubled
+    
+    // Act
+    double[] result = processor.DoubleValues(input);
+    
+    // Assert - Account for floating-point precision in array comparison
+    Assert.Equal(expected, result, new ArrayEqualityComparer<double>(Compare.DoubleAbsolute(0.001)));
+}
+```
+
+##### List Equality Comparer
+
+Similar to array comparer but for `IList<T>` collections.
+
+```csharp
+// Basic list comparison
+var comparer = new ListEqualityComparer<string>();
+Assert.Equal(
+    new List<string> { "a", "b", "c" }, 
+    new List<string> { "a", "b", "c" }, 
+    comparer); // true
+
+// List comparison with custom element comparer
+var doubleListComparer = new ListEqualityComparer<double>(Compare.DoubleRelative(0.01));
+Assert.Equal(
+    new List<double> { 100.0, 200.0 },
+    new List<double> { 101.0, 198.0 },
+    doubleListComparer); // true (within 1% relative tolerance)
+
+// Use cases:
+[Fact]
+public void Should_Filter_And_Transform_Lists_Correctly()
+{
+    // Arrange
+    var service = new DataTransformationService();
+    var input = new List<decimal> { 10.5m, 20.7m, 30.1m };
+    var expected = new List<decimal> { 21.0m, 41.4m, 60.2m };
+    
+    // Act
+    List<decimal> result = service.DoubleAndRound(input);
+    
+    // Assert
+    Assert.Equal(expected, result, new ListEqualityComparer<decimal>());
+}
+```
+
+### Equality Comparer Builder
+
+The `EqualityComparerBuilder<T>` provides a fluent API for creating custom equality comparers with fine-grained control
+over how objects are compared. It's particularly useful for testing scenarios where you need to compare complex objects
+with specific equality rules.
+
+The builder allows you to:
+
+- **Configure custom comparers for specific types**
+- **Ignore specific members during comparison**
+- **Set custom comparison logic for individual properties/fields**
+- **Enable detailed tracing for debugging comparison failures**
+- **Handle collections (arrays, lists) automatically**
+
+The Equality Comparer Builder provides the flexibility to create precise comparison logic that matches your testing
+needs, making assertions more reliable and maintainable.
+
+#### Simple Object Comparison
+
+```csharp
+[Fact]
+public void Should_Compare_Users_By_Custom_Logic()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<User>()
+        .Create();
+    
+    var user1 = new User { Id = 1, Name = "John", Email = "john@test.com" };
+    var user2 = new User { Id = 1, Name = "John", Email = "john@test.com" };
+    
+    // Act & Assert
+    Assert.Equal(user1, user2, comparer);
+}
+```
+
+#### Ignoring Specific Members
+
+```csharp
+[Fact]
+public void Should_Ignore_Timestamp_During_Comparison()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<LogEntry>()
+        .IgnoreMember(x => x.Timestamp)
+        .IgnoreMember(x => x.Id)
+        .Create();
+    
+    var entry1 = new LogEntry 
+    { 
+        Id = 1, 
+        Message = "Error occurred", 
+        Level = LogLevel.Error,
+        Timestamp = DateTime.Now 
+    };
+    var entry2 = new LogEntry 
+    { 
+        Id = 2, 
+        Message = "Error occurred", 
+        Level = LogLevel.Error,
+        Timestamp = DateTime.Now.AddMinutes(5) 
+    };
+    
+    // Act & Assert - Same despite different IDs and timestamps
+    Assert.Equal(entry1, entry2, comparer);
+}
+```
+
+#### Custom Member Comparers
+
+Configure specific comparison logic for individual properties or fields:
+
+```csharp
+[Fact]
+public void Should_Use_Custom_Member_Comparers()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Product>()
+        .ConfigureMember(x => x.Price, Compare.DoubleAbsolute(0.01))
+        .ConfigureMember(x => x.Name, (n1, n2) => string.Equals(n1, n2, StringComparison.OrdinalIgnoreCase))
+        .Create();
+    
+    var product1 = new Product 
+    { 
+        Name = "Widget", 
+        Price = 19.99,
+        Category = "Tools" 
+    };
+    var product2 = new Product 
+    { 
+        Name = "WIDGET", 
+        Price = 19.991,
+        Category = "Tools" 
+    };
+    
+    // Act & Assert - Equal despite case difference and minor price variance
+    Assert.Equal(product1, product2, comparer);
+}
+```
+
+#### Type-Level Configuration
+
+Configure comparison logic for entire types:
+
+```csharp
+[Fact]
+public void Should_Use_Custom_Type_Comparers()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Order>()
+        .ConfigureType<DateTime>((d1, d2) => d1.Date == d2.Date) // Compare dates only, ignore time
+        .ConfigureType<decimal>(Compare.DoubleAbsolute(0.01))     // Custom decimal precision
+        .Create();
+    
+    var order1 = new Order 
+    { 
+        OrderDate = new DateTime(2023, 1, 15, 10, 30, 0),
+        Total = 99.99m 
+    };
+    var order2 = new Order 
+    { 
+        OrderDate = new DateTime(2023, 1, 15, 16, 45, 0),
+        Total = 99.991m 
+    };
+    
+    // Act & Assert - Equal despite different times and minor amount difference
+    Assert.Equal(order1, order2, comparer);
+}
+```
+
+#### Ignoring Types Completely
+
+```csharp
+[Fact]
+public void Should_Ignore_Audit_Information()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Document>()
+        .IgnoreType<AuditInfo>()  // Ignore all audit info objects
+        .Create();
+    
+    var doc1 = new Document 
+    { 
+        Title = "Report",
+        Content = "Important data",
+        Audit = new AuditInfo { CreatedBy = "user1", CreatedAt = DateTime.Now }
+    };
+    var doc2 = new Document 
+    { 
+        Title = "Report",
+        Content = "Important data", 
+        Audit = new AuditInfo { CreatedBy = "user2", CreatedAt = DateTime.Now.AddDays(1) }
+    };
+    
+    // Act & Assert - Equal despite different audit info
+    Assert.Equal(doc1, doc2, comparer);
+}
+```
+
+#### Collection Handling
+
+The builder automatically handles arrays and lists:
+
+```csharp
+[Fact]
+public void Should_Compare_Collections_With_Custom_Element_Logic()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<OrderSummary>()
+        .ConfigureType<decimal>(Compare.DoubleAbsolute(0.01))
+        .Create();
+    
+    var summary1 = new OrderSummary
+    {
+        ItemPrices = new[] { 10.99m, 25.00m, 5.99m },
+        Categories = new List<string> { "Electronics", "Books", "Clothing" }
+    };
+    var summary2 = new OrderSummary
+    {
+        ItemPrices = new[] { 10.991m, 24.999m, 5.991m },
+        Categories = new List<string> { "Electronics", "Books", "Clothing" }
+    };
+    
+    // Act & Assert - Arrays and lists compared with custom decimal precision
+    Assert.Equal(summary1, summary2, comparer);
+}
+```
+
+#### Debugging with Tracing
+
+Enable tracing to understand why comparisons fail:
+
+```csharp
+[Fact]
+public void Should_Trace_Comparison_Process()
+{
+    // Arrange
+    var traceOutput = new List<string>();
+    var comparer = new EqualityComparerBuilder<ComplexObject>()
+        .ConfigureMember(x => x.Value, Compare.DoubleAbsolute(0.001))
+        .EnableTracing(line => traceOutput.Add(line), detailed: true)
+        .Create();
+    
+    var obj1 = new ComplexObject { Id = 1, Value = 1.001, Name = "Test" };
+    var obj2 = new ComplexObject { Id = 2, Value = 1.002, Name = "Test" };
+    
+    // Act
+    bool areEqual = comparer.Equals(obj1, obj2);
+    
+    // Assert
+    Assert.False(areEqual);
+    
+    // Examine trace output to understand the failure
+    Assert.Contains(traceOutput, line => line.Contains("Check equality of ComplexObject"));
+    Assert.Contains(traceOutput, line => line.Contains("member comparison failed"));
+}
+```
+
+### Advanced Scenarios
+
+#### Combining Multiple Comparers
+
+```csharp
+[Fact]
+public void Should_Compare_Complex_Calculation_Results()
+{
+    // Arrange
+    var calculator = new ScientificCalculator();
+    var inputValues = new[] { 1.0, 2.0, 3.0 };
+    
+    // Expected results with some floating-point tolerance
+    var expectedResults = new[] { 2.718, 7.389, 20.086 }; // e^x calculations
+    
+    // Act
+    double[] results = calculator.CalculateExponentials(inputValues);
+    
+    // Assert - Use array comparer with absolute tolerance for exponential calculations
+    var comparer = new ArrayEqualityComparer<double>(Compare.DoubleAbsolute(0.001));
+    Assert.Equal(expectedResults, results, comparer);
+}
+
+[Fact]
+public void Should_Handle_Mixed_Data_Types_In_Collections()
+{
+    // Arrange
+    var processor = new MixedDataProcessor();
+    var expectedAmounts = new List<decimal>() { 1.3m, 3.4m, 2.7m };
+    var expectedRates = new[] { 0.1, 0.07, 0.12 };
+    var expectedAccounts = new List<Account>() { new Account(123), new Account(2453) };
+    
+    // Act
+    var results = processor.ProcessFinancialData();
+    
+    // Assert different aspects with appropriate comparers
+    Assert.Equal(
+        expectedAmounts,
+        results.Amounts, 
+        new ListEqualityComparer<decimal>()); // Exact decimal comparison
+    
+    Assert.Equal(
+        expectedRates,
+        results.InterestRates, 
+        new ArrayEqualityComparer<double>(Compare.DoubleRelative(0.001))); // Relative comparison for rates
+    
+    Assert.Equal(
+        expectedAccounts, 
+        results.Accounts, 
+        new ListEqualityComparer<Account>(new AccountNumberComparer())); // Custom object comparison
+}
+```
+
+### Best Practices
+
+1. **Choose the Right Tolerance**:
+    - Use absolute comparers for small numbers or when you know the expected precision
+    - Use relative comparers for large numbers or percentage-based calculations
+
+2. **Combine with Collection Comparers**:
+    - Wrap element comparers in array/list comparers for collection assertions
+
+3. **Create Custom Object Comparers**:
+    - Extend `ObjectEqualityComparer<T>` for domain-specific equality rules
+
+4. **Document Your Tolerances**:
+    - Always comment why you chose specific tolerance values in your tests
