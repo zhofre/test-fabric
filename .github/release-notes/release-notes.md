@@ -3,7 +3,8 @@ Provides common Equality Comparers.
 ## ✨ New Features
 
 - [#6](https://github.com/zhofre/test-fabric/issues/6) Added relative and absolute double equality comparers.
-- [#6](https://github.com/zhofre/test-fabric/issues/6) Added object equality comparer.
+- [#6](https://github.com/zhofre/test-fabric/issues/6) Added object equality comparer base.
+- [#6](https://github.com/zhofre/test-fabric/issues/6) Added array and list equality comparers.
 
 ## 📦 NuGet
 
