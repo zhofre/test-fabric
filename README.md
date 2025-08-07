@@ -363,7 +363,7 @@ public void Should_Calculate_Area_With_Precision()
 
 ##### Relative Double Comparer
 
-Compares double values based on relative percentage difference. Ideal when the tolerance should scale with the magnitude
+Compares double values based on relative percentage difference. Ideal when the tolerance should scale with the size
 of the values being compared.
 
 ```csharp
@@ -466,6 +466,223 @@ public void Should_Filter_And_Transform_Lists_Correctly()
     
     // Assert
     Assert.Equal(expected, result, new ListEqualityComparer<decimal>());
+}
+```
+
+### Equality Comparer Builder
+
+The `EqualityComparerBuilder<T>` provides a fluent API for creating custom equality comparers with fine-grained control
+over how objects are compared. It's particularly useful for testing scenarios where you need to compare complex objects
+with specific equality rules.
+
+The builder allows you to:
+
+- **Configure custom comparers for specific types**
+- **Ignore specific members during comparison**
+- **Set custom comparison logic for individual properties/fields**
+- **Enable detailed tracing for debugging comparison failures**
+- **Handle collections (arrays, lists) automatically**
+
+The Equality Comparer Builder provides the flexibility to create precise comparison logic that matches your testing
+needs, making assertions more reliable and maintainable.
+
+#### Simple Object Comparison
+
+```csharp
+[Fact]
+public void Should_Compare_Users_By_Custom_Logic()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<User>()
+        .Create();
+    
+    var user1 = new User { Id = 1, Name = "John", Email = "john@test.com" };
+    var user2 = new User { Id = 1, Name = "John", Email = "john@test.com" };
+    
+    // Act & Assert
+    Assert.Equal(user1, user2, comparer);
+}
+```
+
+#### Ignoring Specific Members
+
+```csharp
+[Fact]
+public void Should_Ignore_Timestamp_During_Comparison()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<LogEntry>()
+        .IgnoreMember(x => x.Timestamp)
+        .IgnoreMember(x => x.Id)
+        .Create();
+    
+    var entry1 = new LogEntry 
+    { 
+        Id = 1, 
+        Message = "Error occurred", 
+        Level = LogLevel.Error,
+        Timestamp = DateTime.Now 
+    };
+    var entry2 = new LogEntry 
+    { 
+        Id = 2, 
+        Message = "Error occurred", 
+        Level = LogLevel.Error,
+        Timestamp = DateTime.Now.AddMinutes(5) 
+    };
+    
+    // Act & Assert - Same despite different IDs and timestamps
+    Assert.Equal(entry1, entry2, comparer);
+}
+```
+
+#### Custom Member Comparers
+
+Configure specific comparison logic for individual properties or fields:
+
+```csharp
+[Fact]
+public void Should_Use_Custom_Member_Comparers()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Product>()
+        .ConfigureMember(x => x.Price, Compare.DoubleAbsolute(0.01))
+        .ConfigureMember(x => x.Name, (n1, n2) => string.Equals(n1, n2, StringComparison.OrdinalIgnoreCase))
+        .Create();
+    
+    var product1 = new Product 
+    { 
+        Name = "Widget", 
+        Price = 19.99,
+        Category = "Tools" 
+    };
+    var product2 = new Product 
+    { 
+        Name = "WIDGET", 
+        Price = 19.991,
+        Category = "Tools" 
+    };
+    
+    // Act & Assert - Equal despite case difference and minor price variance
+    Assert.Equal(product1, product2, comparer);
+}
+```
+
+#### Type-Level Configuration
+
+Configure comparison logic for entire types:
+
+```csharp
+[Fact]
+public void Should_Use_Custom_Type_Comparers()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Order>()
+        .ConfigureType<DateTime>((d1, d2) => d1.Date == d2.Date) // Compare dates only, ignore time
+        .ConfigureType<decimal>(Compare.DoubleAbsolute(0.01))     // Custom decimal precision
+        .Create();
+    
+    var order1 = new Order 
+    { 
+        OrderDate = new DateTime(2023, 1, 15, 10, 30, 0),
+        Total = 99.99m 
+    };
+    var order2 = new Order 
+    { 
+        OrderDate = new DateTime(2023, 1, 15, 16, 45, 0),
+        Total = 99.991m 
+    };
+    
+    // Act & Assert - Equal despite different times and minor amount difference
+    Assert.Equal(order1, order2, comparer);
+}
+```
+
+#### Ignoring Types Completely
+
+```csharp
+[Fact]
+public void Should_Ignore_Audit_Information()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<Document>()
+        .IgnoreType<AuditInfo>()  // Ignore all audit info objects
+        .Create();
+    
+    var doc1 = new Document 
+    { 
+        Title = "Report",
+        Content = "Important data",
+        Audit = new AuditInfo { CreatedBy = "user1", CreatedAt = DateTime.Now }
+    };
+    var doc2 = new Document 
+    { 
+        Title = "Report",
+        Content = "Important data", 
+        Audit = new AuditInfo { CreatedBy = "user2", CreatedAt = DateTime.Now.AddDays(1) }
+    };
+    
+    // Act & Assert - Equal despite different audit info
+    Assert.Equal(doc1, doc2, comparer);
+}
+```
+
+#### Collection Handling
+
+The builder automatically handles arrays and lists:
+
+```csharp
+[Fact]
+public void Should_Compare_Collections_With_Custom_Element_Logic()
+{
+    // Arrange
+    var comparer = new EqualityComparerBuilder<OrderSummary>()
+        .ConfigureType<decimal>(Compare.DoubleAbsolute(0.01))
+        .Create();
+    
+    var summary1 = new OrderSummary
+    {
+        ItemPrices = new[] { 10.99m, 25.00m, 5.99m },
+        Categories = new List<string> { "Electronics", "Books", "Clothing" }
+    };
+    var summary2 = new OrderSummary
+    {
+        ItemPrices = new[] { 10.991m, 24.999m, 5.991m },
+        Categories = new List<string> { "Electronics", "Books", "Clothing" }
+    };
+    
+    // Act & Assert - Arrays and lists compared with custom decimal precision
+    Assert.Equal(summary1, summary2, comparer);
+}
+```
+
+#### Debugging with Tracing
+
+Enable tracing to understand why comparisons fail:
+
+```csharp
+[Fact]
+public void Should_Trace_Comparison_Process()
+{
+    // Arrange
+    var traceOutput = new List<string>();
+    var comparer = new EqualityComparerBuilder<ComplexObject>()
+        .ConfigureMember(x => x.Value, Compare.DoubleAbsolute(0.001))
+        .EnableTracing(line => traceOutput.Add(line), detailed: true)
+        .Create();
+    
+    var obj1 = new ComplexObject { Id = 1, Value = 1.001, Name = "Test" };
+    var obj2 = new ComplexObject { Id = 2, Value = 1.002, Name = "Test" };
+    
+    // Act
+    bool areEqual = comparer.Equals(obj1, obj2);
+    
+    // Assert
+    Assert.False(areEqual);
+    
+    // Examine trace output to understand the failure
+    Assert.Contains(traceOutput, line => line.Contains("Check equality of ComplexObject"));
+    Assert.Contains(traceOutput, line => line.Contains("member comparison failed"));
 }
 ```
 
