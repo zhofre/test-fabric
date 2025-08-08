@@ -3,9 +3,10 @@
 namespace TestFabric.Data;
 
 public abstract class RandomNumberFactory<T>(
-    T smallest,
+    T zero,
+    T epsilon,
     T small,
-    T normal,
+    T medium,
     T large,
     int? seed = null)
     : IRandomNumberFactory<T>
@@ -16,55 +17,70 @@ public abstract class RandomNumberFactory<T>(
     /// <inheritdoc />
     public T Create()
     {
-        return Create(small, normal);
+        return Create(zero, medium);
     }
 
     /// <inheritdoc />
     public T CreateSmall()
     {
-        return Create(smallest, small);
+        return Create(zero, small);
+    }
+
+    public T CreateMedium()
+    {
+        return Create(small, medium);
     }
 
     /// <inheritdoc />
     public T CreateLarge()
     {
-        return Create(normal, large);
+        return Create(medium, large);
     }
 
     /// <inheritdoc />
     public T CreatePositive()
     {
-        return CreatePositive(small, normal);
+        return CreatePositive(small, medium);
     }
 
     /// <inheritdoc />
     public T CreateSmallPositive()
     {
-        return CreatePositive(smallest, small);
+        return CreatePositive(zero, small);
+    }
+
+    public T CreateMediumPositive()
+    {
+        return CreatePositive(small, medium);
     }
 
     /// <inheritdoc />
     public T CreateLargePositive()
     {
-        return CreatePositive(normal, large);
+        return CreatePositive(medium, large);
     }
 
     /// <inheritdoc />
     public T CreateStrictlyPositive()
     {
-        return CreateStrictlyPositive(small, normal);
+        return CreatePositive(small, medium);
     }
 
     /// <inheritdoc />
     public T CreateSmallStrictlyPositive()
     {
-        return CreateStrictlyPositive(smallest, small);
+        return CreatePositive(epsilon, small);
+    }
+
+    public T CreateMediumStrictlyPositive()
+    {
+        return CreatePositive(small, medium);
     }
 
     /// <inheritdoc />
     public T CreateLargeStrictlyPositive()
     {
-        return CreateStrictlyPositive(normal, large);
+        return CreatePositive(medium, large);
     }
 
     /// <summary>
@@ -118,17 +134,4 @@ public abstract class RandomNumberFactory<T>(
     ///     A random positive number of type T.
     /// </returns>
     protected abstract T CreatePositive(T lowerBound, T upperBound);
-
-    private T CreateStrictlyPositive(T lowerBound, T upperBound)
-    {
-        var strictLowerBound = BoundToSmallestPositive(lowerBound);
-        return CreatePositive(strictLowerBound, upperBound);
-    }
-
-    /// <summary>
-    ///     Binds the specified lower bound to the smallest positive value.
-    /// </summary>
-    /// <param name="lowerBound">The lower bound.</param>
-    /// <returns>The bound to the smallest positive value.</returns>
-    protected abstract T BoundToSmallestPositive(T lowerBound);
 }

@@ -7,6 +7,8 @@ namespace TestFabric.Test.Data;
 [TestSubject(typeof(RandomIntFactory))]
 public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
 {
+    private const int TestCount = 20; // only increase in case of development testing
+
     [Fact]
     public void Given_Nothing_When_Create_Then_WithinNormalBounds()
     {
@@ -14,12 +16,20 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.Create();
-        outputHelper.WriteLine($"{-RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.NormalBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.Create();
+            outputHelper.WriteLine($"{-RandomIntFactory.MediumBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
 
         // Assert
-        Assert.True(-RandomIntFactory.NormalBound < actual);
-        Assert.True(actual < RandomIntFactory.NormalBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(-RandomIntFactory.MediumBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -29,12 +39,44 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateSmall();
-        outputHelper.WriteLine($"{-RandomIntFactory.SmallBound} < {actual} < {RandomIntFactory.SmallBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateSmall();
+            outputHelper.WriteLine($"{-RandomIntFactory.SmallBound} <= {actual[i]} <= {RandomIntFactory.SmallBound}");
+        }
 
         // Assert
-        Assert.True(-RandomIntFactory.SmallBound < actual);
-        Assert.True(actual < RandomIntFactory.SmallBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(-RandomIntFactory.SmallBound <= item);
+            Assert.True(item <= RandomIntFactory.SmallBound);
+        }
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CreateMedium_Then_WithinMediumBounds()
+    {
+        // Arrange
+        var sut = new RandomIntFactory();
+
+        // Act
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateMedium();
+            outputHelper.WriteLine($"{-RandomIntFactory.MediumBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
+
+        // Assert
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(-RandomIntFactory.MediumBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+            Assert.True(Math.Abs(item) >= RandomIntFactory.SmallBound);
+        }
     }
 
     [Fact]
@@ -44,12 +86,21 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateLarge();
-        outputHelper.WriteLine($"{-RandomIntFactory.LargeBound} < {actual} < {RandomIntFactory.LargeBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateLarge();
+            outputHelper.WriteLine($"{-RandomIntFactory.LargeBound} <= {actual[i]} <= {RandomIntFactory.LargeBound}");
+        }
 
         // Assert
-        Assert.True(-RandomIntFactory.LargeBound < actual);
-        Assert.True(actual < RandomIntFactory.LargeBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(-RandomIntFactory.LargeBound <= item);
+            Assert.True(item <= RandomIntFactory.LargeBound);
+            Assert.True(Math.Abs(item) >= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -59,12 +110,20 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreatePositive();
-        outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual} < {RandomIntFactory.NormalBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreatePositive();
+            outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
 
         // Assert
-        Assert.True(RandomIntFactory.SmallBound <= actual);
-        Assert.True(actual < RandomIntFactory.NormalBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.SmallBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -74,12 +133,43 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateSmallPositive();
-        outputHelper.WriteLine($"0 <= {actual} < {RandomIntFactory.SmallBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateSmallPositive();
+            outputHelper.WriteLine($"0 <= {actual[i]} <= {RandomIntFactory.SmallBound}");
+        }
 
         // Assert
-        Assert.True(0 <= actual);
-        Assert.True(actual < RandomIntFactory.SmallBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(0 <= item);
+            Assert.True(item <= RandomIntFactory.SmallBound);
+        }
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CreateMediumPositive_Then_WithinMediumBounds()
+    {
+        // Arrange
+        var sut = new RandomIntFactory();
+
+        // Act
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateMediumPositive();
+            outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
+
+        // Assert
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.SmallBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -89,12 +179,20 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateLargePositive();
-        outputHelper.WriteLine($"{RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.LargeBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateLargePositive();
+            outputHelper.WriteLine($"{RandomIntFactory.MediumBound} <= {actual[i]} <= {RandomIntFactory.LargeBound}");
+        }
 
         // Assert
-        Assert.True(RandomIntFactory.NormalBound <= actual);
-        Assert.True(actual < RandomIntFactory.LargeBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.MediumBound <= item);
+            Assert.True(item <= RandomIntFactory.LargeBound);
+        }
     }
 
     [Fact]
@@ -104,12 +202,20 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateStrictlyPositive();
-        outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual} < {RandomIntFactory.NormalBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateStrictlyPositive();
+            outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
 
         // Assert
-        Assert.True(RandomIntFactory.SmallBound <= actual);
-        Assert.True(actual < RandomIntFactory.NormalBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.SmallBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -119,12 +225,43 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateSmallStrictlyPositive();
-        outputHelper.WriteLine($"{RandomIntFactory.SmallestBound} <= {actual} < {RandomIntFactory.SmallBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateSmallStrictlyPositive();
+            outputHelper.WriteLine($"{RandomIntFactory.Epsilon} <= {actual[i]} <= {RandomIntFactory.SmallBound}");
+        }
 
         // Assert
-        Assert.True(RandomIntFactory.SmallestBound <= actual);
-        Assert.True(actual < RandomIntFactory.SmallBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.Epsilon <= item);
+            Assert.True(item <= RandomIntFactory.SmallBound);
+        }
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CreateMediumStrictlyPositive_Then_WithinMediumBounds()
+    {
+        // Arrange
+        var sut = new RandomIntFactory();
+
+        // Act
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateMediumStrictlyPositive();
+            outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual[i]} <= {RandomIntFactory.MediumBound}");
+        }
+
+        // Assert
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.SmallBound <= item);
+            Assert.True(item <= RandomIntFactory.MediumBound);
+        }
     }
 
     [Fact]
@@ -134,11 +271,19 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         var sut = new RandomIntFactory();
 
         // Act
-        var actual = sut.CreateLargeStrictlyPositive();
-        outputHelper.WriteLine($"{RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.LargeBound}");
+        var actual = new int[TestCount];
+        for (var i = 0; i < TestCount; i++)
+        {
+            actual[i] = sut.CreateLargeStrictlyPositive();
+            outputHelper.WriteLine($"{RandomIntFactory.MediumBound} <= {actual[i]} <= {RandomIntFactory.LargeBound}");
+        }
 
         // Assert
-        Assert.True(RandomIntFactory.NormalBound <= actual);
-        Assert.True(actual < RandomIntFactory.LargeBound);
+        for (var i = 0; i < TestCount; i++)
+        {
+            var item = actual[i];
+            Assert.True(RandomIntFactory.MediumBound <= item);
+            Assert.True(item <= RandomIntFactory.LargeBound);
+        }
     }
 }

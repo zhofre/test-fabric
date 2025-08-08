@@ -26,8 +26,8 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = Factory.Create<int>();
 
         // Assert
-        Assert.True(-RandomIntFactory.NormalBound < actual);
-        Assert.True(actual < RandomIntFactory.NormalBound);
+        Assert.True(-RandomIntFactory.MediumBound < actual);
+        Assert.True(actual < RandomIntFactory.MediumBound);
     }
 
     [Fact]
@@ -38,8 +38,8 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = Factory.Create<double>();
 
         // Assert
-        Assert.True(-RandomDoubleFactory.NormalBound < actual);
-        Assert.True(actual < RandomDoubleFactory.NormalBound);
+        Assert.True(-RandomDoubleFactory.MediumBound < actual);
+        Assert.True(actual < RandomDoubleFactory.MediumBound);
     }
 
     [Fact]

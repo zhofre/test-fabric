@@ -4,11 +4,11 @@
 ///     Factory class for generating random integers within specified bounds.
 /// </summary>
 public class RandomIntFactory(int? seed = null)
-    : RandomNumberFactory<int>(SmallestBound, SmallBound, NormalBound, LargeBound, seed)
+    : RandomNumberFactory<int>(0, Epsilon, SmallBound, MediumBound, LargeBound, seed)
 {
-    internal const int SmallestBound = 1;
+    internal const int Epsilon = 1;
     internal const int SmallBound = 10;
-    internal const int NormalBound = 1000;
+    internal const int MediumBound = 1000;
     internal const int LargeBound = 100000;
 
     /// <inheritdoc />
@@ -21,11 +21,5 @@ public class RandomIntFactory(int? seed = null)
     protected override int CreatePositive(int lowerBound, int upperBound)
     {
         return CreateRandom(lowerBound, upperBound);
-    }
-
-    /// <inheritdoc />
-    protected override int BoundToSmallestPositive(int lowerBound)
-    {
-        return Math.Max(SmallestBound, lowerBound);
     }
 }

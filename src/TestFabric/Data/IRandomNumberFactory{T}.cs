@@ -18,6 +18,12 @@ public interface IRandomNumberFactory<out T>
     T CreateSmall();
 
     /// <summary>
+    ///     Creates a medium random number of the specified type.
+    /// </summary>
+    /// <returns>A medium random number of type T.</returns>
+    T CreateMedium();
+
+    /// <summary>
     ///     Creates a large random number of the specified type.
     /// </summary>
     /// <returns>A large random number of type T.</returns>
@@ -36,6 +42,12 @@ public interface IRandomNumberFactory<out T>
     T CreateSmallPositive();
 
     /// <summary>
+    ///     Creates a medium positive random number of the specified type.
+    /// </summary>
+    /// <returns>A medium positive random number of type T.</returns>
+    T CreateMediumPositive();
+
+    /// <summary>
     ///     Creates a large positive random number of the specified type.
     /// </summary>
     /// <returns>A large positive random number of type T.</returns>
@@ -52,6 +64,12 @@ public interface IRandomNumberFactory<out T>
     /// </summary>
     /// <returns>A small and strictly positive random number of type T.</returns>
     T CreateSmallStrictlyPositive();
+
+    /// <summary>
+    ///     Creates a medium and strictly positive random number of the specified type.
+    /// </summary>
+    /// <returns>A medium and strictly positive random number of type T.</returns>
+    T CreateMediumStrictlyPositive();
 
     /// <summary>
     ///     Creates a large and strictly positive random number of the specified type.
