@@ -13,9 +13,7 @@ public abstract class RangePicker<T, TRange>(int? seed = null) : IPicker<T>
     ///     Provides methods for generating random numbers.
     ///     This implementation is used internally by the RangePicker class to select elements from a range.
     /// </summary>
-    protected readonly Random Random = seed.HasValue
-        ? new Random(seed.Value)
-        : new Random();
+    protected readonly Random Random = seed.ToRandom();
 
     /// <summary>
     ///     Selects an element from the specified range.
