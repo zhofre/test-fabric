@@ -201,11 +201,11 @@ public void Should_Handle_Repository_Exception()
 }
 ``` 
 
-## Provided Mock Builders
+### Provided Mock Builders
 
 Test Fabric includes pre-built mock builders for common .NET interfaces:
 
-### LoggerMockBuilder<T>
+#### LoggerMockBuilder<T>
 
 Simplifies mocking `ILogger<T>` for testing logging behavior.
 
@@ -228,7 +228,7 @@ public void Should_Log_Error_Messages()
 }
 ``` 
 
-### ProgressMockBuilder<T>
+#### ProgressMockBuilder<T>
 
 Mocks `IProgress<T>` for testing progress reporting functionality.
 
@@ -251,7 +251,7 @@ public async Task Should_Report_Progress()
 }
 ``` 
 
-### EqualityComparerMockBuilder<T>
+#### EqualityComparerMockBuilder<T>
 
 Mocks `IEqualityComparer<T>` for testing custom equality logic.
 
@@ -753,3 +753,224 @@ public void Should_Handle_Mixed_Data_Types_In_Collections()
 
 4. **Document Your Tolerances**:
     - Always comment why you chose specific tolerance values in your tests
+
+## Test Suites
+
+Test Fabric provides test suite base classes that give you access to powerful data generation capabilities through
+built-in data factories. These test suites simplify creating test data and provide a consistent approach to randomized
+testing.
+
+### TestSuite.Normal
+
+The most important test suite to use is `TestSuite.Normal`, which provides access to a built-in data factory configured
+with standard settings. This is the recommended base class for most testing scenarios.
+
+```csharp
+public class PersonServiceTests : TestSuite.Normal
+{
+    [Fact]
+    public void Should_Create_Person_With_Valid_Data()
+    {
+        // Arrange - Use built-in data factory to create test data
+        var expectedPerson = Factory.Create<Person>();
+        var service = new PersonService();
+
+        // Act
+        var result = service.CreatePerson(expectedPerson.Name, expectedPerson.Age);
+
+        // Assert
+        Assert.Equal(expectedPerson.Name, result.Name);
+        Assert.Equal(expectedPerson.Age, result.Age);
+    }
+
+    [Fact] 
+    public void Should_Handle_Multiple_People()
+    {
+        // Arrange - Create multiple test objects
+        var people = Factory.CreateMany<Person>(5).ToList();
+        var service = new PersonService();
+
+        // Act
+        var results = service.ProcessPeople(people);
+
+        // Assert
+        Assert.Equal(people.Count, results.Count);
+    }
+}
+```
+
+### Randomized Data Configuration
+
+The data factory in TestSuite classes generates randomized data that helps discover edge cases and makes your tests more
+robust. You can configure constraints on the generated data to match your testing needs.
+
+```csharp
+public class ProductTests : TestSuite.Normal
+{
+    [Fact]
+    public void Should_Calculate_Discount_For_Various_Prices()
+    {
+        // Arrange - Generate products with constrained price ranges
+        var expensiveProduct = Factory.Build<Product>()
+            .With(p => p.Price, Factory.CreateFromRange(100d, 1000d))
+            .Create();
+            
+        var cheapProduct = Factory.Build<Product>()
+            .With(p => p.Price, Factory.CreateFromRange(5d, 15d))
+            .Create();
+            
+        var calculator = new DiscountCalculator();
+
+        // Act & Assert
+        var expensiveDiscount = calculator.CalculateDiscount(expensiveProduct);
+        var cheapDiscount = calculator.CalculateDiscount(cheapProduct);
+        
+        Assert.True(expensiveDiscount > cheapDiscount);
+    }
+}
+```
+
+### Constrained Building
+
+Use the `BuildConstrained<T>()` method to create objects that should be selected from a range or list of valid values.
+
+```csharp
+public class UserValidationTests : TestSuite.Normal
+{
+    [Fact]
+    public void Should_Validate_User_Age()
+    {
+        // Arrange - Create user with constrained email format
+        var validAge = Factory.BuildConstrained<int>()
+            .AddOptions(2,7,13)
+            .AddRange(new NumberRange<int>(20, 30))
+            .Create();            
+        var validator = new UserValidator();
+
+        // Act
+        var result = validator.ValidateAge(validAge);
+
+        // Assert
+        Assert.True(result.IsValid);
+    }
+}
+```
+
+### Available TestSuite Types
+
+Test Fabric provides several pre-configured test suite types:
+
+- **`TestSuite.Normal`**: Standard configuration with randomization
+- **`TestSuite.WithRecursion`**: Configured to handle recursive object creation
+-
+
+```csharp
+// For most scenarios
+public class StandardTests : TestSuite.Normal { }
+
+// For complex object graphs with potential recursion
+public class ComplexObjectTests : TestSuite.WithRecursion { }
+```
+
+### Creating Custom TestSuite Classes
+
+You can create your own custom test suite by implementing a custom data factory builder and configuring the AutoFixture
+settings to meet your specific needs.
+
+```csharp
+// Step 1: Create a custom data factory builder
+public class CustomDataFactoryBuilder : IFactoryBuilder
+{
+    public IFactory Create()
+    {
+        var fixture = new Fixture();
+        
+        // Configure custom behaviors
+        fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
+            .ForEach(b => fixture.Behaviors.Remove(b));
+        fixture.Behaviors.Add(new OmitOnRecursionBehavior(recursionDepth: 2));
+        
+        // Add custom specimen builders
+        fixture.Customizations.Add(new EmailAddressGenerator());
+        fixture.Customizations.Add(new CustomDateTimeGenerator());
+        
+        // Configure specific types
+        fixture.Customize<User>(composer =>
+            composer
+                .With(u => u.IsActive, true)
+                .With(u => u.CreatedDate, DateTime.Now.AddDays(-30))
+                .Without(u => u.Password) // Don't generate passwords
+        );
+        
+        return new Factory(fixture, null, new DoublePicker(), new IntPicker());
+    }
+}
+
+// Step 2: Create your custom test suite
+public class CustomTestSuite : TestSuite<CustomDataFactoryBuilder>
+{
+    // Add any additional helper methods specific to your testing needs
+    protected User CreateValidUser()
+    {
+        return Factory.BuildConstrained<User>()
+            .With(u => u.Email, Factory.Create<string>() + "@business.com")
+            .With(u => u.Age, Factory.CreateFromRange(18, 120))
+            .Create();
+    }
+    
+    protected Product CreateProductInCategory(string category)
+    {
+        return Factory.BuildConstrained<Product>()
+            .With(p => p.Category, category)
+            .With(p => p.Price, Factory.CreateFromRange(1d, 1000d))
+            .Create();
+    }
+}
+
+// Step 3: Use your custom test suite
+public class AdvancedUserTests : CustomTestSuite
+{
+    [Fact]
+    public void Should_Process_Valid_Users()
+    {
+        // Arrange - Use your custom helper methods
+        var user = CreateValidUser();
+        var service = new UserService();
+
+        // Act
+        var result = service.ProcessUser(user);
+
+        // Assert
+        Assert.True(result.Success);
+        Assert.True(user.IsActive);
+        Assert.True(user.CreatedDate < DateTime.Now);
+    }
+    
+    [Fact]
+    public void Should_Handle_Electronics_Category()
+    {
+        // Arrange
+        var product = CreateProductInCategory("Electronics");
+        var service = new ProductService();
+
+        // Act
+        var result = service.CategorizeProduct(product);
+
+        // Assert
+        Assert.Equal("Electronics", result.Category);
+        Assert.True(1d <= product.Price);
+        Assert.True(product.Price < 1000d);
+    }
+}
+```
+
+### Best Practices
+
+1. **Use TestSuite.Normal for most scenarios**: It provides a good balance of randomization and performance.
+2. **Constrain your data appropriately**: Use `BuildConstrained<T>()` to ensure generated data meets your business
+   rules.
+3. **Leverage randomization**: Let the data factory generate varied test data to help discover edge cases.
+4. **Create domain-specific test suites**: For complex domains, create custom test suites with domain-specific helper
+   methods.
+5. **Configure recursion handling**: Use `TestSuite.WithRecursion` or custom builders when dealing with complex object
+   graphs.

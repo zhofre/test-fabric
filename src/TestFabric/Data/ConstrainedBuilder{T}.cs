@@ -2,6 +2,11 @@
 
 namespace TestFabric.Data;
 
+/// <summary>
+///     Represents a builder for creating constrained instances of a specific type.
+///     This builder allows adding options and ranges but does not support setting properties or defaulting them.
+/// </summary>
+/// <typeparam name="T">The type of the object to build.</typeparam>
 public class ConstrainedBuilder<T>(
     IPicker<T> rangePicker,
     int? seed = null)
