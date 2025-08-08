@@ -5,8 +5,8 @@ namespace TestFabric;
 
 public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactoryBuilder, new()
 {
-    // it is intended that there is a different instance per type of test class
     // ReSharper disable once StaticMemberInGenericType
+    // it is intended that there is a different instance per type of test class
     protected static readonly IFactory Factory;
 
     static TestSuite()
@@ -41,5 +41,38 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     protected void SetCurrentCultureInvariant()
     {
         SetCurrentCulture(CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    ///     Creates an anonymous object.
+    /// </summary>
+    /// <typeparam name="T">type to create</typeparam>
+    /// <returns>anonymous object</returns>
+    protected T Random<T>()
+    {
+        return Factory.Create<T>();
+    }
+
+    /// <summary>
+    ///     Creates an anonymous object from a range.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="minInclusive">minimum value in range</param>
+    /// <param name="maxExclusive">maximum value not in range</param>
+    /// <returns>object in the provided range</returns>
+    protected T InRange<T>(T minInclusive, T maxExclusive) where T : IComparable<T>
+    {
+        return Factory.CreateFromRange(minInclusive, maxExclusive);
+    }
+
+    /// <summary>
+    ///     Creates an anonymous object from a range.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items">values in range</param>
+    /// <returns>object from the provided items</returns>
+    protected T InRange<T>(IEnumerable<T> items)
+    {
+        return Factory.CreateFromRange(items);
     }
 }

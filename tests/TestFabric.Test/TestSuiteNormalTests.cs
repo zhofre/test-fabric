@@ -94,6 +94,46 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClass_When_RandomInt_Then_IntegerCreated()
+    {
+        // Arrange
+        // Act
+        var actual = Random<int>();
+
+        // Assert
+        Assert.True(actual >= -RandomIntFactory.LargeBound);
+        Assert.True(actual <= RandomIntFactory.LargeBound);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeInt_Then_IntegerCreated()
+    {
+        // Arrange
+        const int minInclusive = 3;
+        const int maxExclusive = 10;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeIntItems_Then_IntegerCreated()
+    {
+        // Arrange
+        int[] items = [3, 5, 7];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
     public void Given_RecursionDummies_When_UpdateRecursiveItem_Then_Updated()
     {
         // Arrange

@@ -6,7 +6,7 @@ public interface IFactory
     ///     Creates an anonymous object.
     /// </summary>
     /// <typeparam name="T">type to create</typeparam>
-    /// <returns>anonymous objects</returns>
+    /// <returns>anonymous object</returns>
     T Create<T>();
 
     /// <summary>
@@ -39,7 +39,7 @@ public interface IFactory
     /// <typeparam name="T"></typeparam>
     /// <param name="minInclusive">minimum value in range</param>
     /// <param name="maxExclusive">maximum value not in range</param>
-    /// <returns></returns>
+    /// <returns>object in the provided range</returns>
     T CreateFromRange<T>(
         T minInclusive,
         T maxExclusive)
@@ -77,7 +77,7 @@ public interface IFactory
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="items">values in range</param>
-    /// <returns></returns>
+    /// <returns>object from the provided items</returns>
     T CreateFromRange<T>(IEnumerable<T> items);
 
     /// <summary>

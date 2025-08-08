@@ -856,6 +856,53 @@ public class UserValidationTests : TestSuite.Normal
 }
 ```
 
+### Test data generation methods
+
+The `TestSuite<TDataFactoryBuilder>` class provides three convenient methods for generating test data in your unit
+tests:
+
+#### `Random<T>()`
+
+Generates a completely random object of the specified type with all properties populated with random values.
+
+```csharp 
+// Generate random objects
+ var user = Random<User>(); 
+ var number = Random<int>(); 
+ var date = Random<DateTimeOffset>();
+``` 
+
+**Use this when:** You need test data but don't care about specific values, just that all properties are populated.
+
+#### `InRange<T>(T minInclusive, T maxExclusive)`
+
+Generates a random value within a specific numeric range. The minimum value is included, but the maximum value is
+excluded.
+
+```csharp
+// Generate values within ranges
+var age = InRange(18, 65);           // Age between 18-64
+var price = InRange(10.0, 100.0);    // Price between 10.00-99.99
+var year = InRange(2020, 2025);      // Year between 2020-2024
+```
+
+**Use this when:** You need random data that falls within realistic or valid bounds for your business logic.
+
+#### `InRange<T>(IEnumerable<T> items)`
+
+Randomly selects one item from a predefined collection of valid options.
+
+```csharp
+// Pick from predefined options
+var colors = new[] { "Red", "Green", "Blue", "Yellow" };
+var randomColor = InRange(colors);
+
+var validEmails = new[] { "test@example.com", "user@domain.org" };
+var email = InRange(validEmails);
+```
+
+**Use this when:** You have a specific set of valid values and need to randomly pick one for testing.
+
 ### Available TestSuite Types
 
 Test Fabric provides several pre-configured test suite types:
@@ -913,8 +960,8 @@ public class CustomTestSuite : TestSuite<CustomDataFactoryBuilder>
     protected User CreateValidUser()
     {
         return Factory.BuildConstrained<User>()
-            .With(u => u.Email, Factory.Create<string>() + "@business.com")
-            .With(u => u.Age, Factory.CreateFromRange(18, 120))
+            .With(u => u.Email, Random<string>() + "@business.com")
+            .With(u => u.Age, InRange(18, 120))
             .Create();
     }
     
