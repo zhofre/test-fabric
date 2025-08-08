@@ -6,6 +6,7 @@ Provides data factories and a test suite base class to inherit from.
 - [#8](https://github.com/zhofre/test-fabric/issues/8) Added data builders.
 - [#8](https://github.com/zhofre/test-fabric/issues/8) Added random number factories.
 - [#8](https://github.com/zhofre/test-fabric/issues/8) Added data factory.
+- [#8](https://github.com/zhofre/test-fabric/issues/8) Added test suites with data factory builders.
 
 ## 📦 NuGet
 

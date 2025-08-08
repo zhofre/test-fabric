@@ -1,10 +1,11 @@
 ﻿using JetBrains.Annotations;
 using TestFabric.Data;
+using Xunit.Abstractions;
 
 namespace TestFabric.Test.Data;
 
 [TestSubject(typeof(RandomIntFactory))]
-public class RandomIntFactoryTests
+public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
 {
     [Fact]
     public void Given_Nothing_When_Create_Then_WithinNormalBounds()
@@ -14,6 +15,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.Create();
+        outputHelper.WriteLine($"{-RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.NormalBound}");
 
         // Assert
         Assert.True(-RandomIntFactory.NormalBound < actual);
@@ -28,6 +30,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateSmall();
+        outputHelper.WriteLine($"{-RandomIntFactory.SmallBound} < {actual} < {RandomIntFactory.SmallBound}");
 
         // Assert
         Assert.True(-RandomIntFactory.SmallBound < actual);
@@ -42,6 +45,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateLarge();
+        outputHelper.WriteLine($"{-RandomIntFactory.LargeBound} < {actual} < {RandomIntFactory.LargeBound}");
 
         // Assert
         Assert.True(-RandomIntFactory.LargeBound < actual);
@@ -56,6 +60,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreatePositive();
+        outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual} < {RandomIntFactory.NormalBound}");
 
         // Assert
         Assert.True(RandomIntFactory.SmallBound <= actual);
@@ -70,6 +75,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateSmallPositive();
+        outputHelper.WriteLine($"0 <= {actual} < {RandomIntFactory.SmallBound}");
 
         // Assert
         Assert.True(0 <= actual);
@@ -84,6 +90,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateLargePositive();
+        outputHelper.WriteLine($"{RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.LargeBound}");
 
         // Assert
         Assert.True(RandomIntFactory.NormalBound <= actual);
@@ -98,6 +105,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateStrictlyPositive();
+        outputHelper.WriteLine($"{RandomIntFactory.SmallBound} <= {actual} < {RandomIntFactory.NormalBound}");
 
         // Assert
         Assert.True(RandomIntFactory.SmallBound <= actual);
@@ -112,6 +120,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateSmallStrictlyPositive();
+        outputHelper.WriteLine($"{RandomIntFactory.SmallestBound} <= {actual} < {RandomIntFactory.SmallBound}");
 
         // Assert
         Assert.True(RandomIntFactory.SmallestBound <= actual);
@@ -126,6 +135,7 @@ public class RandomIntFactoryTests
 
         // Act
         var actual = sut.CreateLargeStrictlyPositive();
+        outputHelper.WriteLine($"{RandomIntFactory.NormalBound} <= {actual} < {RandomIntFactory.LargeBound}");
 
         // Assert
         Assert.True(RandomIntFactory.NormalBound <= actual);
