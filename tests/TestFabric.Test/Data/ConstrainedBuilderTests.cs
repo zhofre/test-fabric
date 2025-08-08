@@ -13,32 +13,6 @@ public class ConstrainedBuilderTests
         return new ConstrainedBuilder<int>(new IntPicker());
     }
 
-    private static ConstrainedBuilder<Person> CreatePersonSut()
-    {
-        return new ConstrainedBuilder<Person>(null);
-    }
-
-    [Fact]
-    public void Given_Nothing_When_With_Then_InvalidOperation()
-    {
-        // Arrange
-        var sut = CreatePersonSut();
-
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.With(x => x.Name, "name"));
-    }
-
-
-    [Fact]
-    public void Given_Nothing_When_Without_Then_InvalidOperation()
-    {
-        // Arrange
-        var sut = CreatePersonSut();
-
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.Without(x => x.Name));
-    }
-
     [Fact]
     public void Given_Nothing_When_Create_Then_InvalidOperation()
     {

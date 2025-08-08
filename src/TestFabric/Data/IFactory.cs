@@ -105,7 +105,7 @@ public interface IFactory
     /// </summary>
     /// <typeparam name="T">type to create</typeparam>
     /// <returns>a data builder</returns>
-    IBuilder<T> Build<T>();
+    IObjectBuilder<T> Build<T>();
 
     /// <summary>
     ///     Creates a builder for constrained data.

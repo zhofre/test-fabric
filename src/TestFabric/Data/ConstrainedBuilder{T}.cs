@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace TestFabric.Data;
+﻿namespace TestFabric.Data;
 
 /// <summary>
 ///     Represents a builder for creating constrained instances of a specific type.
@@ -16,20 +14,6 @@ public class ConstrainedBuilder<T>(
     private readonly List<T> _options = [];
     private readonly Random _random = seed.ToRandom();
     private readonly List<IRange<T>> _ranges = [];
-
-    /// <inheritdoc />
-    public IBuilder<T> With<TProperty>(Expression<Func<T, TProperty>> propertyPicker, TProperty value)
-    {
-        throw new InvalidOperationException(
-            "Can't set property of a constrained builder");
-    }
-
-    /// <inheritdoc />
-    public IBuilder<T> Without<TProperty>(Expression<Func<T, TProperty>> propertyPicker)
-    {
-        throw new InvalidOperationException(
-            "Can't default the property of a constrained builder");
-    }
 
     /// <inheritdoc />
     public T Create()

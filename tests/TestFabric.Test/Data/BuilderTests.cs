@@ -3,13 +3,13 @@ using TestFabric.Data;
 
 namespace TestFabric.Test.Data;
 
-[TestSubject(typeof(Builder<>))]
-public class BuilderTests
+[TestSubject(typeof(ObjectBuilder<>))]
+public class ObjectBuilderTests
 {
-    public static Builder<T> CreateSut<T>()
+    public static ObjectBuilder<T> CreateSut<T>()
     {
         var fixture = new Fixture();
-        return new Builder<T>(fixture.Build<T>());
+        return new ObjectBuilder<T>(fixture.Build<T>());
     }
 
     [Fact]

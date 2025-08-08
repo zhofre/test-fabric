@@ -10,16 +10,16 @@ namespace TestFabric.Data;
 ///     Provides methods to configure and generate objects using AutoFixture.
 /// </summary>
 /// <typeparam name="T">The type of object to build.</typeparam>
-public class Builder<T>(
+public class ObjectBuilder<T>(
     IPostprocessComposer<T> composer,
     int? seed = null)
-    : IBuilder<T>
+    : IObjectBuilder<T>
 {
     private readonly Random _random = seed.ToRandom();
     private IPostprocessComposer<T> _composer = composer;
 
     /// <inheritdoc />
-    public IBuilder<T> With<TProperty>(
+    public IObjectBuilder<T> With<TProperty>(
         Expression<Func<T, TProperty>> propertyPicker,
         TProperty value)
     {
@@ -28,7 +28,7 @@ public class Builder<T>(
     }
 
     /// <inheritdoc />
-    public IBuilder<T> Without<TProperty>(
+    public IObjectBuilder<T> Without<TProperty>(
         Expression<Func<T, TProperty>> propertyPicker)
     {
         _composer = _composer.Without(propertyPicker);

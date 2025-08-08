@@ -225,7 +225,7 @@ public class FactoryTests
         var actual = sut.Build<Person>();
 
         // Assert
-        Assert.IsType<Builder<Person>>(actual);
+        Assert.IsType<ObjectBuilder<Person>>(actual);
     }
 
     [Fact]

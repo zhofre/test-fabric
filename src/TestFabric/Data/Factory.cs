@@ -105,9 +105,9 @@ public class Factory(
     }
 
     /// <inheritdoc />
-    public IBuilder<T> Build<T>()
+    public IObjectBuilder<T> Build<T>()
     {
-        return new Builder<T>(_fixture.Build<T>());
+        return new ObjectBuilder<T>(_fixture.Build<T>());
     }
 
     /// <inheritdoc />
