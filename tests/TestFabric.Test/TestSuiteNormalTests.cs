@@ -228,6 +228,54 @@ public class TestSuiteNormalTests : TestSuite.Normal
         Assert.Contains($"@{parts[2]}.{parts[3]}", EmailDomains);
     }
 
+    [Fact]
+    public void Given_Nothing_When_CompanyNameCalled_Then_RandomCompany()
+    {
+        // Arrange
+
+        // Act
+        var actual = CompanyName();
+
+        // Assert
+        Assert.Contains(actual, CompanyNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CountryCalled_Then_RandomCountry()
+    {
+        // Arrange
+
+        // Act
+        var actual = Country();
+
+        // Assert
+        Assert.Contains(actual, Countries);
+    }
+
+    [Fact]
+    public void Given_CountryResult_When_CallCityMethod_Then_ValidResponse()
+    {
+        // Arrange
+        var country = Country();
+
+        // Act
+        var city = City(country);
+
+        // Assert
+        Assert.NotEmpty(city);
+        Assert.Contains(city, Cities[country]);
+    }
+
+    [Fact]
+    public void Given_RandomStringInput_When_CallCityMethod_Then_ThrowsException()
+    {
+        // Arrange
+        var randomString = Guid.NewGuid().ToString();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => City(randomString));
+    }
+
     // ReSharper disable once ClassNeverInstantiated.Local
     private class RecursionDummy
     {
