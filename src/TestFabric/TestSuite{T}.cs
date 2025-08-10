@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
+using System.Reflection;
 using TestFabric.Data;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -252,5 +254,39 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
     {
         return DateTimeOffset.Now.AddDays(-InRange(0, daysBack));
+    }
+
+    protected static T FromTemplate<T>(T template, params Expression<Func<T, object>>[] overrides)
+    {
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var overriddenProperties = overrides
+            .Select(expr =>
+            {
+                var success = expr.TryGetMemberInfo(out var memberInfo);
+                return success ? memberInfo : null;
+            })
+            .Where(x => x != null)
+            .Select(info => info.Name)
+            .ToArray();
+
+        var result = Random<T>();
+
+        foreach (var prop in properties)
+        {
+            if (!prop.CanWrite)
+            {
+                continue;
+            }
+
+            if (overriddenProperties.Contains(prop.Name))
+            {
+                continue;
+            }
+
+            var value = prop.GetValue(template);
+            prop.SetValue(result, value);
+        }
+
+        return result;
     }
 }

@@ -1,4 +1,6 @@
-﻿using AutoFixture;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using AutoFixture;
 using TestFabric.Data;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -112,5 +114,38 @@ public static class Extension
             .ForEach(b => fixture.Behaviors.Remove(b));
         fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         return fixture;
+    }
+
+    /// <summary>
+    ///     Tries to extract the <see cref="MemberInfo" /> from a given expression representing a member access.
+    /// </summary>
+    /// <typeparam name="TType">The type of the object containing the member.</typeparam>
+    /// <typeparam name="TMember">The type of the member being accessed.</typeparam>
+    /// <param name="expression">An expression representing the member access.</param>
+    /// <param name="memberInfo">
+    ///     When this method returns, contains the <see cref="MemberInfo" /> if the extraction is successful; otherwise, null.
+    /// </param>
+    /// <returns>
+    ///     A boolean indicating whether the <see cref="MemberInfo" /> was successfully extracted from the provided expression.
+    /// </returns>
+    internal static bool TryGetMemberInfo<TType, TMember>(
+        this Expression<Func<TType, TMember>> expression,
+        out MemberInfo memberInfo)
+    {
+        switch (expression?.Body)
+        {
+            case null:
+                memberInfo = null;
+                return false;
+            case UnaryExpression { Operand: MemberExpression memberExp }:
+                memberInfo = memberExp.Member;
+                return true;
+            case MemberExpression memberExp:
+                memberInfo = memberExp.Member;
+                return true;
+            default:
+                memberInfo = null;
+                return false;
+        }
     }
 }
