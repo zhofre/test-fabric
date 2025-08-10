@@ -1,4 +1,7 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using TestFabric.Data;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -244,13 +247,118 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
         return InRange(Countries);
     }
 
+    /// <summary>
+    ///     Generates a random date and time within a specified number of days back from the current date.
+    /// </summary>
+    /// <param name="daysBack">
+    ///     The maximum number of days back from today for the generated date. Defaults to 30 if not
+    ///     specified.
+    /// </param>
+    /// <returns>A <see cref="DateTime" /> object representing a random date and time within the specified range.</returns>
     protected static DateTime RecentDateTime(int daysBack = 30)
     {
         return DateTime.Now.AddDays(-InRange(0, daysBack));
     }
 
+    /// <summary>
+    ///     Generates a recent <see cref="DateTimeOffset" /> by subtracting a random number of days
+    ///     within the specified range (0 to <paramref name="daysBack" />) from the current date and time.
+    /// </summary>
+    /// <param name="daysBack">
+    ///     The maximum number of days to subtract from the current date to calculate the recent date.
+    ///     Defaults to 30 if no value is provided.
+    /// </param>
+    /// <returns>
+    ///     A <see cref="DateTimeOffset" /> that represents a date and time randomly chosen within the range of 0 to the
+    ///     specified number of days back.
+    /// </returns>
     protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
     {
         return DateTimeOffset.Now.AddDays(-InRange(0, daysBack));
+    }
+
+    /// <summary>
+    ///     Creates a new instance of type <typeparamref name="T" /> by copying the properties
+    ///     from a given template object and applying the specified overrides.
+    /// </summary>
+    /// <typeparam name="T">The type of the object to create.</typeparam>
+    /// <param name="template">The template instance from which property values are copied.</param>
+    /// <param name="overrides">
+    ///     An array of lambda expressions specifying the properties to override in the new object.
+    /// </param>
+    /// <returns>A new instance of type <typeparamref name="T" /> with the specified overrides applied.</returns>
+    protected static T FromTemplate<T>(T template, params Expression<Func<T, object>>[] overrides)
+    {
+        var properties = GetPropertyInfos<T>();
+        var overriddenProperties = GetOverriddenProperties(overrides);
+        return FromTemplate(template, properties, overriddenProperties);
+    }
+
+    /// <summary>
+    ///     Creates a sequence of objects by copying a given template and applying optional property overrides to each.
+    /// </summary>
+    /// <param name="count">The number of objects to generate.</param>
+    /// <param name="template">The template object to use as the basis for each generated item.</param>
+    /// <param name="overrides">
+    ///     An array of lambda expressions specifying which properties to override in the generated objects
+    ///     and their values.
+    /// </param>
+    /// <returns>An enumerable containing the generated objects based on the template and applied overrides.</returns>
+    protected static IEnumerable<T> FromTemplate<T>(
+        int count,
+        T template,
+        params Expression<Func<T, object>>[] overrides)
+    {
+        var properties = GetPropertyInfos<T>();
+        var overriddenProperties = GetOverriddenProperties(overrides);
+        for (var i = 0; i < count; i++)
+        {
+            yield return FromTemplate(template, properties, overriddenProperties);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static PropertyInfo[] GetPropertyInfos<T>()
+    {
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        return properties;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static string[] GetOverriddenProperties<T>(Expression<Func<T, object>>[] overrides)
+    {
+        var overriddenProperties = overrides
+            .Select(expr =>
+            {
+                var success = expr.TryGetMemberInfo(out var memberInfo);
+                return success ? memberInfo : null;
+            })
+            .Where(x => x != null)
+            .Select(info => info.Name)
+            .ToArray();
+        return overriddenProperties;
+    }
+
+    private static T FromTemplate<T>(T template, PropertyInfo[] properties, string[] overriddenProperties)
+    {
+        var result = Random<T>();
+
+        foreach (var prop in properties)
+        {
+            if (!prop.CanWrite)
+            {
+                continue;
+            }
+
+            if (overriddenProperties.Contains(prop.Name))
+            {
+                continue;
+            }
+
+            var value = prop.GetValue(template);
+            prop.SetValue(result, value);
+        }
+
+        return result;
     }
 }

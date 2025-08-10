@@ -53,7 +53,7 @@ public class EqualityComparerBuilder<T>
         Expression<Func<TType, TMember>> expression,
         Func<TMember, TMember, bool> customComparer)
     {
-        if (TryGetMemberInfo(expression, out var memberInfo))
+        if (expression.TryGetMemberInfo(out var memberInfo))
         {
             _customMemberComparers[memberInfo] = customComparer;
         }
@@ -78,7 +78,7 @@ public class EqualityComparerBuilder<T>
     public EqualityComparerBuilder<T> IgnoreMember<TType, TMember>(
         Expression<Func<TType, TMember>> expression)
     {
-        if (TryGetMemberInfo(expression, out var memberInfo))
+        if (expression.TryGetMemberInfo(out var memberInfo))
         {
             _ignoredMembers.Add(memberInfo);
         }
@@ -109,27 +109,6 @@ public class EqualityComparerBuilder<T>
             .Returns((T x, T y) => EqualsImpl(typeof(T), x, y));
 
         return mock.Object;
-    }
-
-    internal static bool TryGetMemberInfo<TType, TMember>(
-        Expression<Func<TType, TMember>> expression,
-        out MemberInfo memberInfo)
-    {
-        switch (expression?.Body)
-        {
-            case null:
-                memberInfo = null;
-                return false;
-            case UnaryExpression { Operand: MemberExpression memberExp }:
-                memberInfo = memberExp.Member;
-                return true;
-            case MemberExpression memberExp:
-                memberInfo = memberExp.Member;
-                return true;
-            default:
-                memberInfo = null;
-                return false;
-        }
     }
 
     private bool EqualsImpl(Type type, object x, object y)

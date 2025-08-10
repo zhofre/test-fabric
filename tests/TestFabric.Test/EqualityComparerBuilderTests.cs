@@ -2,7 +2,7 @@
 
 public class EqualityComparerBuilderTests
 {
-    private static Fixture _fix = new();
+    private static readonly Fixture _fix = new();
 
     #region Other
 
@@ -56,7 +56,7 @@ public class EqualityComparerBuilderTests
     {
         // Arrange
         // Act
-        var actual = EqualityComparerBuilder<DummyA>.TryGetMemberInfo<DummyA, int>(
+        var actual = Extension.TryGetMemberInfo<DummyA, int>(
             null,
             out _);
 
@@ -71,7 +71,7 @@ public class EqualityComparerBuilderTests
         var expectedMemberInfo = typeof(DummyA).GetMember(nameof(DummyA.Field))[0];
 
         // Act
-        var actual = EqualityComparerBuilder<DummyA>.TryGetMemberInfo<DummyA, int>(
+        var actual = Extension.TryGetMemberInfo<DummyA, int>(
             x => x.Field,
             out var actualMemberInfo);
 
@@ -87,7 +87,7 @@ public class EqualityComparerBuilderTests
         var expectedMemberInfo = typeof(DummyA).GetMember(nameof(DummyA.Field))[0];
 
         // Act
-        var actual = EqualityComparerBuilder<DummyA>.TryGetMemberInfo<DummyA, object>(
+        var actual = Extension.TryGetMemberInfo<DummyA, object>(
             x => x.Field,
             out var actualMemberInfo);
 
@@ -103,7 +103,7 @@ public class EqualityComparerBuilderTests
         var expectedMemberInfo = typeof(DummyA).GetMember(nameof(DummyA.Property))[0];
 
         // Act
-        var actual = EqualityComparerBuilder<DummyA>.TryGetMemberInfo<DummyA, string?>(
+        var actual = Extension.TryGetMemberInfo<DummyA, string?>(
             x => x.Property,
             out var actualMemberInfo);
 
@@ -117,7 +117,7 @@ public class EqualityComparerBuilderTests
     {
         // Arrange
         // Act
-        var actual = EqualityComparerBuilder<DummyA>.TryGetMemberInfo<DummyA, string>(
+        var actual = Extension.TryGetMemberInfo<DummyA, string>(
             x => "constant value", // Returns a constant, not a member
             out var actualMemberInfo);
 
@@ -314,7 +314,7 @@ public class EqualityComparerBuilderTests
         var expectedMemberInfo = typeof(DummyB).GetMember(nameof(DummyB.Numbers))[0];
 
         // Act
-        var actual = EqualityComparerBuilder<DummyB>.TryGetMemberInfo<DummyB, List<int>?>(
+        var actual = Extension.TryGetMemberInfo<DummyB, List<int>?>(
             x => x.Numbers,
             out var actualMemberInfo);
 
