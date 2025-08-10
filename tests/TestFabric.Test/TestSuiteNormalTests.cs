@@ -134,6 +134,19 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClass_When_InRangeStringItems_Then_StringCreated()
+    {
+        // Arrange
+        string[] items = ["hello", "world", "test"];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
     public void Given_RecursionDummies_When_UpdateRecursiveItem_Then_Updated()
     {
         // Arrange
@@ -146,6 +159,149 @@ public class TestSuiteNormalTests : TestSuite.Normal
 
         // Assert
         Assert.Same(dummy2, actual);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_FirstNameCalled_Then_RandomFirstName()
+    {
+        // Arrange
+
+        // Act
+        var actual = FirstName();
+
+        // Assert
+        Assert.Contains(actual, FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_LastNameCalled_Then_RandomLastName()
+    {
+        // Arrange
+
+        // Act
+        var actual = LastName();
+
+        // Assert
+        Assert.Contains(actual, LastNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_FullNameCalledWithSecondLastName_Then_CorrectParts()
+    {
+        // Arrange
+
+        // Act
+        var fullName = FullName(true);
+        var parts = fullName.Split(' ');
+
+        // Assert
+        Assert.Equal(3, parts.Length);
+        Assert.Contains(parts[0], FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_FullNameCalledWithoutSecondLastName_Then_CorrectParts()
+    {
+        // Arrange
+
+        // Act
+        var fullName = FullName();
+        var parts = fullName.Split(' ');
+
+        // Assert
+        Assert.Equal(2, parts.Length);
+        Assert.Contains(parts[0], FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_GenerateEmail_Then_EmailIsValid()
+    {
+        // Arrange
+
+        // Act
+        var email = Email();
+        var parts = email.Split('@', '.');
+
+        // Act & Assert
+        Assert.Contains(parts[0], FirstNames.Select(name => name.ToLower()));
+        Assert.Contains(parts[1], LastNames.Select(name => name.ToLower()));
+        Assert.Contains($"@{parts[2]}.{parts[3]}", EmailDomains);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CompanyNameCalled_Then_RandomCompany()
+    {
+        // Arrange
+
+        // Act
+        var actual = CompanyName();
+
+        // Assert
+        Assert.Contains(actual, CompanyNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_CountryCalled_Then_RandomCountry()
+    {
+        // Arrange
+
+        // Act
+        var actual = Country();
+
+        // Assert
+        Assert.Contains(actual, Countries);
+    }
+
+    [Fact]
+    public void Given_CountryResult_When_CallCityMethod_Then_ValidResponse()
+    {
+        // Arrange
+        var country = Country();
+
+        // Act
+        var city = City(country);
+
+        // Assert
+        Assert.NotEmpty(city);
+        Assert.Contains(city, Cities[country]);
+    }
+
+    [Fact]
+    public void Given_RandomStringInput_When_CallCityMethod_Then_ThrowsException()
+    {
+        // Arrange
+        var randomString = Guid.NewGuid().ToString();
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => City(randomString));
+    }
+
+    [Fact]
+    public void Given_DaysBack_When_RecentDateTime_Then_DateWithinDaysBack()
+    {
+        // Arrange
+        const int daysBack = 10;
+
+        // Act
+        var actual = RecentDateTime(daysBack);
+
+        // Assert
+        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date <= DateTime.Now);
+    }
+
+    [Fact]
+    public void Given_DaysBack_When_RecentDateTimeOffset_Then_DateWithinDaysBack()
+    {
+        // Arrange
+        const int daysBack = 10;
+
+        // Act
+        var actual = RecentDateTimeOffset(daysBack);
+
+        // Assert
+        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date <= DateTime.Now);
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local

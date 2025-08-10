@@ -120,13 +120,10 @@ public class Factory(
         }
 
         var picker = pickers
-            .OfType<IPicker<T>>()
-            .FirstOrDefault();
-
-        return picker == null
-            ? throw new InvalidOperationException(
-                $"no range picker matches type {typeof(T).Name}")
-            : new ConstrainedBuilder<T>(picker);
+                         .OfType<IPicker<T>>()
+                         .FirstOrDefault()
+                     ?? new ItemPicker<T>();
+        return new ConstrainedBuilder<T>(picker);
     }
 
     /// <inheritdoc />
