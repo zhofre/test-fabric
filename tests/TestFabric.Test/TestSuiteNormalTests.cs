@@ -468,6 +468,30 @@ public class TestSuiteNormalTests : TestSuite.Normal
         Assert.Equal(dummy.Title, actual.Title);
     }
 
+    [Fact]
+    public void Given_DummyClassAndCount_When_FromTemplateName_Then_MultipleSameButNameDifferent()
+    {
+        // Arrange
+        var dummy = Random<DummyClass>();
+        var count = InRange(3, 7);
+
+        // Act
+        var actual = FromTemplate(
+                count,
+                dummy,
+                x => x.Name)
+            .ToArray();
+
+        // Assert
+        Assert.Equal(count, actual.Length);
+        foreach (var item in actual)
+        {
+            Assert.NotEqual(dummy.Name, item.Name);
+            Assert.Equal(dummy.Age, item.Age);
+            Assert.Equal(dummy.Title, item.Title);
+        }
+    }
+
     public class DummyClass
     {
         public string? Name { get; set; }
