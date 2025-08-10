@@ -858,8 +858,8 @@ public class UserValidationTests : TestSuite.Normal
 
 ### Test data generation methods
 
-The `TestSuite<TDataFactoryBuilder>` class provides three convenient methods for generating test data in your unit
-tests:
+The `TestSuite<T>` class provides a comprehensive set of methods for generating test data,
+making it easy to create realistic and varied test scenarios.
 
 #### `Random<T>()`
 
@@ -884,6 +884,7 @@ excluded.
 var age = InRange(18, 65);           // Age between 18-64
 var price = InRange(10.0, 100.0);    // Price between 10.00-99.99
 var year = InRange(2020, 2025);      // Year between 2020-2024
+var date = InRange(DateTime.Today.AddDays(-7), DateTime.Today); // Date in the last week
 ```
 
 **Use this when:** You need random data that falls within realistic or valid bounds for your business logic.
@@ -902,6 +903,122 @@ var email = InRange(validEmails);
 ```
 
 **Use this when:** You have a specific set of valid values and need to randomly pick one for testing.
+
+#### Personal Information
+
+##### FirstName()
+
+Returns a random first name from a predefined list:
+
+```csharp
+var firstName = FirstName(); // "John", "Maria", "Alex", etc.
+``` 
+
+##### LastName()
+
+Returns a random last name from a predefined list:
+
+```csharp 
+var lastName = LastName(); // "Smith", "Garcia", "Johnson", etc.
+``` 
+
+##### FullName(hasSecondLastName)
+
+Generates a complete name combining first and last names:
+
+```csharp
+var name = FullName(); // "John Smith" var latinName = FullName(hasSecondLastName: true); // "Maria Garcia Lopez"
+``` 
+
+##### Email()
+
+Generates a realistic email address:
+
+```csharp
+var email = Email(); // "john.smith@example.com"
+``` 
+
+##### CompanyName()
+
+Generates a fictional company name:
+
+```csharp
+var company = CompanyName(); // "NimbusWorks", "Aurora Dynamics", etc.
+``` 
+
+##### Country()
+
+Returns a random country from a predefined list:
+
+```csharp
+var country = Country(); // "USA", "Germany", "Brazil", etc.
+``` 
+
+##### City(country)
+
+Returns a random city for the specified country:
+
+```csharp
+var country = Country();  // "USA"
+var city = City(country); // "New York", "Los Angeles", "Chicago", etc. var germanCity = City("Germany"); // "Berlin", "Munich", "Hamburg", etc.
+``` 
+
+#### Date and Time Generation
+
+##### RecentDateTime(daysBack)
+
+Generates a random DateTime within the specified number of days from today:
+
+```csharp
+var recentDate = RecentDateTime(); // Within last 30 days (default)
+var lastWeek = RecentDateTime(7); // Within last 7 days
+``` 
+
+##### RecentDateTimeOffset(daysBack)
+
+Generates a random DateTimeOffset within the specified range:
+
+```csharp
+var recentOffset = RecentDateTimeOffset(); // Within last 30 days (default) 
+var lastTwoMonths = RecentDateTimeOffset(60); // Within last 60 days
+``` 
+
+#### Template-Based Generation
+
+##### FromTemplate<T>(template, overrides)
+
+Creates objects based on a template with selective property overrides:
+
+```csharp
+var template = new User { Name = "Template", Email = "template@test.com", IsActive = true };
+// Create single object with overrides
+var user = FromTemplate(template, x => x.Name, x => x.Email); // Result: Random name and email, but IsActive = true from template
+// Create multiple objects with overrides 
+var users = FromTemplate(5, template, x => x.Name, x => x.Email); // Result: 5 users with random names/emails but same IsActive value
+``` 
+
+### Culture Management
+
+Testing applications that handle culture-sensitive data like dates, numbers, and currencies often requires setting
+specific cultures to validate formatting and parsing behavior. Test Fabric provides methods to control the culture
+context during test execution, ensuring consistent and accurate testing of localization features.
+
+#### SetCurrentCulture(info/culture)
+
+Sets the thread's culture for localized data generation:
+
+```csharp
+SetCurrentCulture("es-ES"); // Spanish culture
+SetCurrentCulture(CultureInfo.GetCultureInfo("de-DE")); // German culture
+```
+
+#### SetCurrentCultureInvariant()
+
+Sets the culture to invariant for consistent formatting:
+
+```csharp
+SetCurrentCultureInvariant();
+```
 
 ### Available TestSuite Types
 
