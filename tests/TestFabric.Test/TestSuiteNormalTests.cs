@@ -134,6 +134,151 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClass_When_InRangeLong_Then_LongIntegerCreated()
+    {
+        // Arrange
+        const long minInclusive = 3;
+        const long maxExclusive = 10;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeLongItems_Then_LongIntegerCreated()
+    {
+        // Arrange
+        long[] items = [3, 5, 7];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeFloat_Then_FloatCreated()
+    {
+        // Arrange
+        const float minInclusive = 3.1f;
+        const float maxExclusive = 9.9f;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeFloatItems_Then_FloatCreated()
+    {
+        // Arrange
+        float[] items = [3.1f, 4.9f, 7.3f];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDouble_Then_DoubleCreated()
+    {
+        // Arrange
+        const double minInclusive = 3.1;
+        const double maxExclusive = 9.9;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDoubleItems_Then_DoubleCreated()
+    {
+        // Arrange
+        double[] items = [3.1, 4.9, 7.3];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDateTime_Then_DateTimeCreated()
+    {
+        // Arrange
+        var minInclusive = new DateTime(2023, 1, 1);
+        var maxExclusive = new DateTime(2024, 1, 1);
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDateTimeItems_Then_DateTimeCreated()
+    {
+        // Arrange
+        DateTime[] items = [new(2023, 1, 1), new(2023, 6, 1), new(2023, 12, 31)];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDateTimeOffset_Then_DateTimeOffsetCreated()
+    {
+        // Arrange
+        var minInclusive = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        var maxExclusive = new DateTimeOffset(2024, 1, 1, 0, 0, 0, TimeSpan.Zero);
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDateTimeOffsetItems_Then_DateTimeOffsetCreated()
+    {
+        // Arrange
+        DateTimeOffset[] items =
+        [
+            new(2023, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            new(2023, 6, 1, 0, 0, 0, TimeSpan.Zero),
+            new(2023, 12, 31, 0, 0, 0, TimeSpan.Zero)
+        ];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
     public void Given_NormalTestClass_When_InRangeStringItems_Then_StringCreated()
     {
         // Arrange

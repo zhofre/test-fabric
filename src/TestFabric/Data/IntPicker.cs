@@ -2,7 +2,7 @@
 
 /// <summary>
 ///     A class for picking an integer from a specified range.
-///     Inherits from RangePicker&lt;int, NumberRange&lt;int&gt;&gt;.
+///     Inherits from <see cref="RangePicker{T, TRange}" />.
 /// </summary>
 public class IntPicker : RangePicker<int, NumberRange<int>>
 {
