@@ -1,10 +1,11 @@
-Provides data factories and a test suite base class to inherit from.
+Provides easier ways to generate randomized data.
 
 ## 🛠 Enhancements
 
 - [#10](https://github.com/zhofre/test-fabric/issues/10) Added easy way to generate names and emails.
 - [#10](https://github.com/zhofre/test-fabric/issues/10) Added easy way to generate company names.
 - [#10](https://github.com/zhofre/test-fabric/issues/10) Added easy way to generate countries and cities.
+- [#10](https://github.com/zhofre/test-fabric/issues/10) Added easy way to generate recent dates.
 
 ## 🐞 Bug Fixes
 

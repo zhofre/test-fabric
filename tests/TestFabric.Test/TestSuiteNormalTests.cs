@@ -276,6 +276,34 @@ public class TestSuiteNormalTests : TestSuite.Normal
         Assert.Throws<ArgumentException>(() => City(randomString));
     }
 
+    [Fact]
+    public void Given_DaysBack_When_RecentDateTime_Then_DateWithinDaysBack()
+    {
+        // Arrange
+        const int daysBack = 10;
+
+        // Act
+        var actual = RecentDateTime(daysBack);
+
+        // Assert
+        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date <= DateTime.Now);
+    }
+
+    [Fact]
+    public void Given_DaysBack_When_RecentDateTimeOffset_Then_DateWithinDaysBack()
+    {
+        // Arrange
+        const int daysBack = 10;
+
+        // Act
+        var actual = RecentDateTimeOffset(daysBack);
+
+        // Assert
+        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date <= DateTime.Now);
+    }
+
     // ReSharper disable once ClassNeverInstantiated.Local
     private class RecursionDummy
     {

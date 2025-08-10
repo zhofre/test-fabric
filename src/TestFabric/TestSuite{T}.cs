@@ -243,4 +243,14 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     {
         return InRange(Countries);
     }
+
+    protected static DateTime RecentDateTime(int daysBack = 30)
+    {
+        return DateTime.Now.AddDays(-InRange(0, daysBack));
+    }
+
+    protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
+    {
+        return DateTimeOffset.Now.AddDays(-InRange(0, daysBack));
+    }
 }
