@@ -8,6 +8,11 @@ Provides data factories and a test suite base class to inherit from.
 - [#8](https://github.com/zhofre/test-fabric/issues/8) Added data factory.
 - [#8](https://github.com/zhofre/test-fabric/issues/8) Added test suites with data factory builders.
 
+## 🐞 Bug Fixes
+
+- [#12](https://github.com/zhofre/test-fabric/issues/12) Fixed exception when calling `InRange` with types other than
+  `int` or `double`..
+
 ## 📦 NuGet
 
 Package available at: [NuGet.org](https://www.nuget.org/packages/TestFabric)

@@ -134,6 +134,19 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClass_When_InRangeStringItems_Then_StringCreated()
+    {
+        // Arrange
+        string[] items = ["hello", "world", "test"];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
     public void Given_RecursionDummies_When_UpdateRecursiveItem_Then_Updated()
     {
         // Arrange
