@@ -2,7 +2,7 @@
 
 /// <summary>
 ///     A class for picking a double from a specified range.
-///     Inherits from RangePicker&lt;double, NumberRange&lt;double&gt;&gt;.
+///     Inherits from <see cref="RangePicker{T, TRange}" />.
 /// </summary>
 public class DoublePicker : RangePicker<double, NumberRange<double>>
 {
