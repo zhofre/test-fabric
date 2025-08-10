@@ -161,6 +161,73 @@ public class TestSuiteNormalTests : TestSuite.Normal
         Assert.Same(dummy2, actual);
     }
 
+    [Fact]
+    public void Given_Nothing_When_FirstNameCalled_Then_RandomFirstName()
+    {
+        // Arrange
+
+        // Act
+        var actual = FirstName();
+
+        // Assert
+        Assert.Contains(actual, FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_LastNameCalled_Then_RandomLastName()
+    {
+        // Arrange
+
+        // Act
+        var actual = LastName();
+
+        // Assert
+        Assert.Contains(actual, LastNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_FullNameCalledWithSecondLastName_Then_CorrectParts()
+    {
+        // Arrange
+
+        // Act
+        var fullName = FullName(true);
+        var parts = fullName.Split(' ');
+
+        // Assert
+        Assert.Equal(3, parts.Length);
+        Assert.Contains(parts[0], FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_FullNameCalledWithoutSecondLastName_Then_CorrectParts()
+    {
+        // Arrange
+
+        // Act
+        var fullName = FullName();
+        var parts = fullName.Split(' ');
+
+        // Assert
+        Assert.Equal(2, parts.Length);
+        Assert.Contains(parts[0], FirstNames);
+    }
+
+    [Fact]
+    public void Given_Nothing_When_GenerateEmail_Then_EmailIsValid()
+    {
+        // Arrange
+
+        // Act
+        var email = Email();
+        var parts = email.Split('@', '.');
+
+        // Act & Assert
+        Assert.Contains(parts[0], FirstNames.Select(name => name.ToLower()));
+        Assert.Contains(parts[1], LastNames.Select(name => name.ToLower()));
+        Assert.Contains($"@{parts[2]}.{parts[3]}", EmailDomains);
+    }
+
     // ReSharper disable once ClassNeverInstantiated.Local
     private class RecursionDummy
     {
