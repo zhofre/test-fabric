@@ -57,7 +57,6 @@ public interface IFactory
         T maxExclusive)
         where T : IComparable<T>;
 
-
     /// <summary>
     ///     Creates many anonymous objects from a range.
     /// </summary>
@@ -87,7 +86,6 @@ public interface IFactory
     /// <param name="items">values in range</param>
     /// <returns></returns>
     IEnumerable<T> CreateManyFromRange<T>(IEnumerable<T> items);
-
 
     /// <summary>
     ///     Creates many anonymous objects from a range.

@@ -110,6 +110,19 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClassAndCount_When_RandomInt_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+
+        // Act
+        var actual = Random<int>(count);
+
+        // Assert
+        Assert.Equal(count, actual.Count());
+    }
+
+    [Fact]
     public void Given_NormalTestClass_When_InRangeInt_Then_IntegerCreated()
     {
         // Arrange
@@ -296,6 +309,40 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClassAndCount_When_InRangeInt_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+        const int minInclusive = 3;
+        const int maxExclusive = 10;
+
+        // Act
+        var actual = InRange(count, minInclusive, maxExclusive)
+            .ToArray();
+
+        // Assert
+        Assert.Equal(count, actual.Length);
+        Assert.True(actual.All(x => x >= minInclusive));
+        Assert.True(actual.All(x => x < maxExclusive));
+    }
+
+    [Fact]
+    public void Given_NormalTestClassAndCount_When_InRangeIntItems_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+        int[] items = [3, 5, 7];
+
+        // Act
+        var actual = InRange(count, items)
+            .ToArray();
+
+        // Assert
+        Assert.Equal(count, actual.Length);
+        Assert.True(actual.All(x => items.Contains(x)));
+    }
+
+    [Fact]
     public void Given_RecursionDummies_When_UpdateRecursiveItem_Then_Updated()
     {
         // Arrange
@@ -435,7 +482,7 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTime(daysBack);
 
         // Assert
-        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date > DateTime.Now.AddDays(-daysBack));
         Assert.True(actual.Date <= DateTime.Now);
     }
 
@@ -449,7 +496,7 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTimeOffset(daysBack);
 
         // Assert
-        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
+        Assert.True(actual.Date > DateTime.Now.AddDays(-daysBack));
         Assert.True(actual.Date <= DateTime.Now);
     }
 
