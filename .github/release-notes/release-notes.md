@@ -8,6 +8,7 @@ Provides easier ways to generate randomized data.
   objects.
 - add a decimal picker and add it as a default picker.
 - add a `TestClock`.
+- use UtcNow for the determination of a recent date.
 
 ## 📦 NuGet
 

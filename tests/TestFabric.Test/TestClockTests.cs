@@ -10,7 +10,7 @@ public class TestClockTests : TestSuite.Normal
         var sut = new TestClock();
 
         // Act
-        var actual = sut.Now;
+        var actual = sut.UtcNow;
         var timePassed = DateTime.UtcNow - actual;
 
         // Assert
@@ -26,7 +26,7 @@ public class TestClockTests : TestSuite.Normal
 
         // Act
         sut.StartAt(startTime);
-        var actual = sut.Now;
+        var actual = sut.UtcNow;
 
         // Assert
         Assert.Equal(startTime, actual);
@@ -43,7 +43,7 @@ public class TestClockTests : TestSuite.Normal
         // Act
         sut.StartAt(startTime);
         sut.Advance(timePassed);
-        var actual = sut.Now;
+        var actual = sut.UtcNow;
 
         // Assert
         Assert.Equal(startTime + timePassed, actual);
