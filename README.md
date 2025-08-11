@@ -686,6 +686,129 @@ public void Should_Trace_Comparison_Process()
 }
 ```
 
+### Test Clock
+
+The `TestClock` class provides a controlled time environment for testing, allowing you to simulate specific points in
+time and advance time as needed during tests. This is particularly valuable for testing time-dependent logic,
+timestamps, scheduling, and time-based calculations without relying on the system clock.
+
+#### Basic Usage
+
+```csharp
+[Fact] 
+public void Should_Generate_Timestamps_In_Sequence() 
+{ 
+    // Arrange 
+    var testClock = new TestClock(); 
+    var startTime = new DateTimeOffset(2023, 6, 15, 10, 0, 0, TimeSpan.Zero);
+    testClock.StartAt(startTime);
+    var generator = new TimeStampGenerator(testClock);
+
+    // Act
+    var firstTimestamp = generator.GetCurrentTimestamp();
+    testClock.Advance(TimeSpan.FromMinutes(30));
+    var secondTimestamp = generator.GetCurrentTimestamp();
+
+    // Assert
+    Assert.Equal(startTime, firstTimestamp);
+    Assert.Equal(startTime.AddMinutes(30), secondTimestamp);
+}
+``` 
+
+#### Mock Building Integration
+
+TestClock integrates seamlessly with MockBuilder scenarios, enabling precise control over time-dependent mock behaviors:
+
+```csharp 
+// Example service that depends on time 
+public interface ITimeStampGenerator 
+{
+    DateTimeOffset GetCurrentTimestamp(); 
+    DateTimeOffset GetExpirationTime(TimeSpan validity); 
+    bool IsExpired(DateTimeOffset timestamp, TimeSpan maxAge);
+}
+// Mock builder that uses TestClock for time control 
+public class TimeStampGeneratorMockBuilder : MockBuilder<ITimeStampGenerator> 
+{ 
+    private readonly TestClock _testClock;
+    
+    public TimeStampGeneratorMockBuilder(TestClock testClock)
+    {
+        _testClock = testClock;
+    }
+ 
+    public TimeStampGeneratorMockBuilder WithCurrentTimestamp()
+    {
+        WithFunction(x => x.GetCurrentTimestamp(), () => _testClock.UtcNow);
+        return this;
+    }
+ 
+    public TimeStampGeneratorMockBuilder WithExpirationTime()
+    {
+        WithFunction<TimeSpan, DateTimeOffset>(
+            x => x.GetExpirationTime(It.IsAny<TimeSpan>()), 
+            validity => _testClock.UtcNow.Add(validity));
+        return this;
+    }
+
+    public TimeStampGeneratorMockBuilder WithExpiredCheck()
+    {
+        WithFunction<DateTimeOffset, TimeSpan, bool>(
+            x => x.IsExpired(It.IsAny<DateTimeOffset>(), It.IsAny<TimeSpan>()),
+            (timestamp, maxAge) => _testClock.UtcNow - timestamp > maxAge);
+        return this;
+    }
+}
+``` 
+
+TestClock can be combined with other mock builders for comprehensive testing scenarios:
+
+```csharp 
+[Fact]
+public void Should_Log_And_Track_Time_Dependent_Operations() 
+{ 
+    // Arrange 
+    var testClock = new TestClock(); 
+    var operationStart = new DateTimeOffset(2023, 7, 20, 11, 0, 0, TimeSpan.Zero); 
+    testClock.StartAt(operationStart);
+    var logMessages = new List<string>();
+    var progressValues = new List<string>();
+
+    var mockLogger = new LoggerMockBuilder<DataProcessor>()
+        .WithLog(logMessages)
+        .Create();
+    
+    var mockProgress = new ProgressMockBuilder<string>()
+        .WithReport(msg => progressValues.Add(msg))
+        .Create();
+    
+    var mockTimeGenerator = new TimeStampGeneratorMockBuilder(testClock)
+        .WithCurrentTimestamp()
+        .Create();
+    
+    var processor = new DataProcessor(
+        mockTimeGenerator.Object, 
+        mockLogger.Object);
+
+    // Act - Process data with time advancement simulation
+    processor.ProcessDataAsync(mockProgress.Object);
+    
+    testClock.Advance(TimeSpan.FromSeconds(30));
+    // Processor internally uses time generator for progress timestamps
+    
+    testClock.Advance(TimeSpan.FromMinutes(1));
+    // Processor logs completion with timestamp
+    
+    // Assert
+    Assert.Contains(logMessages, msg => msg.Contains("Started at"));
+    Assert.Contains(logMessages, msg => msg.Contains("Completed at"));
+    Assert.Contains(progressValues, "Processing started");
+    Assert.Contains(progressValues, "Processing completed");
+    var timestampedLogs = logMessages.Where(msg => msg.Contains("11:00")).ToList();
+    Assert.NotEmpty(timestampedLogs);
+}
+``` 
+
 ### Advanced Scenarios
 
 #### Combining Multiple Comparers
