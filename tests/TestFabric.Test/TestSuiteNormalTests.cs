@@ -207,6 +207,34 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClass_When_InRangeDecimal_Then_DecimalCreated()
+    {
+        // Arrange
+        const decimal minInclusive = 3.1m;
+        const decimal maxExclusive = 9.9m;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDecimalItems_Then_DecimalCreated()
+    {
+        // Arrange
+        decimal[] items = [3.1m, 4.9m, 7.3m];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
     public void Given_NormalTestClass_When_InRangeDouble_Then_DoubleCreated()
     {
         // Arrange
