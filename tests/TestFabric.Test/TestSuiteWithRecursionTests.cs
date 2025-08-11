@@ -1,6 +1,4 @@
-﻿using JetBrains.Annotations;
-
-namespace TestFabric.Test;
+﻿namespace TestFabric.Test;
 
 [TestSubject(typeof(TestSuite.WithRecursion))]
 public class TestSuiteWithRecursionTests : TestSuite.WithRecursion

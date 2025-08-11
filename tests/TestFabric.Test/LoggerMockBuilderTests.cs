@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace TestFabric.Test;
+﻿namespace TestFabric.Test;
 
 public class LoggerMockBuilderTests
 {

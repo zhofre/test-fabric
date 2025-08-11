@@ -1,6 +1,4 @@
-﻿using Xunit.Abstractions;
-
-namespace TestFabric.Test;
+﻿namespace TestFabric.Test;
 
 public class ListEqualityComparerTests
 {

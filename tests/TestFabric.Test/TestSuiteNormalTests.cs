@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using JetBrains.Annotations;
-using TestFabric.Data;
 
 // ReSharper disable ReplaceAutoPropertyWithComputedProperty
 
