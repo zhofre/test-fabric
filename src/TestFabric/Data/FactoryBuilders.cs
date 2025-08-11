@@ -20,6 +20,9 @@ public static class FactoryBuilders
     ///             <description><see cref="DateTimeOffsetPicker" /> for selecting a DateTimeOffset value.</description>
     ///         </item>
     ///         <item>
+    ///             <description><see cref="DecimalPicker" /> for selecting a decimal value.</description>
+    ///         </item>
+    ///         <item>
     ///             <description><see cref="DoublePicker" /> for selecting a double value.</description>
     ///         </item>
     ///         <item>
@@ -38,6 +41,7 @@ public static class FactoryBuilders
     [
         new DateTimePicker(),
         new DateTimeOffsetPicker(),
+        new DecimalPicker(),
         new DoublePicker(),
         new FloatPicker(),
         new IntPicker(),

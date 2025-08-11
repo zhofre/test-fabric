@@ -1,7 +1,4 @@
-﻿using JetBrains.Annotations;
-using TestFabric.Data;
-
-namespace TestFabric.Test.Data;
+﻿namespace TestFabric.Test.Data;
 
 [TestSubject(typeof(ItemRange<>))]
 public class ItemRangeTests

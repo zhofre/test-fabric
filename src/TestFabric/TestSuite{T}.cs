@@ -139,7 +139,7 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     }
 
     /// <summary>
-    ///     Creates an anonymous object.
+    ///     Creates a test data object.
     /// </summary>
     /// <typeparam name="T">type to create</typeparam>
     /// <returns>anonymous object</returns>
@@ -149,7 +149,17 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     }
 
     /// <summary>
-    ///     Creates an anonymous object from a range.
+    ///     Generates a sequence of test data objects.
+    /// </summary>
+    /// <param name="count">The number of random values to generate.</param>
+    /// <returns>A sequence of randomly generated anonymous objects.</returns>
+    protected static IEnumerable<T> Random<T>(int count)
+    {
+        return Factory.CreateMany<T>(count);
+    }
+
+    /// <summary>
+    ///     Creates a test data object from a range.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="minInclusive">minimum value in range</param>
@@ -161,7 +171,20 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     }
 
     /// <summary>
-    ///     Creates an anonymous object from a range.
+    ///     Generates a collection of test values within a specified range.
+    /// </summary>
+    /// <typeparam name="T">The type of the elements in the generated collection.</typeparam>
+    /// <param name="count">The number of elements to generate.</param>
+    /// <param name="minInclusive">The minimum value (inclusive) for the generated collection.</param>
+    /// <param name="maxExclusive">The maximum value (exclusive) for the generated collection.</param>
+    /// <returns>A collection of test values within the specified range.</returns>
+    protected static IEnumerable<T> InRange<T>(int count, T minInclusive, T maxExclusive) where T : IComparable<T>
+    {
+        return Factory.CreateManyFromRange(count, minInclusive, maxExclusive);
+    }
+
+    /// <summary>
+    ///     Creates a test data object from a range.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="items">values in range</param>
@@ -169,6 +192,17 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     protected static T InRange<T>(IEnumerable<T> items)
     {
         return Factory.CreateFromRange(items);
+    }
+
+    /// <summary>
+    ///     Returns a specified number of elements from the provided collection.
+    /// </summary>
+    /// <param name="count">The number of elements to return.</param>
+    /// <param name="items">The collection of items to select from.</param>
+    /// <returns>A new enumerable containing the specified number of elements from the input collection.</returns>
+    protected static IEnumerable<T> InRange<T>(int count, IEnumerable<T> items)
+    {
+        return Factory.CreateManyFromRange(count, items);
     }
 
     /// <summary>
@@ -257,7 +291,18 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <returns>A <see cref="DateTime" /> object representing a random date and time within the specified range.</returns>
     protected static DateTime RecentDateTime(int daysBack = 30)
     {
-        return DateTime.Now.AddDays(-InRange(0, daysBack));
+        return RecentDateTime(TimeSpan.FromDays(daysBack));
+    }
+
+    /// <summary>
+    ///     Generates a recent random <see cref="DateTime" /> within the specified range.
+    /// </summary>
+    /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
+    /// <returns>A DateTime value representing a recent date and time.</returns>
+    protected static DateTime RecentDateTime(TimeSpan maximumTimeBack)
+    {
+        var ticks = -InRange(0, maximumTimeBack.Ticks);
+        return DateTime.UtcNow.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>
@@ -274,7 +319,18 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </returns>
     protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
     {
-        return DateTimeOffset.Now.AddDays(-InRange(0, daysBack));
+        return RecentDateTimeOffset(TimeSpan.FromDays(daysBack));
+    }
+
+    /// <summary>
+    ///     Generates a recent random <see cref="DateTimeOffset" /> within the specified range.
+    /// </summary>
+    /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
+    /// <returns>A DateTimeOffset value representing a recent date and time.</returns>
+    protected static DateTimeOffset RecentDateTimeOffset(TimeSpan maximumTimeBack)
+    {
+        var ticks = -InRange(0, maximumTimeBack.Ticks);
+        return DateTimeOffset.UtcNow.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>

@@ -686,6 +686,129 @@ public void Should_Trace_Comparison_Process()
 }
 ```
 
+### Test Clock
+
+The `TestClock` class provides a controlled time environment for testing, allowing you to simulate specific points in
+time and advance time as needed during tests. This is particularly valuable for testing time-dependent logic,
+timestamps, scheduling, and time-based calculations without relying on the system clock.
+
+#### Basic Usage
+
+```csharp
+[Fact] 
+public void Should_Generate_Timestamps_In_Sequence() 
+{ 
+    // Arrange 
+    var testClock = new TestClock(); 
+    var startTime = new DateTimeOffset(2023, 6, 15, 10, 0, 0, TimeSpan.Zero);
+    testClock.StartAt(startTime);
+    var generator = new TimeStampGenerator(testClock);
+
+    // Act
+    var firstTimestamp = generator.GetCurrentTimestamp();
+    testClock.Advance(TimeSpan.FromMinutes(30));
+    var secondTimestamp = generator.GetCurrentTimestamp();
+
+    // Assert
+    Assert.Equal(startTime, firstTimestamp);
+    Assert.Equal(startTime.AddMinutes(30), secondTimestamp);
+}
+``` 
+
+#### Mock Building Integration
+
+TestClock integrates seamlessly with MockBuilder scenarios, enabling precise control over time-dependent mock behaviors:
+
+```csharp 
+// Example service that depends on time 
+public interface ITimeStampGenerator 
+{
+    DateTimeOffset GetCurrentTimestamp(); 
+    DateTimeOffset GetExpirationTime(TimeSpan validity); 
+    bool IsExpired(DateTimeOffset timestamp, TimeSpan maxAge);
+}
+// Mock builder that uses TestClock for time control 
+public class TimeStampGeneratorMockBuilder : MockBuilder<ITimeStampGenerator> 
+{ 
+    private readonly TestClock _testClock;
+    
+    public TimeStampGeneratorMockBuilder(TestClock testClock)
+    {
+        _testClock = testClock;
+    }
+ 
+    public TimeStampGeneratorMockBuilder WithCurrentTimestamp()
+    {
+        WithFunction(x => x.GetCurrentTimestamp(), () => _testClock.UtcNow);
+        return this;
+    }
+ 
+    public TimeStampGeneratorMockBuilder WithExpirationTime()
+    {
+        WithFunction<TimeSpan, DateTimeOffset>(
+            x => x.GetExpirationTime(It.IsAny<TimeSpan>()), 
+            validity => _testClock.UtcNow.Add(validity));
+        return this;
+    }
+
+    public TimeStampGeneratorMockBuilder WithExpiredCheck()
+    {
+        WithFunction<DateTimeOffset, TimeSpan, bool>(
+            x => x.IsExpired(It.IsAny<DateTimeOffset>(), It.IsAny<TimeSpan>()),
+            (timestamp, maxAge) => _testClock.UtcNow - timestamp > maxAge);
+        return this;
+    }
+}
+``` 
+
+TestClock can be combined with other mock builders for comprehensive testing scenarios:
+
+```csharp 
+[Fact]
+public void Should_Log_And_Track_Time_Dependent_Operations() 
+{ 
+    // Arrange 
+    var testClock = new TestClock(); 
+    var operationStart = new DateTimeOffset(2023, 7, 20, 11, 0, 0, TimeSpan.Zero); 
+    testClock.StartAt(operationStart);
+    var logMessages = new List<string>();
+    var progressValues = new List<string>();
+
+    var mockLogger = new LoggerMockBuilder<DataProcessor>()
+        .WithLog(logMessages)
+        .Create();
+    
+    var mockProgress = new ProgressMockBuilder<string>()
+        .WithReport(msg => progressValues.Add(msg))
+        .Create();
+    
+    var mockTimeGenerator = new TimeStampGeneratorMockBuilder(testClock)
+        .WithCurrentTimestamp()
+        .Create();
+    
+    var processor = new DataProcessor(
+        mockTimeGenerator.Object, 
+        mockLogger.Object);
+
+    // Act - Process data with time advancement simulation
+    processor.ProcessDataAsync(mockProgress.Object);
+    
+    testClock.Advance(TimeSpan.FromSeconds(30));
+    // Processor internally uses time generator for progress timestamps
+    
+    testClock.Advance(TimeSpan.FromMinutes(1));
+    // Processor logs completion with timestamp
+    
+    // Assert
+    Assert.Contains(logMessages, msg => msg.Contains("Started at"));
+    Assert.Contains(logMessages, msg => msg.Contains("Completed at"));
+    Assert.Contains(progressValues, "Processing started");
+    Assert.Contains(progressValues, "Processing completed");
+    var timestampedLogs = logMessages.Where(msg => msg.Contains("11:00")).ToList();
+    Assert.NotEmpty(timestampedLogs);
+}
+``` 
+
 ### Advanced Scenarios
 
 #### Combining Multiple Comparers
@@ -874,6 +997,20 @@ Generates a completely random object of the specified type with all properties p
 
 **Use this when:** You need test data but don't care about specific values, just that all properties are populated.
 
+#### `Random<T>(int count)`
+
+Generates multiple completely random objects of the specified type with all properties populated with random values.
+
+```csharp
+// Generate multiple random objects
+var users = Random<User>(5); // 5 random users 
+var numbers = Random<int>(10); // 10 random integers 
+var dates = Random<DateTimeOffset>(3); // 3 random dates
+``` 
+
+**Use this when:** You need multiple test objects but don't care about specific values, just that all properties are
+populated.
+
 #### `InRange<T>(T minInclusive, T maxExclusive)`
 
 Generates a random value within a specific numeric range. The minimum value is included, but the maximum value is
@@ -889,6 +1026,20 @@ var date = InRange(DateTime.Today.AddDays(-7), DateTime.Today); // Date in the l
 
 **Use this when:** You need random data that falls within realistic or valid bounds for your business logic.
 
+#### `InRange<T>(int count, T minInclusive, T maxExclusive)`
+
+Generates multiple random values within a specific numeric range. The minimum value is included, but the maximum value
+is excluded.
+
+```csharp
+// Generate multiple values within ranges 
+var ages = InRange(5, 18, 65); // 5 ages between 18-64 
+var prices = InRange(10, 10.0, 100.0); // 10 prices between 10.00-99.99 
+var years = InRange(3, 2020, 2025); // 3 years between 2020-2024
+``` 
+
+**Use this when:** You need multiple random values that fall within realistic or valid bounds for your business logic.
+
 #### `InRange<T>(IEnumerable<T> items)`
 
 Randomly selects one item from a predefined collection of valid options.
@@ -903,6 +1054,20 @@ var email = InRange(validEmails);
 ```
 
 **Use this when:** You have a specific set of valid values and need to randomly pick one for testing.
+
+#### `InRange<T>(int count, IEnumerable<T> items)`
+
+Randomly selects multiple items from a predefined collection of valid options (with potential duplicates).
+
+```csharp 
+// Pick multiple items from predefined options 
+var colors = new[] { "Red", "Green", "Blue", "Yellow" }; 
+var randomColors = InRange(5, colors); // 5 random colors (may include duplicates)
+var validEmails = new[] { "test@example.com", "user@domain.org" }; 
+var emails = InRange(3, validEmails); // 3 random emails from the list
+``` 
+
+**Use this when:** You need multiple random selections from a specific set of valid values for testing.
 
 #### Personal Information
 
@@ -974,6 +1139,18 @@ var recentDate = RecentDateTime(); // Within last 30 days (default)
 var lastWeek = RecentDateTime(7); // Within last 7 days
 ``` 
 
+##### RecentDateTime(timeSpan)
+
+Generates a random DateTime within the specified timespan from now:
+
+```csharp
+var recentDate = RecentDateTime(TimeSpan.FromDays(7)); // Within last 7 days
+var lastHour = RecentDateTime(TimeSpan.FromHours(1));  // Within last hour
+var lastMonth = RecentDateTime(TimeSpan.FromDays(30)); // Within last 30 days
+``` 
+
+**Use this when:** You need more precise control over the time range for recent dates.
+
 ##### RecentDateTimeOffset(daysBack)
 
 Generates a random DateTimeOffset within the specified range:
@@ -982,6 +1159,17 @@ Generates a random DateTimeOffset within the specified range:
 var recentOffset = RecentDateTimeOffset(); // Within last 30 days (default) 
 var lastTwoMonths = RecentDateTimeOffset(60); // Within last 60 days
 ``` 
+
+##### RecentDateTimeOffset(timeSpan)
+
+Generates a random DateTimeOffset within the specified timespan from now:
+
+```csharp
+var recentOffset = RecentDateTimeOffset(TimeSpan.FromHours(1));  // Within last hour
+var lastWeek = RecentDateTimeOffset(TimeSpan.FromDays(7));       // Within last week
+``` 
+
+**Use this when:** You need DateTimeOffset values within a specific timespan with timezone information.
 
 #### Template-Based Generation
 

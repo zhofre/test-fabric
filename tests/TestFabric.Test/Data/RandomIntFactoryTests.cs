@@ -1,8 +1,4 @@
-﻿using JetBrains.Annotations;
-using TestFabric.Data;
-using Xunit.Abstractions;
-
-namespace TestFabric.Test.Data;
+﻿namespace TestFabric.Test.Data;
 
 [TestSubject(typeof(RandomIntFactory))]
 public class RandomIntFactoryTests(ITestOutputHelper outputHelper)

@@ -1,6 +1,4 @@
 ﻿using System.Globalization;
-using JetBrains.Annotations;
-using TestFabric.Data;
 
 // ReSharper disable ReplaceAutoPropertyWithComputedProperty
 
@@ -9,7 +7,7 @@ using TestFabric.Data;
 namespace TestFabric.Test;
 
 [TestSubject(typeof(TestSuite.Normal))]
-public class TestSuiteNormalTests : TestSuite.Normal
+public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
 {
     [Fact]
     public void Given_Nothing_When_CreateGuid_Then_FactoryUsed()
@@ -110,6 +108,19 @@ public class TestSuiteNormalTests : TestSuite.Normal
     }
 
     [Fact]
+    public void Given_NormalTestClassAndCount_When_RandomInt_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+
+        // Act
+        var actual = Random<int>(count);
+
+        // Assert
+        Assert.Equal(count, actual.Count());
+    }
+
+    [Fact]
     public void Given_NormalTestClass_When_InRangeInt_Then_IntegerCreated()
     {
         // Arrange
@@ -185,6 +196,34 @@ public class TestSuiteNormalTests : TestSuite.Normal
     {
         // Arrange
         float[] items = [3.1f, 4.9f, 7.3f];
+
+        // Act
+        var actual = InRange(items);
+
+        // Assert
+        Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDecimal_Then_DecimalCreated()
+    {
+        // Arrange
+        const decimal minInclusive = 3.1m;
+        const decimal maxExclusive = 9.9m;
+
+        // Act
+        var actual = InRange(minInclusive, maxExclusive);
+
+        // Assert
+        Assert.True(actual >= minInclusive);
+        Assert.True(actual < maxExclusive);
+    }
+
+    [Fact]
+    public void Given_NormalTestClass_When_InRangeDecimalItems_Then_DecimalCreated()
+    {
+        // Arrange
+        decimal[] items = [3.1m, 4.9m, 7.3m];
 
         // Act
         var actual = InRange(items);
@@ -293,6 +332,40 @@ public class TestSuiteNormalTests : TestSuite.Normal
 
         // Assert
         Assert.Contains(actual, items);
+    }
+
+    [Fact]
+    public void Given_NormalTestClassAndCount_When_InRangeInt_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+        const int minInclusive = 3;
+        const int maxExclusive = 10;
+
+        // Act
+        var actual = InRange(count, minInclusive, maxExclusive)
+            .ToArray();
+
+        // Assert
+        Assert.Equal(count, actual.Length);
+        Assert.True(actual.All(x => x >= minInclusive));
+        Assert.True(actual.All(x => x < maxExclusive));
+    }
+
+    [Fact]
+    public void Given_NormalTestClassAndCount_When_InRangeIntItems_Then_IntegersCreated()
+    {
+        // Arrange
+        const int count = 3;
+        int[] items = [3, 5, 7];
+
+        // Act
+        var actual = InRange(count, items)
+            .ToArray();
+
+        // Assert
+        Assert.Equal(count, actual.Length);
+        Assert.True(actual.All(x => items.Contains(x)));
     }
 
     [Fact]
@@ -435,8 +508,11 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTime(daysBack);
 
         // Assert
-        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
-        Assert.True(actual.Date <= DateTime.Now);
+        var now = DateTime.UtcNow;
+        logger.WriteLine($"Now: {now}");
+        logger.WriteLine($"Actual: {actual}");
+        Assert.True(actual >= now.AddDays(-daysBack));
+        Assert.True(actual <= now);
     }
 
     [Fact]
@@ -449,8 +525,11 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTimeOffset(daysBack);
 
         // Assert
-        Assert.True(actual.Date >= DateTime.Now.AddDays(-daysBack));
-        Assert.True(actual.Date <= DateTime.Now);
+        var now = DateTimeOffset.UtcNow;
+        logger.WriteLine($"Now: {now}");
+        logger.WriteLine($"Actual: {actual}");
+        Assert.True(actual >= now.AddDays(-daysBack));
+        Assert.True(actual <= now);
     }
 
     [Fact]
