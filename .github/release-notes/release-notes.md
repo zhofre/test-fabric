@@ -7,6 +7,7 @@ Provides easier ways to generate randomized data.
 - add `InRange<T>(int count, T min, T max)` and `InRange<T>(int count, IEnumerable<T> items)` to generate multiple data
   objects.
 - add a decimal picker and add it as a default picker.
+- add a `TestClock`.
 
 ## 📦 NuGet
 
