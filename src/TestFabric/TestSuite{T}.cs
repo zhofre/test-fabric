@@ -257,7 +257,18 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <returns>A <see cref="DateTime" /> object representing a random date and time within the specified range.</returns>
     protected static DateTime RecentDateTime(int daysBack = 30)
     {
-        return DateTime.Now.AddDays(-InRange(0, daysBack));
+        return RecentDateTime(TimeSpan.FromDays(daysBack));
+    }
+
+    /// <summary>
+    ///     Generates a recent random <see cref="DateTime" /> within the specified range.
+    /// </summary>
+    /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
+    /// <returns>A DateTime value representing a recent date and time.</returns>
+    protected static DateTime RecentDateTime(TimeSpan maximumTimeBack)
+    {
+        var ticks = -InRange(0, maximumTimeBack.Ticks);
+        return DateTime.Now.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>
@@ -274,7 +285,18 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </returns>
     protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
     {
-        return DateTimeOffset.Now.AddDays(-InRange(0, daysBack));
+        return RecentDateTimeOffset(TimeSpan.FromDays(daysBack));
+    }
+
+    /// <summary>
+    ///     Generates a recent random <see cref="DateTimeOffset" /> within the specified range.
+    /// </summary>
+    /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
+    /// <returns>A DateTimeOffset value representing a recent date and time.</returns>
+    protected static DateTimeOffset RecentDateTimeOffset(TimeSpan maximumTimeBack)
+    {
+        var ticks = -InRange(0, maximumTimeBack.Ticks);
+        return DateTimeOffset.Now.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>
