@@ -7,7 +7,7 @@
 namespace TestFabric.Test;
 
 [TestSubject(typeof(TestSuite.Normal))]
-public class TestSuiteNormalTests : TestSuite.Normal
+public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
 {
     [Fact]
     public void Given_Nothing_When_CreateGuid_Then_FactoryUsed()
@@ -508,8 +508,11 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTime(daysBack);
 
         // Assert
-        Assert.True(actual.Date > DateTime.Now.AddDays(-daysBack));
-        Assert.True(actual.Date <= DateTime.Now);
+        var now = DateTime.UtcNow;
+        logger.WriteLine($"Now: {now}");
+        logger.WriteLine($"Actual: {actual}");
+        Assert.True(actual >= now.AddDays(-daysBack));
+        Assert.True(actual <= now);
     }
 
     [Fact]
@@ -522,8 +525,11 @@ public class TestSuiteNormalTests : TestSuite.Normal
         var actual = RecentDateTimeOffset(daysBack);
 
         // Assert
-        Assert.True(actual.Date > DateTime.Now.AddDays(-daysBack));
-        Assert.True(actual.Date <= DateTime.Now);
+        var now = DateTimeOffset.UtcNow;
+        logger.WriteLine($"Now: {now}");
+        logger.WriteLine($"Actual: {actual}");
+        Assert.True(actual >= now.AddDays(-daysBack));
+        Assert.True(actual <= now);
     }
 
     [Fact]

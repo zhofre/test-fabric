@@ -302,7 +302,7 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     protected static DateTime RecentDateTime(TimeSpan maximumTimeBack)
     {
         var ticks = -InRange(0, maximumTimeBack.Ticks);
-        return DateTime.Now.Add(TimeSpan.FromTicks(ticks));
+        return DateTime.UtcNow.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     protected static DateTimeOffset RecentDateTimeOffset(TimeSpan maximumTimeBack)
     {
         var ticks = -InRange(0, maximumTimeBack.Ticks);
-        return DateTimeOffset.Now.Add(TimeSpan.FromTicks(ticks));
+        return DateTimeOffset.UtcNow.Add(TimeSpan.FromTicks(ticks));
     }
 
     /// <summary>
