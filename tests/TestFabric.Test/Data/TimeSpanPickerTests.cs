@@ -15,8 +15,8 @@ public class TimeSpanPickerTests
         var result = picker.Pick(new NumberRange<TimeSpan>(start, end));
 
         // Assert
-        Assert.True(result >= start, $"Expected {result} to be on or after {start}");
-        Assert.True(result < end, $"Expected {result} to be before {end}");
+        result.Should().BeGreaterThanOrEqualTo(start);
+        result.Should().BeLessThan(end);
     }
 
     [Fact]
@@ -30,6 +30,6 @@ public class TimeSpanPickerTests
         var result = picker.Pick(new NumberRange<TimeSpan>(ts, ts));
 
         // Assert
-        Assert.Equal(ts, result);
+        result.Should().Be(ts);
     }
 }

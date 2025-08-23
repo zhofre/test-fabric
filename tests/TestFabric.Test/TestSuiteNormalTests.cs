@@ -17,7 +17,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<Guid>();
 
         // Assert
-        Assert.NotEqual(Guid.Empty, actual);
+        actual.Should().NotBe(Guid.Empty);
     }
 
     [Fact]
@@ -28,8 +28,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<int>();
 
         // Assert
-        Assert.True(-RandomIntFactory.MediumBound < actual);
-        Assert.True(actual < RandomIntFactory.MediumBound);
+        actual.Should().BeGreaterThan(-RandomIntFactory.MediumBound);
+        actual.Should().BeLessThan(RandomIntFactory.MediumBound);
     }
 
     [Fact]
@@ -40,16 +40,17 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<double>();
 
         // Assert
-        Assert.True(-RandomDoubleFactory.MediumBound < actual);
-        Assert.True(actual < RandomDoubleFactory.MediumBound);
+        actual.Should().BeGreaterThan(-RandomDoubleFactory.MediumBound);
+        actual.Should().BeLessThan(RandomDoubleFactory.MediumBound);
     }
 
     [Fact]
     public void Given_Nothing_When_CreateRecursionDummy_Then_Exception()
     {
         // Arrange
-        // Act+Assert
-        Assert.Throws<FactoryException>(Factory.Create<RecursionDummy>);
+        // Act + Assert
+        Action act = () => Factory.Create<RecursionDummy>();
+        act.Should().Throw<FactoryException>();
     }
 
     [Theory]
@@ -66,7 +67,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = input.ToString(CultureInfo.CurrentCulture);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -80,7 +81,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Thread.CurrentThread.CurrentCulture;
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -92,7 +93,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual2 = Factory.Create<RandomDoubleFactory>();
 
         // Assert
-        Assert.Same(actual1, actual2);
+        actual2.Should().BeSameAs(actual1);
     }
 
     [Fact]
@@ -103,8 +104,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Random<int>();
 
         // Assert
-        Assert.True(actual >= -RandomIntFactory.LargeBound);
-        Assert.True(actual <= RandomIntFactory.LargeBound);
+        actual.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.LargeBound);
+        actual.Should().BeLessThanOrEqualTo(RandomIntFactory.LargeBound);
     }
 
     [Fact]
