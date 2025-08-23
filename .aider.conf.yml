@@ -11,6 +11,7 @@ env-file: .aider.env
 # Source-control alignment
 git: true
 commit: true
+attribute-co-authored-by: false
 
 # Behavioral nudges
 # message-rules:
