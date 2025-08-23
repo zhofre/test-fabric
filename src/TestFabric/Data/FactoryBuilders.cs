@@ -45,7 +45,8 @@ public static class FactoryBuilders
         new DoublePicker(),
         new FloatPicker(),
         new IntPicker(),
-        new LongPicker()
+        new LongPicker(),
+        new TimeSpanPicker()
     ];
 
     /// <summary>
