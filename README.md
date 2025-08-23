@@ -1018,10 +1018,40 @@ excluded.
 
 ```csharp
 // Generate values within ranges
-var age = InRange(18, 65);           // Age between 18-64
-var price = InRange(10.0, 100.0);    // Price between 10.00-99.99
-var year = InRange(2020, 2025);      // Year between 2020-2024
-var date = InRange(DateTime.Today.AddDays(-7), DateTime.Today); // Date in the last week
+
+// IntPicker - for integer ranges
+var age = InRange(18, 65);           // Age between 18-64 (int)
+var quantity = InRange(1, 100);      // Quantity between 1-99 (int)
+
+// LongPicker - for long integer ranges  
+var userId = InRange(1000L, 9999L);  // User ID between 1000-9998 (long)
+var timestamp = InRange(1000000L, 9999999L); // Timestamp between ranges (long)
+
+// DoublePicker - for double precision ranges
+var price = InRange(10.0, 100.0);    // Price between 10.00-99.99 (double)
+var weight = InRange(0.1, 50.0);     // Weight between 0.1-49.99 (double)
+
+// FloatPicker - for float precision ranges
+var temperature = InRange(0.0f, 100.0f); // Temperature between 0.0-99.99 (float)
+var ratio = InRange(0.1f, 1.0f);     // Ratio between 0.1-0.99 (float)
+
+// DateTimePicker - for DateTime ranges
+var startDate = new DateTime(2023, 1, 1);
+var endDate = new DateTime(2023, 12, 31);
+var randomDate = InRange(startDate, endDate); // Random date in 2023
+var recentDateTime = InRange(DateTime.Now.AddDays(-7), DateTime.Now); // Last week
+
+// DateTimeOffsetPicker - for date/time ranges
+var recentDate = InRange(DateTimeOffset.Now.AddDays(-30), DateTimeOffset.Now); 
+var futureDate = InRange(DateTimeOffset.Today, DateTimeOffset.Today.AddYears(1));
+
+// TimeSpanPicker - for TimeSpan ranges
+var shortDuration = InRange(TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(60)); // 1-59 minutes
+var longDuration = InRange(TimeSpan.FromHours(1), TimeSpan.FromDays(7)); // 1 hour to 6 days, 23 hours
+
+// ItemPicker<T> - for selecting from collections
+var colors = new[] { "Red", "Green", "Blue", "Yellow" };
+var randomColor = InRange(colors);   // Picks one item from the collection
 ```
 
 **Use this when:** You need random data that falls within realistic or valid bounds for your business logic.
