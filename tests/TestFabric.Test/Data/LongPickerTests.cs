@@ -16,6 +16,7 @@ public class LongPickerTests
         var actual = sut.Pick(range);
 
         // Assert
-        Assert.True(actual is >= start and < end);
+        actual.Should().BeGreaterThanOrEqualTo(start);
+        actual.Should().BeLessThan(end);
     }
 }

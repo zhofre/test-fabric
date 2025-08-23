@@ -23,8 +23,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(-RandomIntFactory.MediumBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.MediumBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 
@@ -46,8 +46,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(-RandomIntFactory.SmallBound <= item);
-            Assert.True(item <= RandomIntFactory.SmallBound);
+            item.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.SmallBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.SmallBound);
         }
     }
 
@@ -69,9 +69,9 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(-RandomIntFactory.MediumBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
-            Assert.True(Math.Abs(item) >= RandomIntFactory.SmallBound);
+            item.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.MediumBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
+            Math.Abs(item).Should().BeGreaterThanOrEqualTo(RandomIntFactory.SmallBound);
         }
     }
 
@@ -93,9 +93,9 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(-RandomIntFactory.LargeBound <= item);
-            Assert.True(item <= RandomIntFactory.LargeBound);
-            Assert.True(Math.Abs(item) >= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.LargeBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.LargeBound);
+            Math.Abs(item).Should().BeGreaterThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 
@@ -117,8 +117,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.SmallBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.SmallBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 
@@ -140,8 +140,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(0 <= item);
-            Assert.True(item <= RandomIntFactory.SmallBound);
+            item.Should().BeGreaterThanOrEqualTo(0);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.SmallBound);
         }
     }
 
@@ -163,8 +163,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.SmallBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.SmallBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 
@@ -186,8 +186,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.MediumBound <= item);
-            Assert.True(item <= RandomIntFactory.LargeBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.MediumBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.LargeBound);
         }
     }
 
@@ -209,8 +209,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.SmallBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.SmallBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 
@@ -232,8 +232,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.Epsilon <= item);
-            Assert.True(item <= RandomIntFactory.SmallBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.Epsilon);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.SmallBound);
         }
     }
 
@@ -255,8 +255,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.SmallBound <= item);
-            Assert.True(item <= RandomIntFactory.MediumBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.SmallBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.MediumBound);
         }
     }
 

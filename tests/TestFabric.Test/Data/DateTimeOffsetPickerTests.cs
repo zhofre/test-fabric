@@ -16,6 +16,7 @@ public class DateTimeOffsetPickerTests
         var actual = sut.Pick(range);
 
         // Assert
-        Assert.True(actual >= start && actual < end);
+        actual.Should().BeOnOrAfter(start);
+        actual.Should().BeBefore(end);
     }
 }

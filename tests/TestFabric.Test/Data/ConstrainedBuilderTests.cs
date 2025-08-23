@@ -1,6 +1,4 @@
-﻿
-
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 
 namespace TestFabric.Test.Data;
 
@@ -18,8 +16,9 @@ public class ConstrainedBuilderTests
         // Arrange
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.Create());
+        // Act + Assert
+        Action act = () => sut.Create();
+        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -35,7 +34,7 @@ public class ConstrainedBuilderTests
             .Create();
 
         // Assert
-        Assert.Contains(actual, options);
+        options.Should().Contain(actual);
     }
 
     [Fact]
@@ -53,7 +52,7 @@ public class ConstrainedBuilderTests
         // Assert
         foreach (var item in actual)
         {
-            Assert.Contains(item, options);
+            options.Should().Contain(item);
         }
     }
 
@@ -63,8 +62,9 @@ public class ConstrainedBuilderTests
         // Arrange
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.AddOptions(null).Create());
+        // Act + Assert
+        Action act = () => sut.AddOptions(null!).Create();
+        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -73,8 +73,9 @@ public class ConstrainedBuilderTests
         // Arrange
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.AddRange<IRange<int>>(null!).Create());
+        // Act + Assert
+        Action act = () => sut.AddRange<IRange<int>>(null!).Create();
+        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -91,8 +92,8 @@ public class ConstrainedBuilderTests
         var value = actual.Create();
 
         // Assert
-        Assert.True(start <= value);
-        Assert.True(end > value);
+        value.Should().BeGreaterThanOrEqualTo(start);
+        value.Should().BeLessThan(end);
     }
 
     [Fact]
@@ -107,7 +108,7 @@ public class ConstrainedBuilderTests
         var actual = sut.Name;
 
         // Assert
-        Assert.Equal(name, actual);
+        actual.Should().Be(name);
     }
 
     public class Person

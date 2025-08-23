@@ -14,8 +14,8 @@ public class MockBuilderTests
         var actual = sut.Create();
 
         // Assert
-        Assert.IsType<Mock<IFoo>>(actual);
-        Assert.IsAssignableFrom<IFoo>(actual.Object);
+        actual.Should().BeOfType<Mock<IFoo>>();
+        actual.Object.Should().BeAssignableTo<IFoo>();
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class MockBuilderTests
         var actual = sut.Create();
 
         // Assert
-        Assert.Equal(expectedId, actual.Object.Id);
+        actual.Object.Id.Should().Be(expectedId);
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class MockBuilderTests
         var actual = sut.Create();
 
         // Assert
-        Assert.Equal(expectedId, actual.Object.Id);
+        actual.Object.Id.Should().Be(expectedId);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class MockBuilderTests
         actual.Object.Value = expectedValue;
 
         // Assert
-        Assert.Equal(expectedValue, actual.Object.Value, 6);
+        actual.Object.Value.Should().BeApproximately(expectedValue, 0.000001);
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class MockBuilderTests
         actual.Object.Do();
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class MockBuilderTests
         actual.Object.Do(arg1);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -124,7 +124,7 @@ public class MockBuilderTests
         actual.Object.Do(arg1, arg2);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public class MockBuilderTests
         actual.Object.Do(arg1, arg2, arg3);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -163,7 +163,7 @@ public class MockBuilderTests
         actual.Object.Do(arg1, arg2, arg3, arg4);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -184,7 +184,7 @@ public class MockBuilderTests
         actual.Object.Do(arg1, arg2, arg3, arg4, arg5);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -200,7 +200,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate();
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -219,13 +219,13 @@ public class MockBuilderTests
         var actual3 = mock.Object.Calculate();
 
         // Assert
-        Assert.Equal(expectedResult[0], actual1);
-        Assert.Equal(expectedResult[1], actual2);
-        Assert.Equal(expectedResult[2], actual3);
+        actual1.Should().Be(expectedResult[0]);
+        actual2.Should().Be(expectedResult[1]);
+        actual3.Should().Be(expectedResult[2]);
     }
 
     [Fact]
-    public void Given_EmptyResultSequence_When_ConfigureCalculateFromArray_Then_NotConfigured()
+    public async Task Given_EmptyResultSequence_When_ConfigureCalculateFromArray_Then_NotConfigured()
     {
         // Arrange
         int[]? expectedResult = null;
@@ -234,7 +234,8 @@ public class MockBuilderTests
 
         // Act + Assert
         var mock = sut.Create();
-        Assert.Throws<MockException>(() => mock.Object.Calculate());
+        Func<Task> f = async () => await mock.Object.CalculateAsync();
+        await f.Should().ThrowAsync<MockException>();
     }
 
     [Fact]
@@ -250,7 +251,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate();
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -267,7 +268,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -284,7 +285,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -302,7 +303,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -320,7 +321,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -339,7 +340,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -358,7 +359,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -378,7 +379,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3, arg4);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -398,7 +399,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3, arg4);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -419,7 +420,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3, arg4, arg5);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -440,7 +441,7 @@ public class MockBuilderTests
         var actual = mock.Object.Calculate(arg1, arg2, arg3, arg4, arg5);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -456,7 +457,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync();
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -473,7 +474,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync(arg1);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -491,7 +492,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync(arg1, arg2);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -510,7 +511,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync(arg1, arg2, arg3);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -530,7 +531,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync(arg1, arg2, arg3, arg4);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -551,7 +552,7 @@ public class MockBuilderTests
         await actual.Object.DoAsync(arg1, arg2, arg3, arg4, arg5);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -567,7 +568,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync();
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -586,9 +587,9 @@ public class MockBuilderTests
         var actual3 = await mock.Object.CalculateAsync();
 
         // Assert
-        Assert.Equal(expectedResult[0], actual1);
-        Assert.Equal(expectedResult[1], actual2);
-        Assert.Equal(expectedResult[2], actual3);
+        actual1.Should().Be(expectedResult[0]);
+        actual2.Should().Be(expectedResult[1]);
+        actual3.Should().Be(expectedResult[2]);
     }
 
     [Fact]
@@ -601,7 +602,8 @@ public class MockBuilderTests
 
         // Act + Assert
         var mock = sut.Create();
-        await Assert.ThrowsAsync<MockException>(async () => await mock.Object.CalculateAsync());
+        Func<Task> f = () => mock.Object.CalculateAsync();
+        await f.Should().ThrowAsync<MockException>();
     }
 
     [Fact]
@@ -617,7 +619,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync();
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -634,7 +636,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync(arg1);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -652,7 +654,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync(arg1, arg2);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -671,7 +673,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -691,7 +693,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3, arg4);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -712,7 +714,7 @@ public class MockBuilderTests
         var actual = await mock.Object.CalculateAsync(arg1, arg2, arg3, arg4, arg5);
 
         // Assert
-        Assert.Equal(expectedResult, actual);
+        actual.Should().Be(expectedResult);
     }
 
     [Fact]
@@ -729,8 +731,8 @@ public class MockBuilderTests
         var actualResult = mock.Object.TryGetValue(out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 
     [Fact]
@@ -749,8 +751,8 @@ public class MockBuilderTests
             out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 
     [Fact]
@@ -770,8 +772,8 @@ public class MockBuilderTests
             out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 
     [Fact]
@@ -792,8 +794,8 @@ public class MockBuilderTests
             out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 
     [Fact]
@@ -815,8 +817,8 @@ public class MockBuilderTests
             out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 
     [Fact]
@@ -839,7 +841,7 @@ public class MockBuilderTests
             out var actualOutValue);
 
         // Assert
-        Assert.Equal(result, actualResult);
-        Assert.Equal(outValue, actualOutValue);
+        actualResult.Should().Be(result);
+        actualOutValue.Should().Be(outValue);
     }
 }

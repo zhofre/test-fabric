@@ -12,7 +12,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(null, null);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, null);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, second);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, second);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, first);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, first);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, second);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, second);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -149,7 +149,7 @@ public class ArrayEqualityComparerTests
         var actual = sut.Equals(first, second);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
         mockTestOutputHelper.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Once);
     }
 }
