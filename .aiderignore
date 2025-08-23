@@ -1,0 +1,22 @@
+# .aiderignore
+
+# Baseline: ignore everything
+/*
+
+# Allow specific working sets
+!src/
+!src/**
+!tests/
+!tests/**
+!samples/
+!samples/**
+
+# Allow solution files anywhere
+!*.sln
+
+# Always ignore heavy/meta paths
+.git/**
+.github/**
+.idea/**
+**/bin/**
+**/obj/**

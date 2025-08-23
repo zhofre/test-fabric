@@ -1,0 +1,19 @@
+# ===== Aider Org Baseline (Azure AI Foundry) =====
+# Primary model for high-fidelity edits & reasoning
+model: azure/gpt-5-chat
+
+# Lightweight model for low-effort calls (summaries, quick Q&A, boilerplate)
+weak-model: azure/gpt-5-mini
+
+# Centralize secrets
+env-file: .aider.env
+
+# Source-control alignment
+git: true
+commit: true
+
+# Behavioral nudges
+# message-rules:
+#   - "Prefer minimal, surgical diffs."
+#   - "Adhere to repository analyzers and style."
+#   - "When uncertainty is high, propose tests first."

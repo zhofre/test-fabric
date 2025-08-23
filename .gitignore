@@ -419,3 +419,8 @@ FodyWeavers.xsd
 
 # JetBrains: Ignore all of .idea folder by default
 .idea/*
+
+# Aider
+.aider*
+!.aider.conf.yml
+!.aiderignore
