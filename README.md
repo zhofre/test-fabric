@@ -197,7 +197,8 @@ public void Should_Handle_Repository_Exception()
     var sut = new UserService(mockRepository.Object);
 
     // Act & Assert
-    Assert.Throws<DatabaseException>(() => service.GetUser(1));
+    var act = () => service.GetUser(1);
+    act.Should().Throw<DatabaseException>();
 }
 ``` 
 
@@ -224,7 +225,7 @@ public void Should_Log_Error_Messages()
     service.ProcessWithError();
 
     // Assert
-    Assert.Contains(logMessages, msg => msg.Contains("[Error]"));
+    logMessages.Should().Contain(msg => msg.Contains("[Error]"));
 }
 ``` 
 
@@ -247,7 +248,7 @@ public async Task Should_Report_Progress()
     await processor.ProcessDataAsync(mockProgress.Object);
 
     // Assert
-    Assert.Equal(new[] { 0, 25, 50, 75, 100 }, progressValues);
+    progressValues.Should().BeEquivalentTo(new[] { 0, 25, 50, 75, 100 });
 }
 ``` 
 
@@ -273,7 +274,7 @@ public void Should_Use_Custom_Equality()
     set.Add(user2);
 
     // Assert
-    Assert.Single(set); // Only one user because they have the same ID
+    set.Should().ContainSingle(); // Only one user because they have the same ID
 }
 ``` 
 
@@ -302,7 +303,7 @@ var comparer = new UserIdComparer();
 var user1 = new User { Id = 1, Name = "John", Email = "john@test.com" };
 var user2 = new User { Id = 1, Name = "Jane", Email = "jane@test.com" };
 
-Assert.Equal(user1, user2, comparer); // true - same ID despite different names/emails
+user1.Should().BeEquivalentTo(user2, options => options.Using(comparer)); // true - same ID despite different names/emails
 
 // Use cases:
 [Fact]
@@ -316,7 +317,7 @@ public void Should_Find_User_By_Id_Regardless_Of_Other_Properties()
     var foundUser = repository.FindById(42);
     
     // Assert - Compare only by ID, ignoring other properties
-    Assert.Equal(expectedUser, foundUser, new UserIdComparer());
+    foundUser.Should().BeEquivalentTo(expectedUser, options => options.Using(new UserIdComparer()));
 }
 ```
 
@@ -336,9 +337,9 @@ account for precision errors.
 IEqualityComparer<double> comparer = Compare.DoubleAbsolute(0.01);
 
 // Usage in assertions
-Assert.Equal(1.001, 0.999, Compare.DoubleAbsolute(0.01)); // true - difference is 0.002, within tolerance
-Assert.Equal(3.14159, 3.14, Compare.DoubleAbsolute(0.002)); // true - difference is 0.00159, within tolerance
-Assert.Equal(10.0, 9.5, Compare.DoubleAbsolute(0.1)); // false - difference is 0.5, exceeds tolerance
+1.001.Should().BeApproximately(0.999, 0.01); // true - difference is 0.002, within tolerance
+3.14159.Should().BeApproximately(3.14, 0.002); // true - difference is 0.00159, within tolerance
+10.0.Should().NotBeApproximately(9.5, 0.1); // false - difference is 0.5, exceeds tolerance
 
 // Use cases:
 [Fact]
@@ -351,7 +352,7 @@ public void Should_Calculate_Area_With_Precision()
     double result = calculator.CalculateArea(radius: 5.0);
     
     // Assert - Account for floating-point precision errors
-    Assert.Equal(78.54, result, Compare.DoubleAbsolute(0.01));
+    result.Should().BeApproximately(78.54, 0.01);
 }
 ```
 
@@ -371,9 +372,9 @@ of the values being compared.
 IEqualityComparer<double> comparer = Compare.DoubleRelative(0.05); // 5% tolerance
 
 // Usage in assertions
-Assert.Equal(100.0, 102.0, Compare.DoubleRelative(0.05)); // true - 2% difference, within 5% tolerance
-Assert.Equal(1000.0, 1030.0, Compare.DoubleRelative(0.05)); // true - 3% difference, within 5% tolerance
-Assert.Equal(10.0, 12.0, Compare.DoubleRelative(0.05)); // false - 20% difference, exceeds 5% tolerance
+102.0.Should().BeApproximately(100.0, 100.0 * 0.05); // true - 2% difference, within 5% tolerance
+1030.0.Should().BeApproximately(1000.0, 1000.0 * 0.05); // true - 3% difference, within 5% tolerance
+12.0.Should().NotBeApproximately(10.0, 10.0 * 0.05); // false - 20% difference, exceeds 5% tolerance
 
 // Use cases:
 [Fact]
@@ -388,7 +389,7 @@ public void Should_Calculate_Growth_Rate_Within_Expected_Range()
     double expectedGrowth = 1050.0; // Expected 5% growth
     
     // Assert - Allow 2% variance in growth calculation
-    Assert.Equal(expectedGrowth, actualGrowth, Compare.DoubleRelative(0.02));
+    actualGrowth.Should().BeApproximately(expectedGrowth, expectedGrowth * 0.02);
 }
 ```
 
@@ -407,14 +408,12 @@ Compares arrays element-by-element, supporting custom element comparers.
 ```csharp
 // Basic array comparison
 var comparer = new ArrayEqualityComparer<int>();
-Assert.Equal(new[] { 1, 2, 3 }, new[] { 1, 2, 3 }, comparer); // true
+new[] { 1, 2, 3 }.Should().BeEquivalentTo(new[] { 1, 2, 3 }); // true
 
 // Array comparison with custom element comparer
-var doubleArrayComparer = new ArrayEqualityComparer<double>(Compare.DoubleAbsolute(0.01));
-Assert.Equal(
-    new[] { 1.001, 2.002, 3.003 }, 
+new[] { 1.001, 2.002, 3.003 }.Should().BeEquivalentTo(
     new[] { 1.000, 2.000, 3.000 }, 
-    doubleArrayComparer); // true
+    options => options.Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.01))); // true
 
 // Use cases:
 [Fact]
@@ -429,7 +428,7 @@ public void Should_Process_Data_Arrays_Correctly()
     double[] result = processor.DoubleValues(input);
     
     // Assert - Account for floating-point precision in array comparison
-    Assert.Equal(expected, result, new ArrayEqualityComparer<double>(Compare.DoubleAbsolute(0.001)));
+    result.Should().BeEquivalentTo(expected, options => options.Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, 0.001)));
 }
 ```
 
@@ -440,17 +439,13 @@ Similar to array comparer but for `IList<T>` collections.
 ```csharp
 // Basic list comparison
 var comparer = new ListEqualityComparer<string>();
-Assert.Equal(
-    new List<string> { "a", "b", "c" }, 
-    new List<string> { "a", "b", "c" }, 
-    comparer); // true
+new List<string> { "a", "b", "c" }.Should().BeEquivalentTo(
+    new List<string> { "a", "b", "c" }); // true
 
 // List comparison with custom element comparer
-var doubleListComparer = new ListEqualityComparer<double>(Compare.DoubleRelative(0.01));
-Assert.Equal(
-    new List<double> { 100.0, 200.0 },
+new List<double> { 100.0, 200.0 }.Should().BeEquivalentTo(
     new List<double> { 101.0, 198.0 },
-    doubleListComparer); // true (within 1% relative tolerance)
+    options => options.Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, ctx.Expectation * 0.01))); // true (within 1% relative tolerance)
 
 // Use cases:
 [Fact]
@@ -465,7 +460,7 @@ public void Should_Filter_And_Transform_Lists_Correctly()
     List<decimal> result = service.DoubleAndRound(input);
     
     // Assert
-    Assert.Equal(expected, result, new ListEqualityComparer<decimal>());
+    result.Should().BeEquivalentTo(expected);
 }
 ```
 
@@ -500,7 +495,7 @@ public void Should_Compare_Users_By_Custom_Logic()
     var user2 = new User { Id = 1, Name = "John", Email = "john@test.com" };
     
     // Act & Assert
-    Assert.Equal(user1, user2, comparer);
+    user1.Should().BeEquivalentTo(user2, options => options.Using(comparer));
 }
 ```
 
@@ -532,7 +527,7 @@ public void Should_Ignore_Timestamp_During_Comparison()
     };
     
     // Act & Assert - Same despite different IDs and timestamps
-    Assert.Equal(entry1, entry2, comparer);
+    entry1.Should().BeEquivalentTo(entry2, options => options.Using(comparer));
 }
 ```
 
@@ -564,7 +559,7 @@ public void Should_Use_Custom_Member_Comparers()
     };
     
     // Act & Assert - Equal despite case difference and minor price variance
-    Assert.Equal(product1, product2, comparer);
+    product1.Should().BeEquivalentTo(product2, options => options.Using(comparer));
 }
 ```
 
@@ -594,7 +589,7 @@ public void Should_Use_Custom_Type_Comparers()
     };
     
     // Act & Assert - Equal despite different times and minor amount difference
-    Assert.Equal(order1, order2, comparer);
+    order1.Should().BeEquivalentTo(order2, options => options.Using(comparer));
 }
 ```
 
@@ -623,7 +618,7 @@ public void Should_Ignore_Audit_Information()
     };
     
     // Act & Assert - Equal despite different audit info
-    Assert.Equal(doc1, doc2, comparer);
+    doc1.Should().BeEquivalentTo(doc2, options => options.Using(comparer));
 }
 ```
 
@@ -652,7 +647,7 @@ public void Should_Compare_Collections_With_Custom_Element_Logic()
     };
     
     // Act & Assert - Arrays and lists compared with custom decimal precision
-    Assert.Equal(summary1, summary2, comparer);
+    summary1.Should().BeEquivalentTo(summary2, options => options.Using(comparer));
 }
 ```
 
@@ -678,11 +673,11 @@ public void Should_Trace_Comparison_Process()
     bool areEqual = comparer.Equals(obj1, obj2);
     
     // Assert
-    Assert.False(areEqual);
-    
+    areEqual.Should().BeFalse();
+
     // Examine trace output to understand the failure
-    Assert.Contains(traceOutput, line => line.Contains("Check equality of ComplexObject"));
-    Assert.Contains(traceOutput, line => line.Contains("member comparison failed"));
+    traceOutput.Should().Contain(line => line.Contains("Check equality of ComplexObject"));
+    traceOutput.Should().Contain(line => line.Contains("member comparison failed"));
 }
 ```
 
@@ -710,8 +705,8 @@ public void Should_Generate_Timestamps_In_Sequence()
     var secondTimestamp = generator.GetCurrentTimestamp();
 
     // Assert
-    Assert.Equal(startTime, firstTimestamp);
-    Assert.Equal(startTime.AddMinutes(30), secondTimestamp);
+    firstTimestamp.Should().Be(startTime);
+    secondTimestamp.Should().Be(startTime.AddMinutes(30));
 }
 ``` 
 
@@ -800,12 +795,12 @@ public void Should_Log_And_Track_Time_Dependent_Operations()
     // Processor logs completion with timestamp
     
     // Assert
-    Assert.Contains(logMessages, msg => msg.Contains("Started at"));
-    Assert.Contains(logMessages, msg => msg.Contains("Completed at"));
-    Assert.Contains(progressValues, "Processing started");
-    Assert.Contains(progressValues, "Processing completed");
+    logMessages.Should().Contain(msg => msg.Contains("Started at"));
+    logMessages.Should().Contain(msg => msg.Contains("Completed at"));
+    progressValues.Should().Contain("Processing started");
+    progressValues.Should().Contain("Processing completed");
     var timestampedLogs = logMessages.Where(msg => msg.Contains("11:00")).ToList();
-    Assert.NotEmpty(timestampedLogs);
+    timestampedLogs.Should().NotBeEmpty();
 }
 ``` 
 
@@ -845,20 +840,13 @@ public void Should_Handle_Mixed_Data_Types_In_Collections()
     var results = processor.ProcessFinancialData();
     
     // Assert different aspects with appropriate comparers
-    Assert.Equal(
-        expectedAmounts,
-        results.Amounts, 
-        new ListEqualityComparer<decimal>()); // Exact decimal comparison
-    
-    Assert.Equal(
-        expectedRates,
-        results.InterestRates, 
-        new ArrayEqualityComparer<double>(Compare.DoubleRelative(0.001))); // Relative comparison for rates
-    
-    Assert.Equal(
-        expectedAccounts, 
-        results.Accounts, 
-        new ListEqualityComparer<Account>(new AccountNumberComparer())); // Custom object comparison
+    results.Amounts.Should().BeEquivalentTo(expectedAmounts); // Exact decimal comparison
+
+    results.InterestRates.Should().BeEquivalentTo(expectedRates,
+        options => options.Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, ctx.Expectation * 0.001))); // Relative comparison for rates
+
+    results.Accounts.Should().BeEquivalentTo(expectedAccounts,
+        options => options.Using(new AccountNumberComparer())); // Custom object comparison
 }
 ```
 
@@ -902,8 +890,8 @@ public class PersonServiceTests : TestSuite.Normal
         var result = service.CreatePerson(expectedPerson.Name, expectedPerson.Age);
 
         // Assert
-        Assert.Equal(expectedPerson.Name, result.Name);
-        Assert.Equal(expectedPerson.Age, result.Age);
+        result.Name.Should().Be(expectedPerson.Name);
+        result.Age.Should().Be(expectedPerson.Age);
     }
 
     [Fact] 
@@ -917,7 +905,7 @@ public class PersonServiceTests : TestSuite.Normal
         var results = service.ProcessPeople(people);
 
         // Assert
-        Assert.Equal(people.Count, results.Count);
+        results.Should().HaveCount(people.Count);
     }
 }
 ```
@@ -948,7 +936,7 @@ public class ProductTests : TestSuite.Normal
         var expensiveDiscount = calculator.CalculateDiscount(expensiveProduct);
         var cheapDiscount = calculator.CalculateDiscount(cheapProduct);
         
-        Assert.True(expensiveDiscount > cheapDiscount);
+        expensiveDiscount.Should().BeGreaterThan(cheapDiscount);
     }
 }
 ```
@@ -974,7 +962,7 @@ public class UserValidationTests : TestSuite.Normal
         var result = validator.ValidateAge(validAge);
 
         // Assert
-        Assert.True(result.IsValid);
+        result.IsValid.Should().BeTrue();
     }
 }
 ```
@@ -1323,9 +1311,9 @@ public class AdvancedUserTests : CustomTestSuite
         var result = service.ProcessUser(user);
 
         // Assert
-        Assert.True(result.Success);
-        Assert.True(user.IsActive);
-        Assert.True(user.CreatedDate < DateTime.Now);
+        result.Success.Should().BeTrue();
+        user.IsActive.Should().BeTrue();
+        user.CreatedDate.Should().BeBefore(DateTime.Now);
     }
     
     [Fact]
@@ -1339,9 +1327,9 @@ public class AdvancedUserTests : CustomTestSuite
         var result = service.CategorizeProduct(product);
 
         // Assert
-        Assert.Equal("Electronics", result.Category);
-        Assert.True(1d <= product.Price);
-        Assert.True(product.Price < 1000d);
+        result.Category.Should().Be("Electronics");
+        product.Price.Should().BeGreaterOrEqualTo(1d);
+        product.Price.Should().BeLessThan(1000d);
     }
 }
 ```

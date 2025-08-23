@@ -11,7 +11,7 @@ public class CompareTests
         var actual = Compare.DoubleAbsolute(1e-30);
 
         // Assert
-        Assert.IsType<AbsoluteDoubleComparer>(actual);
+        actual.Should().BeOfType<AbsoluteDoubleComparer>();
     }
 
     [Fact]
@@ -23,7 +23,7 @@ public class CompareTests
         var actual = Compare.DoubleRelative(1e-30, 1e-30);
 
         // Assert
-        Assert.IsType<RelativeDoubleComparer>(actual);
+        actual.Should().BeOfType<RelativeDoubleComparer>();
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public class CompareTests
         var actual = Compare.Array<int>();
 
         // Assert
-        Assert.IsType<ArrayEqualityComparer<int>>(actual);
+        actual.Should().BeOfType<ArrayEqualityComparer<int>>();
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public class CompareTests
         var actual = Compare.Array<string>();
 
         // Assert
-        Assert.IsType<ArrayEqualityComparer<string>>(actual);
+        actual.Should().BeOfType<ArrayEqualityComparer<string>>();
     }
 
     [Fact]
@@ -59,6 +59,6 @@ public class CompareTests
         var actual = Compare.List<int>();
 
         // Assert
-        Assert.IsType<ListEqualityComparer<int>>(actual);
+        actual.Should().BeOfType<ListEqualityComparer<int>>();
     }
 }

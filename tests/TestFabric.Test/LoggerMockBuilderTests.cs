@@ -108,8 +108,8 @@ public class LoggerMockBuilderTests
             "World");
 
         // Assert
-        Assert.Single(log);
-        Assert.Equal(expected, log.First());
+        log.Should().ContainSingle();
+        log.First().Should().Be(expected);
     }
 
     [Fact]
@@ -129,8 +129,8 @@ public class LoggerMockBuilderTests
             "World");
 
         // Assert
-        Assert.Single(log);
-        Assert.Equal(expected, log.First());
+        log.Should().ContainSingle();
+        log.First().Should().Be(expected);
     }
 
     [Fact]
@@ -153,8 +153,10 @@ public class LoggerMockBuilderTests
             "World");
 
         // Assert
-        Assert.Equal(expected, response);
+        response.Should().Be(expected);
     }
 
-    public class Foo;
+    public class Foo
+    {
+    }
 }

@@ -14,7 +14,7 @@ public class TestClockTests : TestSuite.Normal
         var timePassed = DateTime.UtcNow - actual;
 
         // Assert
-        Assert.True(timePassed < TimeSpan.FromSeconds(1));
+        timePassed.Should().BeLessThan(TimeSpan.FromSeconds(1));
     }
 
     [Fact]
@@ -29,7 +29,7 @@ public class TestClockTests : TestSuite.Normal
         var actual = sut.UtcNow;
 
         // Assert
-        Assert.Equal(startTime, actual);
+        actual.Should().Be(startTime);
     }
 
     [Fact]
@@ -46,6 +46,6 @@ public class TestClockTests : TestSuite.Normal
         var actual = sut.UtcNow;
 
         // Assert
-        Assert.Equal(startTime + timePassed, actual);
+        actual.Should().Be(startTime + timePassed);
     }
 }

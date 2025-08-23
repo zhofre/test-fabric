@@ -19,7 +19,7 @@ public class EqualityComparerMockBuilderTests
         var actual = sut.Object.Equals(arg1, arg2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -42,8 +42,8 @@ public class EqualityComparerMockBuilderTests
         var actual = sut.Object.Equals(arg1, arg2);
 
         // Assert
-        Assert.Equal(expected, actual);
-        Assert.True(callbackExecuted);
+        actual.Should().Be(expected);
+        callbackExecuted.Should().BeTrue();
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class EqualityComparerMockBuilderTests
         var actual = sut.Object.GetHashCode(arg);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -82,7 +82,7 @@ public class EqualityComparerMockBuilderTests
         var actual = sut.Object.GetHashCode(arg);
 
         // Assert
-        Assert.Equal(expected, actual);
-        Assert.True(callbackExecuted);
+        actual.Should().Be(expected);
+        callbackExecuted.Should().BeTrue();
     }
 }

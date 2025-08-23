@@ -30,6 +30,6 @@ public class ProgressMockBuilderTests
         sut.Object.Report(1);
 
         // Assert
-        Assert.True(callbackExecuted);
+        callbackExecuted.Should().BeTrue();
     }
 }

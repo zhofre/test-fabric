@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Using Include="AwesomeAssertions"/>
         <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting"/>
     </ItemGroup>
 

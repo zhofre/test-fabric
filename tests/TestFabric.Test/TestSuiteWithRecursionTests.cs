@@ -11,7 +11,7 @@ public class TestSuiteWithRecursionTests : TestSuite.WithRecursion
         var actual = Factory.Create<RecursionDummy>();
 
         // Assert
-        Assert.NotNull(actual);
+        actual.Should().NotBeNull();
     }
 
     [Fact]
@@ -27,8 +27,8 @@ public class TestSuiteWithRecursionTests : TestSuite.WithRecursion
         var updated = dummy2.RecursiveItem;
 
         // Assert
-        Assert.Same(dummy1, dummy2.RecursiveItem);
-        Assert.NotSame(original, updated);
+        dummy2.RecursiveItem.Should().BeSameAs(dummy1);
+        updated.Should().NotBeSameAs(original);
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local

@@ -15,7 +15,7 @@ public class ItemPickerTests
         var actual = sut.Pick(range);
 
         // Assert
-        Assert.Contains(actual, items);
+        items.Should().Contain(actual);
     }
 
     [Fact]
@@ -25,7 +25,8 @@ public class ItemPickerTests
         var range = new ItemRange<int>();
         var sut = new ItemPicker<int>();
 
-        // Act
-        var ex = Assert.Throws<ArgumentException>(() => sut.Pick(range));
+        // Act + Assert
+        Action act = () => sut.Pick(range);
+        act.Should().Throw<ArgumentException>();
     }
 }

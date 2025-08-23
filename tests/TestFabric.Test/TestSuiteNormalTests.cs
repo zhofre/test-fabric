@@ -17,7 +17,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<Guid>();
 
         // Assert
-        Assert.NotEqual(Guid.Empty, actual);
+        actual.Should().NotBe(Guid.Empty);
     }
 
     [Fact]
@@ -28,8 +28,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<int>();
 
         // Assert
-        Assert.True(-RandomIntFactory.MediumBound < actual);
-        Assert.True(actual < RandomIntFactory.MediumBound);
+        actual.Should().BeGreaterThan(-RandomIntFactory.MediumBound);
+        actual.Should().BeLessThan(RandomIntFactory.MediumBound);
     }
 
     [Fact]
@@ -40,16 +40,17 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Factory.Create<double>();
 
         // Assert
-        Assert.True(-RandomDoubleFactory.MediumBound < actual);
-        Assert.True(actual < RandomDoubleFactory.MediumBound);
+        actual.Should().BeGreaterThan(-RandomDoubleFactory.MediumBound);
+        actual.Should().BeLessThan(RandomDoubleFactory.MediumBound);
     }
 
     [Fact]
     public void Given_Nothing_When_CreateRecursionDummy_Then_Exception()
     {
         // Arrange
-        // Act+Assert
-        Assert.Throws<FactoryException>(Factory.Create<RecursionDummy>);
+        // Act + Assert
+        Action act = () => Factory.Create<RecursionDummy>();
+        act.Should().Throw<FactoryException>();
     }
 
     [Theory]
@@ -66,7 +67,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = input.ToString(CultureInfo.CurrentCulture);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -80,7 +81,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Thread.CurrentThread.CurrentCulture;
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -92,7 +93,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual2 = Factory.Create<RandomDoubleFactory>();
 
         // Assert
-        Assert.Same(actual1, actual2);
+        actual2.Should().BeSameAs(actual1);
     }
 
     [Fact]
@@ -103,8 +104,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Random<int>();
 
         // Assert
-        Assert.True(actual >= -RandomIntFactory.LargeBound);
-        Assert.True(actual <= RandomIntFactory.LargeBound);
+        actual.Should().BeGreaterThanOrEqualTo(-RandomIntFactory.LargeBound);
+        actual.Should().BeLessThanOrEqualTo(RandomIntFactory.LargeBound);
     }
 
     [Fact]
@@ -117,7 +118,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Random<int>(count);
 
         // Assert
-        Assert.Equal(count, actual.Count());
+        actual.Count().Should().Be(count);
     }
 
     [Fact]
@@ -131,8 +132,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeGreaterThanOrEqualTo(minInclusive);
+        actual.Should().BeLessThan(maxExclusive);
     }
 
     [Fact]
@@ -145,7 +146,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -159,8 +160,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeGreaterThanOrEqualTo(minInclusive);
+        actual.Should().BeLessThan(maxExclusive);
     }
 
     [Fact]
@@ -173,7 +174,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -187,8 +188,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeGreaterThanOrEqualTo(minInclusive);
+        actual.Should().BeLessThan(maxExclusive);
     }
 
     [Fact]
@@ -201,7 +202,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -215,8 +216,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeGreaterThanOrEqualTo(minInclusive);
+        actual.Should().BeLessThan(maxExclusive);
     }
 
     [Fact]
@@ -229,7 +230,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -243,8 +244,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeGreaterThanOrEqualTo(minInclusive);
+        actual.Should().BeLessThan(maxExclusive);
     }
 
     [Fact]
@@ -257,7 +258,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -271,8 +272,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeOnOrAfter(minInclusive);
+        actual.Should().BeBefore(maxExclusive);
     }
 
     [Fact]
@@ -285,7 +286,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        actual.Should().BeOneOf(items);
     }
 
     [Fact]
@@ -299,8 +300,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(minInclusive, maxExclusive);
 
         // Assert
-        Assert.True(actual >= minInclusive);
-        Assert.True(actual < maxExclusive);
+        actual.Should().BeOnOrAfter(minInclusive);
+        actual.Should().BeBefore(maxExclusive);
     }
 
     [Fact]
@@ -318,7 +319,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        items.Should().Contain(actual);
     }
 
     [Fact]
@@ -331,7 +332,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = InRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        items.Should().Contain(actual);
     }
 
     [Fact]
@@ -347,9 +348,9 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
             .ToArray();
 
         // Assert
-        Assert.Equal(count, actual.Length);
-        Assert.True(actual.All(x => x >= minInclusive));
-        Assert.True(actual.All(x => x < maxExclusive));
+        actual.Length.Should().Be(count);
+        actual.Should().OnlyContain(x => x >= minInclusive);
+        actual.Should().OnlyContain(x => x < maxExclusive);
     }
 
     [Fact]
@@ -364,8 +365,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
             .ToArray();
 
         // Assert
-        Assert.Equal(count, actual.Length);
-        Assert.True(actual.All(x => items.Contains(x)));
+        actual.Length.Should().Be(count);
+        actual.Should().OnlyContain(x => items.Contains(x));
     }
 
     [Fact]
@@ -380,7 +381,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = dummy1.RecursiveItem;
 
         // Assert
-        Assert.Same(dummy2, actual);
+        actual.Should().BeSameAs(dummy2);
     }
 
     [Fact]
@@ -392,7 +393,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = FirstName();
 
         // Assert
-        Assert.Contains(actual, FirstNames);
+        actual.Should().BeOneOf(FirstNames);
     }
 
     [Fact]
@@ -404,7 +405,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = LastName();
 
         // Assert
-        Assert.Contains(actual, LastNames);
+        actual.Should().BeOneOf(LastNames);
     }
 
     [Fact]
@@ -417,8 +418,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var parts = fullName.Split(' ');
 
         // Assert
-        Assert.Equal(3, parts.Length);
-        Assert.Contains(parts[0], FirstNames);
+        parts.Length.Should().Be(3);
+        parts[0].Should().BeOneOf(FirstNames);
     }
 
     [Fact]
@@ -431,8 +432,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var parts = fullName.Split(' ');
 
         // Assert
-        Assert.Equal(2, parts.Length);
-        Assert.Contains(parts[0], FirstNames);
+        parts.Length.Should().Be(2);
+        parts[0].Should().BeOneOf(FirstNames);
     }
 
     [Fact]
@@ -445,9 +446,9 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var parts = email.Split('@', '.');
 
         // Act & Assert
-        Assert.Contains(parts[0], FirstNames.Select(name => name.ToLower()));
-        Assert.Contains(parts[1], LastNames.Select(name => name.ToLower()));
-        Assert.Contains($"@{parts[2]}.{parts[3]}", EmailDomains);
+        parts[0].Should().BeOneOf(FirstNames.Select(name => name.ToLower()));
+        parts[1].Should().BeOneOf(LastNames.Select(name => name.ToLower()));
+        EmailDomains.Should().Contain($"@{parts[2]}.{parts[3]}");
     }
 
     [Fact]
@@ -459,7 +460,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = CompanyName();
 
         // Assert
-        Assert.Contains(actual, CompanyNames);
+        actual.Should().BeOneOf(CompanyNames);
     }
 
     [Fact]
@@ -471,7 +472,7 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = Country();
 
         // Assert
-        Assert.Contains(actual, Countries);
+        actual.Should().BeOneOf(Countries);
     }
 
     [Fact]
@@ -484,8 +485,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var city = City(country);
 
         // Assert
-        Assert.NotEmpty(city);
-        Assert.Contains(city, Cities[country]);
+        city.Should().NotBeNullOrEmpty();
+        city.Should().BeOneOf(Cities[country]);
     }
 
     [Fact]
@@ -495,7 +496,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var randomString = Guid.NewGuid().ToString();
 
         // Act & Assert
-        Assert.Throws<ArgumentException>(() => City(randomString));
+        var action = () => City(randomString);
+        action.Should().Throw<ArgumentException>();
     }
 
     [Fact]
@@ -511,8 +513,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var now = DateTime.UtcNow;
         logger.WriteLine($"Now: {now}");
         logger.WriteLine($"Actual: {actual}");
-        Assert.True(actual >= now.AddDays(-daysBack));
-        Assert.True(actual <= now);
+        actual.Should().BeOnOrAfter(now.AddDays(-daysBack));
+        actual.Should().BeOnOrBefore(now);
     }
 
     [Fact]
@@ -528,8 +530,8 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var now = DateTimeOffset.UtcNow;
         logger.WriteLine($"Now: {now}");
         logger.WriteLine($"Actual: {actual}");
-        Assert.True(actual >= now.AddDays(-daysBack));
-        Assert.True(actual <= now);
+        actual.Should().BeOnOrAfter(now.AddDays(-daysBack));
+        actual.Should().BeOnOrBefore(now);
     }
 
     [Fact]
@@ -542,9 +544,9 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
         var actual = FromTemplate(dummy, x => x.Age);
 
         // Assert
-        Assert.Equal(dummy.Name, actual.Name);
-        Assert.NotEqual(dummy.Age, actual.Age);
-        Assert.Equal(dummy.Title, actual.Title);
+        actual.Name.Should().Be(dummy.Name);
+        actual.Age.Should().NotBe(dummy.Age);
+        actual.Title.Should().Be(dummy.Title);
     }
 
     [Fact]
@@ -562,12 +564,12 @@ public class TestSuiteNormalTests(ITestOutputHelper logger) : TestSuite.Normal
             .ToArray();
 
         // Assert
-        Assert.Equal(count, actual.Length);
+        actual.Length.Should().Be(count);
         foreach (var item in actual)
         {
-            Assert.NotEqual(dummy.Name, item.Name);
-            Assert.Equal(dummy.Age, item.Age);
-            Assert.Equal(dummy.Title, item.Title);
+            item.Name.Should().NotBe(dummy.Name);
+            item.Age.Should().Be(dummy.Age);
+            item.Title.Should().Be(dummy.Title);
         }
     }
 
