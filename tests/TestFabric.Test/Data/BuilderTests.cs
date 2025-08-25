@@ -53,10 +53,7 @@ public class ObjectBuilderTests
             .CreateMany();
 
         // Assert
-        foreach (var person in actual)
-        {
-            person.Name.Should().Be(name);
-        }
+        actual.Should().OnlyContain(person => person.Name == name);
     }
 
     // ReSharper disable once MemberCanBePrivate.Global

@@ -27,9 +27,9 @@ public class OrderFactoryTests : TestSuite.Normal
         var actual = sut.Create(customer);
 
         // Assert
-        Assert.NotNull(actual);
-        Assert.Equal(id, actual.Id);
-        Assert.Equal(customer, actual.Customer);
+        actual.Should().NotBeNull();
+        actual.Id.Should().Be(id);
+        actual.Customer.Should().Be(customer);
     }
 
     [Fact]
@@ -59,6 +59,6 @@ public class OrderFactoryTests : TestSuite.Normal
         var actual = order2.OrderDate - order1.OrderDate;
 
         // Assert
-        Assert.Equal(TimeSpan.FromMinutes(minutes), actual);
+        actual.Should().Be(TimeSpan.FromMinutes(minutes));
     }
 }

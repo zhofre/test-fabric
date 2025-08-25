@@ -278,8 +278,8 @@ public class RandomIntFactoryTests(ITestOutputHelper outputHelper)
         for (var i = 0; i < TestCount; i++)
         {
             var item = actual[i];
-            Assert.True(RandomIntFactory.MediumBound <= item);
-            Assert.True(item <= RandomIntFactory.LargeBound);
+            item.Should().BeGreaterThanOrEqualTo(RandomIntFactory.MediumBound);
+            item.Should().BeLessThanOrEqualTo(RandomIntFactory.LargeBound);
         }
     }
 }

@@ -31,7 +31,7 @@ public class RelativeDoubleComparerTests
         var actual = sut.Equals(x, y);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Theory]
@@ -54,6 +54,6 @@ public class RelativeDoubleComparerTests
         var actual = sut.GetHashCode(value);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 }

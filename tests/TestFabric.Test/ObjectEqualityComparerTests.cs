@@ -12,7 +12,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(null!, null!);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(foo, null!);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(null!, foo);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(foo, foo);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(foo, sameFoo);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.Equals(foo, otherFoo);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class ObjectEqualityComparerTests(ITestOutputHelper outputHelper)
         var actual = sut.GetHashCode(foo);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public record Foo(Guid Id, string Name, int Age);

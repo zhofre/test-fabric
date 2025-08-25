@@ -18,7 +18,7 @@ public class EqualityComparerBuilderTests
         var result = sut.Equals(array1, array2);
 
         // Assert
-        Assert.False(result);
+        result.Should().BeFalse();
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class EqualityComparerBuilderTests
         var result = sut.Equals(list1, list2);
 
         // Assert
-        Assert.False(result);
+        result.Should().BeFalse();
     }
 
     #endregion
@@ -61,7 +61,7 @@ public class EqualityComparerBuilderTests
             out _);
 
         // Assert
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Fact]
@@ -76,8 +76,8 @@ public class EqualityComparerBuilderTests
             out var actualMemberInfo);
 
         // Assert
-        Assert.True(actual);
-        Assert.Equal(expectedMemberInfo, actualMemberInfo);
+        actual.Should().BeTrue();
+        actualMemberInfo.Should().Be(expectedMemberInfo);
     }
 
     [Fact]
@@ -92,8 +92,8 @@ public class EqualityComparerBuilderTests
             out var actualMemberInfo);
 
         // Assert
-        Assert.True(actual);
-        Assert.Equal(expectedMemberInfo, actualMemberInfo);
+        actual.Should().BeTrue();
+        actualMemberInfo.Should().Be(expectedMemberInfo);
     }
 
     [Fact]
@@ -108,8 +108,8 @@ public class EqualityComparerBuilderTests
             out var actualMemberInfo);
 
         // Assert
-        Assert.True(actual);
-        Assert.Equal(expectedMemberInfo, actualMemberInfo);
+        actual.Should().BeTrue();
+        actualMemberInfo.Should().Be(expectedMemberInfo);
     }
 
     [Fact]
@@ -122,8 +122,8 @@ public class EqualityComparerBuilderTests
             out var actualMemberInfo);
 
         // Assert
-        Assert.False(actual);
-        Assert.Null(actualMemberInfo);
+        actual.Should().BeFalse();
+        actualMemberInfo.Should().BeNull();
     }
 
     [Theory]
@@ -141,7 +141,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(x, y);
 
         // Act
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyA?, DummyA?, bool> GetDefaultDummyATheoryData()
@@ -179,7 +179,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(x, y);
 
         // Act
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Fact]
@@ -196,7 +196,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(x, y);
 
         // Act
-        Assert.False(actual);
+        actual.Should().BeFalse();
     }
 
     [Theory]
@@ -217,7 +217,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Act
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyA?, DummyA?, bool> GetIgnoreCaseDummyATheoryData()
@@ -256,7 +256,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Act
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyA?, DummyA?, bool> GetIgnoreFieldATheoryData()
@@ -289,7 +289,7 @@ public class EqualityComparerBuilderTests
         var result = sut.Equals(null, dummy);
 
         // Assert
-        Assert.False(result);
+        result.Should().BeFalse();
     }
 
     #endregion
@@ -319,8 +319,8 @@ public class EqualityComparerBuilderTests
             out var actualMemberInfo);
 
         // Assert
-        Assert.True(actual);
-        Assert.Equal(expectedMemberInfo, actualMemberInfo);
+        actual.Should().BeTrue();
+        actualMemberInfo.Should().Be(expectedMemberInfo);
     }
 
     [Theory]
@@ -338,7 +338,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyB?, DummyB?, bool> GetDefaultDummyBTheoryData()
@@ -376,7 +376,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyB?, DummyB?, bool> GetStringTypeIgnoreCaseDummyBTheoryData()
@@ -422,7 +422,7 @@ public class EqualityComparerBuilderTests
         var x = _fix.Create<string>();
 
         // Act + Assert
-        Assert.Throws<NotImplementedException>(() => sut.GetHashCode(x));
+        FluentActions.Invoking(() => sut.GetHashCode(x)).Should().Throw<NotImplementedException>();
     }
 
     [Theory]
@@ -445,7 +445,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     [Theory]
@@ -464,7 +464,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyB?, DummyB?, bool> GetAlwaysTrueItemComparerOnArrayDummyBTheoryData()
@@ -510,7 +510,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyC?, DummyC?, bool> GetDefaultDummyCTheoryData()
@@ -560,7 +560,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -582,7 +582,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -606,7 +606,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -637,8 +637,8 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.NotEqual(d1.ListField![0].Property, d2.ListField[0].Property);
-        Assert.True(actual);
+        d1.ListField![0].Property.Should().NotBe(d2.ListField[0].Property);
+        actual.Should().BeTrue();
     }
 
     [Fact]
@@ -663,8 +663,8 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.True(actual);
-        Assert.NotEmpty(tracing);
+        actual.Should().BeTrue();
+        tracing.Should().NotBeEmpty();
     }
 
     #endregion
@@ -692,7 +692,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(d1, d2);
 
         // Assert
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
     }
 
     public static TheoryData<DummyD?, DummyD?, bool> GetDefaultDummyTheoryData()
@@ -750,7 +750,7 @@ public class EqualityComparerBuilderTests
         var actual = sut.Equals(parent, parentClone);
 
         // Assert
-        Assert.True(actual);
+        actual.Should().BeTrue();
     }
 
     private static DummyEParent CreateParent(Guid id, List<DummyEChild> children)
