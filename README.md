@@ -2,7 +2,8 @@
 
 ## Introduction
 
-Testing toolkit leveraging Moq and AutoFixture to simplify creating unit and integration tests in .NET projects.
+Testing toolkit leveraging Awesome Assertions, Moq, and AutoFixture to simplify creating unit and integration tests in
+.NET projects.
 
 ### Benefits
 
@@ -17,6 +18,7 @@ Testing toolkit leveraging Moq and AutoFixture to simplify creating unit and int
 - .NET Standard 2.0 or higher, .NET Framework 4.6.2 or higher, .NET 5 or higher
 - Moq 4.20.72 or higher
 - AutoFixture 4.18.1 or higher
+- AwesomeAssertions 9.1.0 or higher
 - Microsoft.Extensions.Logging.Abstractions 8.0.0 or higher
 
 ### Installation
