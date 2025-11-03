@@ -14,7 +14,7 @@ public class NumberRangeTests
         var range = new NumberRange<int>(expectedStart, expectedEnd);
 
         // Assert
-        Assert.Equal(expectedStart, range.Start);
-        Assert.Equal(expectedEnd, range.End);
+        range.Start.Should().Be(expectedStart);
+        range.End.Should().Be(expectedEnd);
     }
 }

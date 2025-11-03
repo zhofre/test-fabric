@@ -21,7 +21,7 @@ public class FactoryTests
         var actual = sut.Create<Person>();
 
         // Assert
-        Assert.NotNull(actual.Name);
+        actual.Name.Should().NotBeNull();
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class FactoryTests
         var actual = sut.CreateMany<Person>();
 
         // Assert
-        Assert.NotEmpty(actual);
+        actual.Should().NotBeEmpty();
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public class FactoryTests
         var actual = sut.CreateMany<Person>(count);
 
         // Assert
-        Assert.Equal(count, actual.Count());
+        actual.Count().Should().Be(count);
     }
 
     [Fact]
@@ -64,8 +64,8 @@ public class FactoryTests
         var actualCount = actual.Count();
 
         // Assert
-        Assert.True(actualCount >= minCount);
-        Assert.True(actualCount <= maxCount);
+        actualCount.Should().BeGreaterThanOrEqualTo(minCount);
+        actualCount.Should().BeLessThanOrEqualTo(maxCount);
     }
 
     [Fact]
@@ -74,8 +74,9 @@ public class FactoryTests
         // Arrange
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<FactoryException>(sut.Create<ErrorPerson>);
+        // Act + Assert
+        Action act1 = () => sut.Create<ErrorPerson>();
+        act1.Should().Throw<FactoryException>();
     }
 
     [Fact]
@@ -84,8 +85,9 @@ public class FactoryTests
         // Arrange
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<FactoryException>(sut.CreateMany<ErrorPerson>);
+        // Act + Assert
+        Action act2 = () => sut.CreateMany<ErrorPerson>();
+        act2.Should().Throw<FactoryException>();
     }
 
     [Fact]
@@ -96,8 +98,9 @@ public class FactoryTests
         const int maxExcl = 10;
         var sut = CreateSut();
 
-        // Act+Assert
-        Assert.Throws<InvalidOperationException>(() => sut.CreateFromRange(minIncl, maxExcl));
+        // Act + Assert
+        Action act3 = () => sut.CreateFromRange(minIncl, maxExcl);
+        act3.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -113,8 +116,8 @@ public class FactoryTests
         var actual = sut.CreateFromRange(minIncl, maxExcl);
 
         // Assert
-        Assert.True(minIncl <= actual);
-        Assert.True(actual < maxExcl);
+        actual.Should().BeGreaterThanOrEqualTo(minIncl);
+        actual.Should().BeLessThan(maxExcl);
     }
 
     [Fact]
@@ -132,8 +135,8 @@ public class FactoryTests
         // Assert
         foreach (var item in actual)
         {
-            Assert.True(minIncl <= item);
-            Assert.True(item < maxExcl);
+            item.Should().BeGreaterThanOrEqualTo(minIncl);
+            item.Should().BeLessThan(maxExcl);
         }
     }
 
@@ -151,11 +154,11 @@ public class FactoryTests
         var actual = sut.CreateManyFromRange(count, minIncl, maxExcl);
 
         // Assert
-        Assert.Equal(count, actual.Count());
+        actual.Count().Should().Be(count);
         foreach (var item in actual)
         {
-            Assert.True(minIncl <= item);
-            Assert.True(item < maxExcl);
+            item.Should().BeGreaterThanOrEqualTo(minIncl);
+            item.Should().BeLessThan(maxExcl);
         }
     }
 
@@ -171,7 +174,7 @@ public class FactoryTests
         var actual = sut.CreateFromRange(items);
 
         // Assert
-        Assert.Contains(actual, items);
+        items.Should().Contain(actual);
     }
 
     [Fact]
@@ -188,7 +191,7 @@ public class FactoryTests
         // Assert
         foreach (var item in actual)
         {
-            Assert.Contains(item, items);
+            items.Should().Contain(item);
         }
     }
 
@@ -205,10 +208,10 @@ public class FactoryTests
         var actual = sut.CreateManyFromRange(count, items);
 
         // Assert
-        Assert.Equal(count, actual.Count());
+        actual.Count().Should().Be(count);
         foreach (var item in actual)
         {
-            Assert.Contains(item, items);
+            items.Should().Contain(item);
         }
     }
 
@@ -222,7 +225,7 @@ public class FactoryTests
         var actual = sut.Build<Person>();
 
         // Assert
-        Assert.IsType<ObjectBuilder<Person>>(actual);
+        actual.Should().BeOfType<ObjectBuilder<Person>>();
     }
 
     [Fact]
@@ -238,7 +241,7 @@ public class FactoryTests
         var actual = sut.BuildConstrainedFromRange(minIncl, maxExcl);
 
         // Assert
-        Assert.IsType<ConstrainedBuilder<int>>(actual);
+        actual.Should().BeOfType<ConstrainedBuilder<int>>();
     }
 
     [Fact]
@@ -253,7 +256,7 @@ public class FactoryTests
         var actual = sut.BuildConstrainedFromRange(items);
 
         // Assert
-        Assert.IsType<ConstrainedBuilder<int>>(actual);
+        actual.Should().BeOfType<ConstrainedBuilder<int>>();
     }
 
     public class Person

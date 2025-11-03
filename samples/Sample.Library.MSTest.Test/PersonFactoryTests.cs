@@ -22,8 +22,8 @@ public sealed class PersonFactoryTests : TestSuite.Normal
         var actual = sut.Create(name, age);
 
         // Assert
-        Assert.AreEqual(id, actual.Id);
-        Assert.AreEqual(name, actual.Name);
-        Assert.AreEqual(age, actual.Age);
+        actual.Id.Should().Be(id);
+        actual.Name.Should().Be(name);
+        actual.Age.Should().Be(age);
     }
 }

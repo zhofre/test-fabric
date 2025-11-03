@@ -13,8 +13,8 @@ public class PersonTests : TestSuite.Normal
         var person = Random<Person>();
 
         // Assert
-        Assert.NotNull(person);
-        Assert.NotEqual(Guid.Empty, person.Id);
+        person.Should().NotBeNull();
+        person.Id.Should().NotBe(Guid.Empty);
     }
 
     [Fact]
@@ -29,6 +29,6 @@ public class PersonTests : TestSuite.Normal
             .Create();
 
         // Assert
-        Assert.Equal(id, person.Id);
+        person.Id.Should().Be(id);
     }
 }

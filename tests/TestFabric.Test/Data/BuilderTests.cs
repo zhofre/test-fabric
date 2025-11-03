@@ -3,7 +3,7 @@
 [TestSubject(typeof(ObjectBuilder<>))]
 public class ObjectBuilderTests
 {
-    public static ObjectBuilder<T> CreateSut<T>()
+    private static ObjectBuilder<T> CreateSut<T>()
     {
         var fixture = new Fixture();
         return new ObjectBuilder<T>(fixture.Build<T>());
@@ -22,7 +22,7 @@ public class ObjectBuilderTests
             .Create();
 
         // Assert
-        Assert.Equal(name, actual.Name);
+        actual.Name.Should().Be(name);
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class ObjectBuilderTests
             .Create();
 
         // Assert
-        Assert.Null(actual.Name);
+        actual.Name.Should().BeNull();
     }
 
     [Fact]
@@ -53,12 +53,11 @@ public class ObjectBuilderTests
             .CreateMany();
 
         // Assert
-        foreach (var person in actual)
-        {
-            Assert.Equal(name, person.Name);
-        }
+        actual.Should().OnlyContain(person => person.Name == name);
     }
 
+    // ReSharper disable once MemberCanBePrivate.Global
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Person
     {
         public string? Name { get; set; }

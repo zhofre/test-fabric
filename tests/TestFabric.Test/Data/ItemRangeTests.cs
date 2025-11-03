@@ -13,9 +13,9 @@ public class ItemRangeTests
         var range = new ItemRange<int>(items);
 
         // Assert
-        Assert.NotNull(range.Items);
-        Assert.IsType<int[]>(range.Items);
-        Assert.Equal(items, range.Items);
-        Assert.NotSame(items, range.Items); // Ensure a copy was made
+        range.Items.Should().NotBeNull();
+        range.Items.Should().BeOfType<int[]>();
+        range.Items.Should().Equal(items);
+        range.Items.Should().NotBeSameAs(items); // Ensure a copy was made
     }
 }
