@@ -16,17 +16,16 @@ public interface IBuilder<out T>
     /// <summary>
     ///     Creates many anonymous objects.
     /// </summary>
-    /// <typeparam name="T">type to create</typeparam>
     /// <returns>anonymous objects</returns>
     IEnumerable<T> CreateMany();
 
     /// <summary>
     ///     Creates many anonymous objects.
     /// </summary>
-    /// <typeparam name="T">type to create</typeparam>
     /// <param name="count">number of objects to create</param>
     /// <returns>anonymous objects</returns>
-    IEnumerable<T> CreateMany(int count);
+    IEnumerable<T> CreateMany(
+        int count);
 
     /// <summary>
     ///     Creates many constrained anonymous objects.
@@ -34,5 +33,7 @@ public interface IBuilder<out T>
     /// <param name="countMin">min number of objects to create (inclusive)</param>
     /// <param name="countMax">max number of objects to create (inclusive)</param>
     /// <returns>anonymous objects</returns>
-    IEnumerable<T> CreateMany(int countMin, int countMax);
+    IEnumerable<T> CreateMany(
+        int countMin,
+        int countMax);
 }

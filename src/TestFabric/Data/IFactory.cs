@@ -1,5 +1,8 @@
 ﻿namespace TestFabric.Data;
 
+/// <summary>
+///     Provides methods to create objects and object collections dynamically.
+/// </summary>
 public interface IFactory
 {
     /// <summary>
@@ -22,7 +25,8 @@ public interface IFactory
     /// <typeparam name="T">type to create</typeparam>
     /// <param name="count">number of objects to create</param>
     /// <returns>anonymous objects</returns>
-    IEnumerable<T> CreateMany<T>(int count);
+    IEnumerable<T> CreateMany<T>(
+        int count);
 
     /// <summary>
     ///     Creates many anonymous objects.
@@ -31,7 +35,9 @@ public interface IFactory
     /// <param name="countMin">min number of objects to create (inclusive)</param>
     /// <param name="countMax">max number of objects to create (inclusive)</param>
     /// <returns>anonymous objects</returns>
-    IEnumerable<T> CreateMany<T>(int countMin, int countMax);
+    IEnumerable<T> CreateMany<T>(
+        int countMin,
+        int countMax);
 
     /// <summary>
     ///     Creates an anonymous object from a range.
@@ -77,7 +83,8 @@ public interface IFactory
     /// <typeparam name="T"></typeparam>
     /// <param name="items">values in range</param>
     /// <returns>object from the provided items</returns>
-    T CreateFromRange<T>(IEnumerable<T> items);
+    T CreateFromRange<T>(
+        IEnumerable<T> items);
 
     /// <summary>
     ///     Creates many anonymous objects from a range.
@@ -85,7 +92,8 @@ public interface IFactory
     /// <typeparam name="T"></typeparam>
     /// <param name="items">values in range</param>
     /// <returns></returns>
-    IEnumerable<T> CreateManyFromRange<T>(IEnumerable<T> items);
+    IEnumerable<T> CreateManyFromRange<T>(
+        IEnumerable<T> items);
 
     /// <summary>
     ///     Creates many anonymous objects from a range.
@@ -130,5 +138,6 @@ public interface IFactory
     /// <typeparam name="T">type to create</typeparam>
     /// <param name="items">values in range</param>
     /// <returns>a constrained data builder</returns>
-    IConstrainedBuilder<T> BuildConstrainedFromRange<T>(IEnumerable<T> items);
+    IConstrainedBuilder<T> BuildConstrainedFromRange<T>(
+        IEnumerable<T> items);
 }

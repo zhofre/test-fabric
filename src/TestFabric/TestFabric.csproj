@@ -4,6 +4,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DocumentationFile>bin\$(Configuration)\TestFabric.xml</DocumentationFile>
         <Title>Test Fabric</Title>
         <Authors>Geoffrey Decan</Authors>
         <Company>Zhofre</Company>

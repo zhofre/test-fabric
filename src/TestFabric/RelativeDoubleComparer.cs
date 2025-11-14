@@ -1,10 +1,26 @@
 ﻿namespace TestFabric;
 
+/// Compares two double-precision floating-point numbers for equality within a specified relative and absolute tolerance.
+/// This comparer is designed to handle the challenges of floating-point arithmetic, including rounding errors and
+/// precision loss. It uses relative and absolute tolerances to determine if two double values are close enough
+/// to be considered equal.
+/// A relative tolerance is useful when comparing values that are large in magnitude, while an absolute tolerance
+/// is better suited for comparisons involving values close to zero. Both tolerances are combined to ensure precise
+/// and flexible comparisons in a variety of numerical scenarios.
+/// The following cases are handled by this comparer:
+/// - Floating-point values within computed tolerance thresholds are considered equal.
+/// - NaN (Not-a-Number) values are equal to each other, but not to any other value.
+/// - Positive and negative infinity values follow IEEE 754 equality rules.
+/// - Very small numbers, with absolute values below the specified absolute tolerance, are compared directly.
+/// Implements the standard IEqualityComparer{double} interface to support equality comparisons and hash-based collections
+/// such as HashSet{double} and Dictionary{double, T}.
 public class RelativeDoubleComparer(double relativeTolerance = 1e-3, double absoluteTolerance = 1e-30)
     : IEqualityComparer<double>
 {
     /// <inheritdoc />
-    public bool Equals(double x, double y)
+    public bool Equals(
+        double x,
+        double y)
     {
         if (double.IsNaN(x) || double.IsNaN(y))
         {
@@ -28,7 +44,8 @@ public class RelativeDoubleComparer(double relativeTolerance = 1e-3, double abso
     }
 
     /// <inheritdoc />
-    public int GetHashCode(double obj)
+    public int GetHashCode(
+        double obj)
     {
         // this is a non-performant implementation to make sure HashSet/Dictionary work correctly
         if (double.IsNaN(obj) || Math.Abs(obj) < absoluteTolerance)

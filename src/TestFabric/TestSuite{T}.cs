@@ -9,6 +9,19 @@ using TestFabric.Data;
 
 namespace TestFabric;
 
+/// <summary>
+///     Represents a testing suite configured to work with a specific data factory builder type.
+///     This class is designed to assist in generating or managing data for tests and provides a set of
+///     predefined static resources for commonly used data such as email domains, names, companies, and countries.
+/// </summary>
+/// <typeparam name="TDataFactoryBuilder">
+///     The type of data factory builder associated with this test suite.
+///     It must implement the <see cref="IFactoryBuilder" /> interface and provide a parameterless constructor.
+/// </typeparam>
+/// <remarks>
+///     This class is designed for extensibility and reuse in test environments where a wide spectrum of
+///     pre-configured data resources is often required for testing scenarios.
+/// </remarks>
 public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactoryBuilder, new()
 {
     /// <summary>
@@ -102,6 +115,10 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
 
     // ReSharper disable once StaticMemberInGenericType
     // it is intended that there is a different instance per type of test class
+    /// <summary>
+    ///     Represents a static instance of a factory used for object creation, random data generation, and other utilities.
+    ///     This instance is specific to each test class type within the generic test suite.
+    /// </summary>
     protected static readonly IFactory Factory;
 
     static TestSuite()
@@ -115,7 +132,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     ///     Sets the current culture for both CurrentCulture and CurrentUICulture.
     /// </summary>
     /// <param name="info">The CultureInfo to set as the current culture.</param>
-    protected void SetCurrentCulture(CultureInfo info)
+    protected void SetCurrentCulture(
+        CultureInfo info)
     {
         Thread.CurrentThread.CurrentCulture = info;
         Thread.CurrentThread.CurrentUICulture = info;
@@ -125,7 +143,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     ///     Sets the current culture for both CurrentCulture and CurrentUICulture.
     /// </summary>
     /// <param name="culture">The name of the culture info to set as the current culture.</param>
-    protected void SetCurrentCulture(string culture)
+    protected void SetCurrentCulture(
+        string culture)
     {
         SetCurrentCulture(CultureInfo.CreateSpecificCulture(culture));
     }
@@ -153,7 +172,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </summary>
     /// <param name="count">The number of random values to generate.</param>
     /// <returns>A sequence of randomly generated anonymous objects.</returns>
-    protected static IEnumerable<T> Random<T>(int count)
+    protected static IEnumerable<T> Random<T>(
+        int count)
     {
         return Factory.CreateMany<T>(count);
     }
@@ -165,7 +185,9 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <param name="minInclusive">minimum value in range</param>
     /// <param name="maxExclusive">maximum value not in range</param>
     /// <returns>object in the provided range</returns>
-    protected static T InRange<T>(T minInclusive, T maxExclusive) where T : IComparable<T>
+    protected static T InRange<T>(
+        T minInclusive,
+        T maxExclusive) where T : IComparable<T>
     {
         return Factory.CreateFromRange(minInclusive, maxExclusive);
     }
@@ -178,7 +200,10 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <param name="minInclusive">The minimum value (inclusive) for the generated collection.</param>
     /// <param name="maxExclusive">The maximum value (exclusive) for the generated collection.</param>
     /// <returns>A collection of test values within the specified range.</returns>
-    protected static IEnumerable<T> InRange<T>(int count, T minInclusive, T maxExclusive) where T : IComparable<T>
+    protected static IEnumerable<T> InRange<T>(
+        int count,
+        T minInclusive,
+        T maxExclusive) where T : IComparable<T>
     {
         return Factory.CreateManyFromRange(count, minInclusive, maxExclusive);
     }
@@ -189,7 +214,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <typeparam name="T"></typeparam>
     /// <param name="items">values in range</param>
     /// <returns>object from the provided items</returns>
-    protected static T InRange<T>(IEnumerable<T> items)
+    protected static T InRange<T>(
+        IEnumerable<T> items)
     {
         return Factory.CreateFromRange(items);
     }
@@ -200,7 +226,9 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// <param name="count">The number of elements to return.</param>
     /// <param name="items">The collection of items to select from.</param>
     /// <returns>A new enumerable containing the specified number of elements from the input collection.</returns>
-    protected static IEnumerable<T> InRange<T>(int count, IEnumerable<T> items)
+    protected static IEnumerable<T> InRange<T>(
+        int count,
+        IEnumerable<T> items)
     {
         return Factory.CreateManyFromRange(count, items);
     }
@@ -219,7 +247,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </summary>
     /// <param name="country">The country to get the city from.</param>
     /// <returns>A string representing a random city in the specified country.</returns>
-    protected static string City(string country)
+    protected static string City(
+        string country)
     {
         if (Cities.TryGetValue(country, out var cities))
         {
@@ -243,7 +272,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </summary>
     /// <param name="hasSecondLastName">Indicates whether to use two last names in the full name (e.g. Latin America).</param>
     /// <returns>A string representing a random full name.</returns>
-    protected static string FullName(bool hasSecondLastName = false)
+    protected static string FullName(
+        bool hasSecondLastName = false)
     {
         var last = LastName();
         if (hasSecondLastName)
@@ -289,7 +319,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     ///     specified.
     /// </param>
     /// <returns>A <see cref="DateTime" /> object representing a random date and time within the specified range.</returns>
-    protected static DateTime RecentDateTime(int daysBack = 30)
+    protected static DateTime RecentDateTime(
+        int daysBack = 30)
     {
         return RecentDateTime(TimeSpan.FromDays(daysBack));
     }
@@ -299,7 +330,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </summary>
     /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
     /// <returns>A DateTime value representing a recent date and time.</returns>
-    protected static DateTime RecentDateTime(TimeSpan maximumTimeBack)
+    protected static DateTime RecentDateTime(
+        TimeSpan maximumTimeBack)
     {
         var ticks = -InRange(0, maximumTimeBack.Ticks);
         return DateTime.UtcNow.Add(TimeSpan.FromTicks(ticks));
@@ -317,7 +349,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     ///     A <see cref="DateTimeOffset" /> that represents a date and time randomly chosen within the range of 0 to the
     ///     specified number of days back.
     /// </returns>
-    protected static DateTimeOffset RecentDateTimeOffset(int daysBack = 30)
+    protected static DateTimeOffset RecentDateTimeOffset(
+        int daysBack = 30)
     {
         return RecentDateTimeOffset(TimeSpan.FromDays(daysBack));
     }
@@ -327,7 +360,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     /// </summary>
     /// <param name="maximumTimeBack">The maximum TimeSpan to go back from the current date and time.</param>
     /// <returns>A DateTimeOffset value representing a recent date and time.</returns>
-    protected static DateTimeOffset RecentDateTimeOffset(TimeSpan maximumTimeBack)
+    protected static DateTimeOffset RecentDateTimeOffset(
+        TimeSpan maximumTimeBack)
     {
         var ticks = -InRange(0, maximumTimeBack.Ticks);
         return DateTimeOffset.UtcNow.Add(TimeSpan.FromTicks(ticks));
@@ -343,7 +377,9 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     ///     An array of lambda expressions specifying the properties to override in the new object.
     /// </param>
     /// <returns>A new instance of type <typeparamref name="T" /> with the specified overrides applied.</returns>
-    protected static T FromTemplate<T>(T template, params Expression<Func<T, object>>[] overrides)
+    protected static T FromTemplate<T>(
+        T template,
+        params Expression<Func<T, object>>[] overrides)
     {
         var properties = GetPropertyInfos<T>();
         var overriddenProperties = GetOverriddenProperties(overrides);
@@ -381,7 +417,8 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string[] GetOverriddenProperties<T>(Expression<Func<T, object>>[] overrides)
+    private static string[] GetOverriddenProperties<T>(
+        Expression<Func<T, object>>[] overrides)
     {
         var overriddenProperties = overrides
             .Select(expr =>
@@ -395,7 +432,10 @@ public class TestSuite<TDataFactoryBuilder> where TDataFactoryBuilder : IFactory
         return overriddenProperties;
     }
 
-    private static T FromTemplate<T>(T template, PropertyInfo[] properties, string[] overriddenProperties)
+    private static T FromTemplate<T>(
+        T template,
+        PropertyInfo[] properties,
+        string[] overriddenProperties)
     {
         var result = Random<T>();
 

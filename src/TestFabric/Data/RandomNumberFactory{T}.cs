@@ -2,6 +2,12 @@
 
 namespace TestFabric.Data;
 
+/// <summary>
+///     Represents an abstract base class for creating random numbers of a specified type.
+/// </summary>
+/// <typeparam name="T">
+///     The numeric type for which random numbers are generated.
+/// </typeparam>
 public abstract class RandomNumberFactory<T>(
     T zero,
     T epsilon,
@@ -26,6 +32,7 @@ public abstract class RandomNumberFactory<T>(
         return Create(zero, small);
     }
 
+    /// <inheritdoc />
     public T CreateMedium()
     {
         return Create(small, medium);
@@ -49,6 +56,7 @@ public abstract class RandomNumberFactory<T>(
         return CreatePositive(zero, small);
     }
 
+    /// <inheritdoc />
     public T CreateMediumPositive()
     {
         return CreatePositive(small, medium);
@@ -72,6 +80,7 @@ public abstract class RandomNumberFactory<T>(
         return CreatePositive(epsilon, small);
     }
 
+    /// <inheritdoc />
     public T CreateMediumStrictlyPositive()
     {
         return CreatePositive(small, medium);
@@ -96,7 +105,9 @@ public abstract class RandomNumberFactory<T>(
     ///     A random number of type T.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    protected int CreateRandom(int minInclusive, int maxInclusive)
+    protected int CreateRandom(
+        int minInclusive,
+        int maxInclusive)
     {
         lock (_syncLock)
         {
@@ -125,7 +136,9 @@ public abstract class RandomNumberFactory<T>(
     /// <returns>
     ///     A random number of type T.
     /// </returns>
-    protected abstract T Create(T lowerBound, T upperBound);
+    protected abstract T Create(
+        T lowerBound,
+        T upperBound);
 
     /// <summary>
     ///     Creates a random positive number within the specified bounds.
@@ -133,5 +146,7 @@ public abstract class RandomNumberFactory<T>(
     /// <returns>
     ///     A random positive number of type T.
     /// </returns>
-    protected abstract T CreatePositive(T lowerBound, T upperBound);
+    protected abstract T CreatePositive(
+        T lowerBound,
+        T upperBound);
 }
