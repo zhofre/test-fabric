@@ -25,8 +25,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.ArrayEqualityComparer\u00601",
@@ -49,8 +48,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Compare",
@@ -83,8 +81,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.EqualityComparerBuilder\u00601",
@@ -152,8 +149,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.EqualityComparerMockBuilder\u00601",
@@ -185,9 +181,14 @@
         "Summary": "Configures the mock to return a specific value when the GetHashCode method is called."
       }
     ],
-    "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Examples": [
+      {
+        "Title": "Build custom IEqualityComparer\u003CT\u003E with fluent configuration",
+        "Code": "using System.Collections.Generic;\r\nusing TestFabric;\r\n\r\npublic sealed record Person(int Id, string Name);\r\n\r\nvar comparer = new EqualityComparerMockBuilder\u003CPerson\u003E()\r\n    .WithEquals((x, y) =\u003E x.Id == y.Id)\r\n    .WithGetHashCode(p =\u003E p.Id.GetHashCode())\r\n    .Create().Object;\r\n\r\nvar a = new Person(1, \u0022Ann\u0022);\r\nvar b = new Person(1, \u0022Anne\u0022);\r\nEqualityComparer\u003CPerson\u003E.Default.Equals(a, b); // false\r\ncomparer.Equals(a, b); // true (by Id)",
+        "Notes": "Shows overriding Equals and GetHashCode via the builder."
+      }
+    ],
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Extension",
@@ -240,8 +241,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.ListEqualityComparer\u00601",
@@ -264,8 +264,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.LoggerMockBuilder\u00601",
@@ -292,9 +291,14 @@
         "Summary": "Configures the mock to capture any log message."
       }
     ],
-    "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Examples": [
+      {
+        "Title": "Capture ILogger\u003CT\u003E calls with WithLog",
+        "Code": "using System;\r\nusing System.Collections.Generic;\r\nusing Microsoft.Extensions.Logging;\r\nusing TestFabric;\r\n\r\npublic sealed class MyService;\r\n\r\nvar logs = new List\u003C(LogLevel level, EventId eventId, string message)\u003E();\r\n\r\nvar logger = new LoggerMockBuilder\u003CMyService\u003E()\r\n    .WithLog(logs)\r\n    .Create();\r\n\r\n// Example usage in SUT\r\nlogger.Object.LogInformation(\u0022Hello {Name}\u0022, \u0022World\u0022);\r\n\r\n// Assert on collected logs (level/message)\r\n// logs[0].level == LogLevel.Information; logs[0].message contains \u0022Hello World\u0022",
+        "Notes": "Demonstrates log capture for assertions in tests."
+      }
+    ],
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601",
@@ -531,9 +535,19 @@
         "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
       }
     ],
-    "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Examples": [
+      {
+        "Title": "Fluent MockBuilder with property setup",
+        "Code": "using TestFabric;\r\n\r\npublic interface IFoo\r\n{\r\n    int Id { get; }\r\n    double Value { get; set; }\r\n}\r\n\r\npublic sealed class FooMockBuilder : MockBuilder\u003CIFoo\u003E\r\n{\r\n    public FooMockBuilder WithId(int id)\r\n    {\r\n        // Configure getter via helper\r\n        WithPropertyGet(f =\u003E f.Id, id);\r\n        return this;\r\n    }\r\n\r\n    public FooMockBuilder WithValue(double initial)\r\n    {\r\n        // Backing property with initial value (can be mutated in test)\r\n        WithProperty(f =\u003E f.Value, initial);\r\n        return this;\r\n    }\r\n}\r\n\r\n// Usage in a test\r\nvar foo = new FooMockBuilder()\r\n    .WithId(42)\r\n    .WithValue(0.0)\r\n    .Create().Object;",
+        "Notes": "Demonstrates fluent WithX pattern and property helpers (WithPropertyGet/WithProperty)."
+      },
+      {
+        "Title": "Async method setup with WithFunctionAsync",
+        "Code": "using TestFabric;\r\nusing System;\r\nusing System.Threading.Tasks;\r\n\r\npublic interface IRepository\r\n{\r\n    Task\u003CEntity?\u003E GetByIdAsync(Guid id);\r\n}\r\n\r\npublic sealed record Entity(Guid Id);\r\n\r\npublic sealed class RepositoryMockBuilder : MockBuilder\u003CIRepository\u003E\r\n{\r\n    public RepositoryMockBuilder WithGetById(Func\u003CGuid, Task\u003CEntity?\u003E\u003E func) =\u003E\r\n        this.WithFunctionAsync(r =\u003E r.GetByIdAsync(default), func);\r\n}\r\n\r\n// Usage in a test\r\nvar expected = new Entity(Guid.NewGuid());\r\nvar repo = new RepositoryMockBuilder()\r\n    .WithGetById(id =\u003E Task.FromResult\u003CEntity?\u003E(expected))\r\n    .Create().Object;",
+        "Notes": "Uses expression placeholder (default) for parameters and provides async delegate."
+      }
+    ],
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.ObjectEqualityComparer\u00601",
@@ -571,8 +585,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.ProgressMockBuilder\u00601",
@@ -594,9 +607,14 @@
         "Summary": "Configures the mock to execute a specific action when the Report method is called."
       }
     ],
-    "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Examples": [
+      {
+        "Title": "Assert IProgress\u003CT\u003E.Report calls",
+        "Code": "using System.Collections.Generic;\r\nusing TestFabric;\r\n\r\nvar updates = new List\u003Cint\u003E();\r\nvar progress = new ProgressMockBuilder\u003Cint\u003E()\r\n    .WithReport(updates)\r\n    .Create().Object;\r\n\r\n// SUT\r\nprogress.Report(1);\r\nprogress.Report(2);\r\n\r\n// Assert\r\n// updates == [1, 2]",
+        "Notes": "Collects reported values for later assertions."
+      }
+    ],
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.RelativeDoubleComparer",
@@ -624,8 +642,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.TestClock",
@@ -653,8 +670,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.TestSuite",
@@ -666,8 +682,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.TestSuite\u00601",
@@ -825,8 +840,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.ConstrainedBuilder\u00601",
@@ -874,8 +888,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.DateTimeOffsetPicker",
@@ -893,8 +906,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.DateTimePicker",
@@ -912,8 +924,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.DecimalPicker",
@@ -931,8 +942,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.DoublePicker",
@@ -950,8 +960,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.Factory",
@@ -1039,8 +1048,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.FactoryBuilders",
@@ -1058,8 +1066,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.FactoryException",
@@ -1077,8 +1084,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.FloatPicker",
@@ -1096,8 +1102,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IBuilder\u00601",
@@ -1130,8 +1135,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IConstrainedBuilder\u00601",
@@ -1154,8 +1158,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IFactory",
@@ -1238,8 +1241,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IFactoryBuilder",
@@ -1257,8 +1259,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IObjectBuilder\u00601",
@@ -1281,8 +1282,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IPicker",
@@ -1294,8 +1294,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IPicker\u00601",
@@ -1313,8 +1312,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IRandomNumberFactory\u00601",
@@ -1387,8 +1385,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IRange\u00601",
@@ -1400,8 +1397,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.IntPicker",
@@ -1419,8 +1415,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.ItemPicker\u00601",
@@ -1438,8 +1433,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.ItemRange\u00601",
@@ -1462,8 +1456,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.LongPicker",
@@ -1481,8 +1474,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.NumberRange\u00601",
@@ -1510,8 +1502,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.ObjectBuilder\u00601",
@@ -1559,8 +1550,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.RandomDoubleFactory",
@@ -1588,8 +1578,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.RandomIntFactory",
@@ -1617,8 +1606,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.RandomNumberFactory\u00601",
@@ -1716,8 +1704,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.RangePicker\u00602",
@@ -1750,8 +1737,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.TimeSpanPicker",
@@ -1769,8 +1755,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.FactoryBuilders.Normal",
@@ -1788,8 +1773,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.Data.FactoryBuilders.WithRecursion",
@@ -1807,8 +1791,7 @@
       }
     ],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00601",
@@ -1820,8 +1803,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00602",
@@ -1833,8 +1815,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00603",
@@ -1846,8 +1827,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00604",
@@ -1859,8 +1839,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00605",
@@ -1872,8 +1851,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00606",
@@ -1885,8 +1863,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.TestSuite.Normal",
@@ -1898,8 +1875,7 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   },
   {
     "Symbol": "TestFabric.TestSuite.WithRecursion",
@@ -1911,7 +1887,6 @@
     "Remarks": "",
     "Members": [],
     "Examples": [],
-    "Tags": [],
-    "Links": []
+    "Tags": []
   }
 ]
