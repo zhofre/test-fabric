@@ -1,1 +1,1917 @@
-[]
+[
+  {
+    "Symbol": "TestFabric.AbsoluteDoubleComparer",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.AbsoluteDoubleComparer",
+    "Summary": "Compares two double values based on their absolute difference within a specified precision. Handles special cases such as NaN and infinity.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "AbsoluteDoubleComparer",
+        "Signature": "M:TestFabric.AbsoluteDoubleComparer.#ctor(System.Double)",
+        "Summary": "Compares two double values based on their absolute difference within a specified precision. Handles special cases such as NaN and infinity."
+      },
+      {
+        "Name": "Equals",
+        "Signature": "M:TestFabric.AbsoluteDoubleComparer.Equals(System.Double,System.Double)",
+        "Summary": ""
+      },
+      {
+        "Name": "GetHashCode",
+        "Signature": "M:TestFabric.AbsoluteDoubleComparer.GetHashCode(System.Double)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.ArrayEqualityComparer\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.ArrayEqualityComparer\u00601",
+    "Summary": "Compares two arrays of type T using the provided item comparer.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ArrayEqualityComparer\u00601",
+        "Signature": "M:TestFabric.ArrayEqualityComparer\u00601.#ctor(System.Collections.Generic.IEqualityComparer{\u00600},System.Action{System.String})",
+        "Summary": "Compares two arrays of type T using the provided item comparer."
+      },
+      {
+        "Name": "EqualsImpl",
+        "Signature": "M:TestFabric.ArrayEqualityComparer\u00601.EqualsImpl(\u00600[],\u00600[])",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Compare",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Compare",
+    "Summary": "Contains various methods for comparing objects and collections with different criteria. Provides specialized comparers for doubles, arrays, and lists.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "DoubleAbsolute",
+        "Signature": "M:TestFabric.Compare.DoubleAbsolute(System.Double)",
+        "Summary": "Creates a comparer for doubles that considers two values equal if their absolute difference is less than the specified precision."
+      },
+      {
+        "Name": "DoubleRelative",
+        "Signature": "M:TestFabric.Compare.DoubleRelative(System.Double,System.Double)",
+        "Summary": "Creates a comparer for doubles that considers two values equal if their difference is within the specified relative and absolute tolerances."
+      },
+      {
+        "Name": "Array\u0060\u00601",
+        "Signature": "M:TestFabric.Compare.Array\u0060\u00601(System.Collections.Generic.IEqualityComparer{\u0060\u00600},System.Action{System.String})",
+        "Summary": "Creates a comparer for arrays that considers two arrays equal if all corresponding elements are equal based on the specified item comparer."
+      },
+      {
+        "Name": "List\u0060\u00601",
+        "Signature": "M:TestFabric.Compare.List\u0060\u00601(System.Collections.Generic.IEqualityComparer{\u0060\u00600},System.Action{System.String})",
+        "Summary": "Creates a comparer for lists that considers two lists equal if they contain the same elements in the same order, using the provided item comparer."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.EqualityComparerBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.EqualityComparerBuilder\u00601",
+    "Summary": "Provides a builder to construct customized instances for the specified type.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ConfigureType\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureType\u0060\u00601(System.Collections.Generic.IEqualityComparer{\u0060\u00600})",
+        "Summary": "Configures a custom equality comparison logic for a specific type."
+      },
+      {
+        "Name": "ConfigureType\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureType\u0060\u00601(System.Func{\u0060\u00600,\u0060\u00600,System.Boolean})",
+        "Summary": "Configures a custom equality comparison logic for a specific type."
+      },
+      {
+        "Name": "IgnoreType\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.IgnoreType\u0060\u00601",
+        "Summary": "Ignores the specified type during equality comparison. Instances of the specified type will always be considered equal irrespective of their actual values."
+      },
+      {
+        "Name": "ConfigureMember\u0060\u00602",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureMember\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u0060\u00600,\u0060\u00601}},System.Collections.Generic.IEqualityComparer{\u0060\u00601})",
+        "Summary": "Configures a custom equality comparison logic for a specific member of a type."
+      },
+      {
+        "Name": "ConfigureMember\u0060\u00602",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureMember\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u0060\u00600,\u0060\u00601}},System.Func{\u0060\u00601,\u0060\u00601,System.Boolean})",
+        "Summary": "Configures a custom equality comparison logic for a specific member of the type."
+      },
+      {
+        "Name": "ConfigureMember\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureMember\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},System.Collections.Generic.IEqualityComparer{\u0060\u00600})",
+        "Summary": "Configures a custom equality comparison logic for a specific member of the current type."
+      },
+      {
+        "Name": "ConfigureMember\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.ConfigureMember\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},System.Func{\u0060\u00600,\u0060\u00600,System.Boolean})",
+        "Summary": "Configures a custom equality comparison logic for a specific member of the type being compared."
+      },
+      {
+        "Name": "IgnoreMember\u0060\u00602",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.IgnoreMember\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u0060\u00600,\u0060\u00601}})",
+        "Summary": "Excludes a specific member of the specified type from the equality comparison logic."
+      },
+      {
+        "Name": "IgnoreMember\u0060\u00601",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.IgnoreMember\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}})",
+        "Summary": "Specifies that a particular member should be ignored during equality comparison."
+      },
+      {
+        "Name": "EnableTracing",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.EnableTracing(System.Action{System.String},System.Boolean)",
+        "Summary": "Enables tracing for the equality comparison process, providing detailed logs of internal operations if specified."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.EqualityComparerBuilder\u00601.Create",
+        "Summary": "Constructs and returns an instance of that uses the configured custom equality comparison rules for types and members associated with the current instance."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.EqualityComparerMockBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.EqualityComparerMockBuilder\u00601",
+    "Summary": "Builder class for creating mock instances of . Allows configuring the behavior of the Equals and GetHashCode methods.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "WithEquals",
+        "Signature": "M:TestFabric.EqualityComparerMockBuilder\u00601.WithEquals(System.Boolean)",
+        "Summary": "Configures the mock to return a specific value when the Equals method is called."
+      },
+      {
+        "Name": "WithEquals",
+        "Signature": "M:TestFabric.EqualityComparerMockBuilder\u00601.WithEquals(System.Func{\u00600,\u00600,System.Boolean})",
+        "Summary": "Configures the mock to return a specific result when the Equals method is called."
+      },
+      {
+        "Name": "WithGetHashCode",
+        "Signature": "M:TestFabric.EqualityComparerMockBuilder\u00601.WithGetHashCode(System.Int32)",
+        "Summary": "Configures the mock to return a specific value when the GetHashCode method is called."
+      },
+      {
+        "Name": "WithGetHashCode",
+        "Signature": "M:TestFabric.EqualityComparerMockBuilder\u00601.WithGetHashCode(System.Func{\u00600,System.Int32})",
+        "Summary": "Configures the mock to return a specific value when the GetHashCode method is called."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Extension",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Extension",
+    "Summary": "Provides a set of extension methods.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ToRandom",
+        "Signature": "M:TestFabric.Extension.ToRandom(System.Nullable{System.Int32})",
+        "Summary": "Converts an integer seed to a Random object. If the seed is null, it uses the default Random constructor."
+      },
+      {
+        "Name": "AddRange\u0060\u00601",
+        "Signature": "M:TestFabric.Extension.AddRange\u0060\u00601(TestFabric.Data.IConstrainedBuilder{\u0060\u00600},\u0060\u00600,\u0060\u00600)",
+        "Summary": "Adds a range of options to choose from."
+      },
+      {
+        "Name": "RegisterNumberFactories",
+        "Signature": "M:TestFabric.Extension.RegisterNumberFactories(AutoFixture.Fixture,System.Func{TestFabric.Data.RandomDoubleFactory,System.Func{System.Double}},System.Func{TestFabric.Data.RandomIntFactory,System.Func{System.Int32}})",
+        "Summary": "Registers number factories (RandomDoubleFactory and RandomIntFactory) with the provided fixture."
+      },
+      {
+        "Name": "RegisterSingleton\u0060\u00601",
+        "Signature": "M:TestFabric.Extension.RegisterSingleton\u0060\u00601(AutoFixture.Fixture,\u0060\u00600)",
+        "Summary": "Registers a singleton instance with the provided fixture."
+      },
+      {
+        "Name": "SetDoubleGenerator",
+        "Signature": "M:TestFabric.Extension.SetDoubleGenerator(AutoFixture.Fixture,System.Func{System.Double})",
+        "Summary": "Sets a custom generator for double values in the fixture."
+      },
+      {
+        "Name": "SetIntGenerator",
+        "Signature": "M:TestFabric.Extension.SetIntGenerator(AutoFixture.Fixture,System.Func{System.Int32})",
+        "Summary": "Sets the integer generator for the provided fixture."
+      },
+      {
+        "Name": "AllowRecursion",
+        "Signature": "M:TestFabric.Extension.AllowRecursion(AutoFixture.Fixture)",
+        "Summary": "Allows recursion within the fixture."
+      },
+      {
+        "Name": "TryGetMemberInfo\u0060\u00602",
+        "Signature": "M:TestFabric.Extension.TryGetMemberInfo\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u0060\u00600,\u0060\u00601}},System.Reflection.MemberInfo@)",
+        "Summary": "Tries to extract the from a given expression representing a member access."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.ListEqualityComparer\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.ListEqualityComparer\u00601",
+    "Summary": "Compares two lists of type T based on their items using the provided item comparer.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ListEqualityComparer\u00601",
+        "Signature": "M:TestFabric.ListEqualityComparer\u00601.#ctor(System.Collections.Generic.IEqualityComparer{\u00600},System.Action{System.String})",
+        "Summary": "Compares two lists of type T based on their items using the provided item comparer."
+      },
+      {
+        "Name": "EqualsImpl",
+        "Signature": "M:TestFabric.ListEqualityComparer\u00601.EqualsImpl(System.Collections.Generic.List{\u00600},System.Collections.Generic.List{\u00600})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.LoggerMockBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.LoggerMockBuilder\u00601",
+    "Summary": "Builder for creating a mock implementation of .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "WithLog",
+        "Signature": "M:TestFabric.LoggerMockBuilder\u00601.WithLog",
+        "Summary": "Configures the mock to capture any log message."
+      },
+      {
+        "Name": "WithLog",
+        "Signature": "M:TestFabric.LoggerMockBuilder\u00601.WithLog(System.Collections.Generic.List{System.String})",
+        "Summary": "Configures the mock to capture any log message in the provided list."
+      },
+      {
+        "Name": "WithLog",
+        "Signature": "M:TestFabric.LoggerMockBuilder\u00601.WithLog(System.Action{Microsoft.Extensions.Logging.LogLevel,System.String,System.Exception})",
+        "Summary": "Configures the mock to capture any log message."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601",
+    "Summary": "Abstract class for building mock objects of type T. This builder provides a fluent interface to configure and define the behavior of mock objects.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Mock",
+        "Signature": "P:TestFabric.MockBuilder\u00601.Mock",
+        "Summary": "Represents a builder for creating and configuring mock objects of type T. Can be accessed from implementations for custom mock object configuration and setup."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.MockBuilder\u00601.Create",
+        "Summary": "Creates and returns the configured mock object of type T."
+      },
+      {
+        "Name": "WithProperty\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithProperty\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600)",
+        "Summary": "Configures the mock object to have a property with an initial value."
+      },
+      {
+        "Name": "WithPropertyGet\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithPropertyGet\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600)",
+        "Summary": "Sets up a getter for a property on the mock object."
+      },
+      {
+        "Name": "WithPropertyGet\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithPropertyGet\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},System.Func{\u0060\u00600})",
+        "Summary": "Configures the mock to return a value for a property\u0027s getter based on a delegate."
+      },
+      {
+        "Name": "WithAction",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action)",
+        "Summary": "Configures the mock to execute a specific action when a method is called (0 arguments)."
+      },
+      {
+        "Name": "WithAction\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction\u0060\u00601(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action{\u0060\u00600})",
+        "Summary": "Configures the mock to execute a specific action when a method is called (1 argument)."
+      },
+      {
+        "Name": "WithAction\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction\u0060\u00602(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action{\u0060\u00600,\u0060\u00601})",
+        "Summary": "Configures the mock to execute a specific action when a method is called (2 arguments)."
+      },
+      {
+        "Name": "WithAction\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction\u0060\u00603(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602})",
+        "Summary": "Configures the mock to execute a specific action when a method is called (3 arguments)."
+      },
+      {
+        "Name": "WithAction\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction\u0060\u00604(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603})",
+        "Summary": "Configures the mock to execute a specific action when a method is called (4 arguments)."
+      },
+      {
+        "Name": "WithAction\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithAction\u0060\u00605(System.Linq.Expressions.Expression{System.Action{\u00600}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604})",
+        "Summary": "Configures the mock to execute a specific action when a method is called (5 arguments)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600)",
+        "Summary": "Configures the mock object to return a specific value when the specified function is called."
+      },
+      {
+        "Name": "WithFunction\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600[])",
+        "Summary": "Configures a mock to return a sequence of results for the specified function."
+      },
+      {
+        "Name": "WithFunction\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},System.Func{\u0060\u00600})",
+        "Summary": "Configures and sets up a function for the mock object (0 arguments)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00601}},System.Func{\u0060\u00600,\u0060\u00601})",
+        "Summary": "Configures and sets up a function for the mock object (1 argument)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00603(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00602}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602})",
+        "Summary": "Configures and sets up a function for the mock object (2 arguments)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00604(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00603}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603})",
+        "Summary": "Configures and sets up a function for the mock object (3 arguments)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00605(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00604}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604})",
+        "Summary": "Configures and sets up a function for the mock object (4 arguments)."
+      },
+      {
+        "Name": "WithFunction\u0060\u00606",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunction\u0060\u00606(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00605}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604,\u0060\u00605})",
+        "Summary": "Configures and sets up a function for the mock object (5 arguments)."
+      },
+      {
+        "Name": "WithActionAsync",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action)",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (0 arguments)."
+      },
+      {
+        "Name": "WithActionAsync\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action{\u0060\u00600})",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (1 argument)."
+      },
+      {
+        "Name": "WithActionAsync\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action{\u0060\u00600,\u0060\u00601})",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (2 arguments)."
+      },
+      {
+        "Name": "WithActionAsync\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync\u0060\u00603(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602})",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (3 arguments)."
+      },
+      {
+        "Name": "WithActionAsync\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync\u0060\u00604(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603})",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (4 arguments)."
+      },
+      {
+        "Name": "WithActionAsync\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithActionAsync\u0060\u00605(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task}},System.Action{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604})",
+        "Summary": "Configures an asynchronous action for the specified expression on the mock object (5 arguments)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00600}}},\u0060\u00600)",
+        "Summary": "Configures the mock to return a specific value asynchronously when the specified function is called."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00600}}},\u0060\u00600[])",
+        "Summary": "Configures the mock object to return a sequence of results asynchronously when the specified function is called."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00600}}},System.Func{\u0060\u00600})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (0 arguments)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00601}}},System.Func{\u0060\u00600,\u0060\u00601})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (1 argument)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00603(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00602}}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (2 arguments)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00604(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00603}}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (3 arguments)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00605(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00604}}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (4 arguments)."
+      },
+      {
+        "Name": "WithFunctionAsync\u0060\u00606",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithFunctionAsync\u0060\u00606(System.Linq.Expressions.Expression{System.Func{\u00600,System.Threading.Tasks.Task{\u0060\u00605}}},System.Func{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604,\u0060\u00605})",
+        "Summary": "Configures the mock object to asynchronously return a value for a given method (5 arguments)."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00600)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00601",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00601)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00602",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00602(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600,\u0060\u00601})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00603(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00602)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00603",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00603(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600,\u0060\u00601,\u0060\u00602})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00604(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00603)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00604",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00604(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00605(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00604)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00605",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00605(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00606",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00606(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,\u0060\u00605)",
+        "Summary": "Configures the mock to have a method that returns a value based on a condition and an output parameter."
+      },
+      {
+        "Name": "WithTryGet\u0060\u00606",
+        "Signature": "M:TestFabric.MockBuilder\u00601.WithTryGet\u0060\u00606(System.Linq.Expressions.Expression{System.Func{\u00600,System.Boolean}},System.Boolean,TestFabric.MockBuilder{\u00600}.OutCallback{\u0060\u00600,\u0060\u00601,\u0060\u00602,\u0060\u00603,\u0060\u00604,\u0060\u00605})",
+        "Summary": "Sets up the mock to return a specified value when calling a method that returns a boolean result and an output parameter."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.ObjectEqualityComparer\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.ObjectEqualityComparer\u00601",
+    "Summary": "Abstract class for comparing objects of type T.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ObjectEqualityComparer\u00601",
+        "Signature": "M:TestFabric.ObjectEqualityComparer\u00601.#ctor(System.Action{System.String})",
+        "Summary": "Abstract class for comparing objects of type T."
+      },
+      {
+        "Name": "WriteLine",
+        "Signature": "P:TestFabric.ObjectEqualityComparer\u00601.WriteLine",
+        "Summary": "Gets the action to write a line of text."
+      },
+      {
+        "Name": "Equals",
+        "Signature": "M:TestFabric.ObjectEqualityComparer\u00601.Equals(\u00600,\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "GetHashCode",
+        "Signature": "M:TestFabric.ObjectEqualityComparer\u00601.GetHashCode(\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "EqualsImpl",
+        "Signature": "M:TestFabric.ObjectEqualityComparer\u00601.EqualsImpl(\u00600,\u00600)",
+        "Summary": "Abstract method to compare two objects of type T when they are both not null and a different reference."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.ProgressMockBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.ProgressMockBuilder\u00601",
+    "Summary": "Builder for creating mock objects of type with fluent methods.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "WithReport",
+        "Signature": "M:TestFabric.ProgressMockBuilder\u00601.WithReport",
+        "Summary": "Configures the mock to execute a default action when the Report method is called."
+      },
+      {
+        "Name": "WithReport",
+        "Signature": "M:TestFabric.ProgressMockBuilder\u00601.WithReport(System.Action{\u00600})",
+        "Summary": "Configures the mock to execute a specific action when the Report method is called."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.RelativeDoubleComparer",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.RelativeDoubleComparer",
+    "Summary": "",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "RelativeDoubleComparer",
+        "Signature": "M:TestFabric.RelativeDoubleComparer.#ctor(System.Double,System.Double)",
+        "Summary": ""
+      },
+      {
+        "Name": "Equals",
+        "Signature": "M:TestFabric.RelativeDoubleComparer.Equals(System.Double,System.Double)",
+        "Summary": ""
+      },
+      {
+        "Name": "GetHashCode",
+        "Signature": "M:TestFabric.RelativeDoubleComparer.GetHashCode(System.Double)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.TestClock",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.TestClock",
+    "Summary": "Simulates a clock for testing purposes, allowing control over the current time.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "UtcNow",
+        "Signature": "P:TestFabric.TestClock.UtcNow",
+        "Summary": "Represents the current date and time."
+      },
+      {
+        "Name": "StartAt",
+        "Signature": "M:TestFabric.TestClock.StartAt(System.DateTimeOffset)",
+        "Summary": "Starts the clock at a specific point in time."
+      },
+      {
+        "Name": "Advance",
+        "Signature": "M:TestFabric.TestClock.Advance(System.TimeSpan)",
+        "Summary": "Advances the clock by a specified time span."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.TestSuite",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.TestSuite",
+    "Summary": "Host type for test suites that use a factory builder to create data instances.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.TestSuite\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.TestSuite\u00601",
+    "Summary": "Represents a testing suite configured to work with a specific data factory builder type. This class is designed to assist in generating or managing data for tests and provides a set of predefined static resources for commonly used data such as email domains, names, companies, and countries.",
+    "Remarks": "This class is designed for extensibility and reuse in test environments where a wide spectrum of pre-configured data resources is often required for testing scenarios.",
+    "Members": [
+      {
+        "Name": "EmailDomains",
+        "Signature": "F:TestFabric.TestSuite\u00601.EmailDomains",
+        "Summary": "Array of email domains used for generating test data."
+      },
+      {
+        "Name": "FirstNames",
+        "Signature": "F:TestFabric.TestSuite\u00601.FirstNames",
+        "Summary": "Array of first names used for generating test data."
+      },
+      {
+        "Name": "LastNames",
+        "Signature": "F:TestFabric.TestSuite\u00601.LastNames",
+        "Summary": "Array of last names used for generating test data."
+      },
+      {
+        "Name": "CompanyNames",
+        "Signature": "F:TestFabric.TestSuite\u00601.CompanyNames",
+        "Summary": "Array of fictional company names used for generating test data."
+      },
+      {
+        "Name": "Countries",
+        "Signature": "F:TestFabric.TestSuite\u00601.Countries",
+        "Summary": "Array of country names used for generating test data."
+      },
+      {
+        "Name": "Cities",
+        "Signature": "F:TestFabric.TestSuite\u00601.Cities",
+        "Summary": "Dictionary of countries and their associated cities used for generating test data."
+      },
+      {
+        "Name": "Factory",
+        "Signature": "F:TestFabric.TestSuite\u00601.Factory",
+        "Summary": "Represents a static instance of a factory used for object creation, random data generation, and other utilities. This instance is specific to each test class type within the generic test suite."
+      },
+      {
+        "Name": "SetCurrentCulture",
+        "Signature": "M:TestFabric.TestSuite\u00601.SetCurrentCulture(System.Globalization.CultureInfo)",
+        "Summary": "Sets the current culture for both CurrentCulture and CurrentUICulture."
+      },
+      {
+        "Name": "SetCurrentCulture",
+        "Signature": "M:TestFabric.TestSuite\u00601.SetCurrentCulture(System.String)",
+        "Summary": "Sets the current culture for both CurrentCulture and CurrentUICulture."
+      },
+      {
+        "Name": "SetCurrentCultureInvariant",
+        "Signature": "M:TestFabric.TestSuite\u00601.SetCurrentCultureInvariant",
+        "Summary": "Sets the current culture for both CurrentCulture and CurrentUICulture to Invariant."
+      },
+      {
+        "Name": "Random\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.Random\u0060\u00601",
+        "Summary": "Creates a test data object."
+      },
+      {
+        "Name": "Random\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.Random\u0060\u00601(System.Int32)",
+        "Summary": "Generates a sequence of test data objects."
+      },
+      {
+        "Name": "InRange\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.InRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": "Creates a test data object from a range."
+      },
+      {
+        "Name": "InRange\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.InRange\u0060\u00601(System.Int32,\u0060\u00600,\u0060\u00600)",
+        "Summary": "Generates a collection of test values within a specified range."
+      },
+      {
+        "Name": "InRange\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.InRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Creates a test data object from a range."
+      },
+      {
+        "Name": "InRange\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.InRange\u0060\u00601(System.Int32,System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Returns a specified number of elements from the provided collection."
+      },
+      {
+        "Name": "FirstName",
+        "Signature": "M:TestFabric.TestSuite\u00601.FirstName",
+        "Summary": "Returns a random first name from the predefined list."
+      },
+      {
+        "Name": "City",
+        "Signature": "M:TestFabric.TestSuite\u00601.City(System.String)",
+        "Summary": "Returns a random city for a given country."
+      },
+      {
+        "Name": "LastName",
+        "Signature": "M:TestFabric.TestSuite\u00601.LastName",
+        "Summary": "Retrieves a random last name from the predefined list."
+      },
+      {
+        "Name": "FullName",
+        "Signature": "M:TestFabric.TestSuite\u00601.FullName(System.Boolean)",
+        "Summary": "Generates a random full name by concatenating a random first name and last name."
+      },
+      {
+        "Name": "Email",
+        "Signature": "M:TestFabric.TestSuite\u00601.Email",
+        "Summary": "Generates a random email address."
+      },
+      {
+        "Name": "CompanyName",
+        "Signature": "M:TestFabric.TestSuite\u00601.CompanyName",
+        "Summary": "Generates a random company name."
+      },
+      {
+        "Name": "Country",
+        "Signature": "M:TestFabric.TestSuite\u00601.Country",
+        "Summary": "Generates a random country name from the predefined list."
+      },
+      {
+        "Name": "RecentDateTime",
+        "Signature": "M:TestFabric.TestSuite\u00601.RecentDateTime(System.Int32)",
+        "Summary": "Generates a random date and time within a specified number of days back from the current date."
+      },
+      {
+        "Name": "RecentDateTime",
+        "Signature": "M:TestFabric.TestSuite\u00601.RecentDateTime(System.TimeSpan)",
+        "Summary": "Generates a recent random within the specified range."
+      },
+      {
+        "Name": "RecentDateTimeOffset",
+        "Signature": "M:TestFabric.TestSuite\u00601.RecentDateTimeOffset(System.Int32)",
+        "Summary": "Generates a recent by subtracting a random number of days within the specified range (0 to ) from the current date and time."
+      },
+      {
+        "Name": "RecentDateTimeOffset",
+        "Signature": "M:TestFabric.TestSuite\u00601.RecentDateTimeOffset(System.TimeSpan)",
+        "Summary": "Generates a recent random within the specified range."
+      },
+      {
+        "Name": "FromTemplate\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.FromTemplate\u0060\u00601(\u0060\u00600,System.Linq.Expressions.Expression{System.Func{\u0060\u00600,System.Object}}[])",
+        "Summary": "Creates a new instance of type by copying the properties from a given template object and applying the specified overrides."
+      },
+      {
+        "Name": "FromTemplate\u0060\u00601",
+        "Signature": "M:TestFabric.TestSuite\u00601.FromTemplate\u0060\u00601(System.Int32,\u0060\u00600,System.Linq.Expressions.Expression{System.Func{\u0060\u00600,System.Object}}[])",
+        "Summary": "Creates a sequence of objects by copying a given template and applying optional property overrides to each."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.ConstrainedBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.ConstrainedBuilder\u00601",
+    "Summary": "Represents a builder for creating constrained instances of a specific type. This builder allows adding options and ranges but does not support setting properties or defaulting them.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ConstrainedBuilder\u00601",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.#ctor(TestFabric.Data.IPicker{\u00600},System.Nullable{System.Int32})",
+        "Summary": "Represents a builder for creating constrained instances of a specific type. This builder allows adding options and ranges but does not support setting properties or defaulting them."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.Create",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.CreateMany",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.CreateMany(System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.CreateMany(System.Int32,System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "AddOptions",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.AddOptions(\u00600[])",
+        "Summary": ""
+      },
+      {
+        "Name": "AddRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.ConstrainedBuilder\u00601.AddRange\u0060\u00601(\u0060\u00600)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.DateTimeOffsetPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.DateTimeOffsetPicker",
+    "Summary": "A class for picking an from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.DateTimeOffsetPicker.PickFromRange(TestFabric.Data.NumberRange{System.DateTimeOffset})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.DateTimePicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.DateTimePicker",
+    "Summary": "A class for picking an from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.DateTimePicker.PickFromRange(TestFabric.Data.NumberRange{System.DateTime})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.DecimalPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.DecimalPicker",
+    "Summary": "A class for picking a decimal from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.DecimalPicker.PickFromRange(TestFabric.Data.NumberRange{System.Decimal})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.DoublePicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.DoublePicker",
+    "Summary": "A class for picking a double from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.DoublePicker.PickFromRange(TestFabric.Data.NumberRange{System.Double})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.Factory",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.Factory",
+    "Summary": "Factory class responsible for creating objects using the AutoFixture library.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Factory",
+        "Signature": "M:TestFabric.Data.Factory.#ctor(AutoFixture.Fixture,System.Nullable{System.Int32},TestFabric.Data.IPicker[])",
+        "Summary": "Factory class responsible for creating objects using the AutoFixture library."
+      },
+      {
+        "Name": "Create\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.Create\u0060\u00601",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateMany\u0060\u00601",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateMany\u0060\u00601(System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateMany\u0060\u00601(System.Int32,System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateManyFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateManyFromRange\u0060\u00601(System.Int32,\u0060\u00600,\u0060\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateManyFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.CreateManyFromRange\u0060\u00601(System.Int32,System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": ""
+      },
+      {
+        "Name": "Build\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.Build\u0060\u00601",
+        "Summary": ""
+      },
+      {
+        "Name": "BuildConstrained\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.BuildConstrained\u0060\u00601",
+        "Summary": ""
+      },
+      {
+        "Name": "BuildConstrainedFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.BuildConstrainedFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "BuildConstrainedFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.Factory.BuildConstrainedFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.FactoryBuilders",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.FactoryBuilders",
+    "Summary": "Factory builders for creating data instances with different configurations.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "DefaultPickers",
+        "Signature": "F:TestFabric.Data.FactoryBuilders.DefaultPickers",
+        "Summary": "A collection of default pickers implementing the interface. The default pickers include support for various data types such as: for selecting a DateTime value. for selecting a DateTimeOffset value. for selecting a decimal value. for selecting a double value. for selecting a float value. for selecting an integer value. for selecting a long value. These pickers provide capabilities for generating random or predefined values within a specific range."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.FactoryException",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.FactoryException",
+    "Summary": "Exception thrown by when an error occurs during object creation.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "FactoryException",
+        "Signature": "M:TestFabric.Data.FactoryException.#ctor(System.String,System.Exception)",
+        "Summary": "Exception thrown by when an error occurs during object creation."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.FloatPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.FloatPicker",
+    "Summary": "A class for picking a float from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.FloatPicker.PickFromRange(TestFabric.Data.NumberRange{System.Single})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IBuilder\u00601",
+    "Summary": "Base interface for building instances of a specific type T. Provides methods to generate objects.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.IBuilder\u00601.Create",
+        "Summary": "Creates the instance."
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.IBuilder\u00601.CreateMany",
+        "Summary": "Creates many anonymous objects."
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.IBuilder\u00601.CreateMany(System.Int32)",
+        "Summary": "Creates many anonymous objects."
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.IBuilder\u00601.CreateMany(System.Int32,System.Int32)",
+        "Summary": "Creates many constrained anonymous objects."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IConstrainedBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IConstrainedBuilder\u00601",
+    "Summary": "Interface for building instances with constraints. Extends the basic IBuilder to allow adding options and ranges to control the generated objects.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "AddOptions",
+        "Signature": "M:TestFabric.Data.IConstrainedBuilder\u00601.AddOptions(\u00600[])",
+        "Summary": "Adds options to choose from."
+      },
+      {
+        "Name": "AddRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IConstrainedBuilder\u00601.AddRange\u0060\u00601(\u0060\u00600)",
+        "Summary": "Adds a range of options to choose from."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IFactory",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IFactory",
+    "Summary": "Provides methods to create objects and object collections dynamically.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.Create\u0060\u00601",
+        "Summary": "Creates an anonymous object."
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateMany\u0060\u00601",
+        "Summary": "Creates many anonymous objects."
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateMany\u0060\u00601(System.Int32)",
+        "Summary": "Creates many anonymous objects."
+      },
+      {
+        "Name": "CreateMany\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateMany\u0060\u00601(System.Int32,System.Int32)",
+        "Summary": "Creates many anonymous objects."
+      },
+      {
+        "Name": "CreateFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": "Creates an anonymous object from a range."
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateManyFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": "Creates many anonymous objects from a range."
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateManyFromRange\u0060\u00601(System.Int32,\u0060\u00600,\u0060\u00600)",
+        "Summary": "Creates many anonymous objects from a range."
+      },
+      {
+        "Name": "CreateFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Creates an anonymous object from a range."
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateManyFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Creates many anonymous objects from a range."
+      },
+      {
+        "Name": "CreateManyFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.CreateManyFromRange\u0060\u00601(System.Int32,System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Creates many anonymous objects from a range."
+      },
+      {
+        "Name": "Build\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.Build\u0060\u00601",
+        "Summary": "Creates a builder to customize the data creation."
+      },
+      {
+        "Name": "BuildConstrained\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.BuildConstrained\u0060\u00601",
+        "Summary": "Creates a builder for constrained data."
+      },
+      {
+        "Name": "BuildConstrainedFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.BuildConstrainedFromRange\u0060\u00601(\u0060\u00600,\u0060\u00600)",
+        "Summary": "Creates a builder for constrained data from a single range."
+      },
+      {
+        "Name": "BuildConstrainedFromRange\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IFactory.BuildConstrainedFromRange\u0060\u00601(System.Collections.Generic.IEnumerable{\u0060\u00600})",
+        "Summary": "Creates a builder for constrained data from a single range."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IFactoryBuilder",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IFactoryBuilder",
+    "Summary": "Interface used by test suites to create a data factory.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.IFactoryBuilder.Create",
+        "Summary": "Creates the data factory."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IObjectBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IObjectBuilder\u00601",
+    "Summary": "Interface for building instances of a specific type T. Provides methods to configure and generate objects.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "With\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IObjectBuilder\u00601.With\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600)",
+        "Summary": "Overrides the value generated for a property."
+      },
+      {
+        "Name": "Without\u0060\u00601",
+        "Signature": "M:TestFabric.Data.IObjectBuilder\u00601.Without\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}})",
+        "Summary": "Ignores a property."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IPicker",
+    "Summary": "Represents a data picker.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IPicker\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IPicker\u00601",
+    "Summary": "Defines a contract for picking an element from a specified range.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Pick",
+        "Signature": "M:TestFabric.Data.IPicker\u00601.Pick(TestFabric.Data.IRange{\u00600})",
+        "Summary": "Selects an element from a specified range."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IRandomNumberFactory\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IRandomNumberFactory\u00601",
+    "Summary": "Defines a factory interface for creating different types of random numbers.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.Create",
+        "Summary": "Creates a random number of the specified type."
+      },
+      {
+        "Name": "CreateSmall",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateSmall",
+        "Summary": "Creates a small random number of the specified type."
+      },
+      {
+        "Name": "CreateMedium",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateMedium",
+        "Summary": "Creates a medium random number of the specified type."
+      },
+      {
+        "Name": "CreateLarge",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateLarge",
+        "Summary": "Creates a large random number of the specified type."
+      },
+      {
+        "Name": "CreatePositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreatePositive",
+        "Summary": "Creates a positive random number of the specified type."
+      },
+      {
+        "Name": "CreateSmallPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateSmallPositive",
+        "Summary": "Creates a small positive random number of the specified type."
+      },
+      {
+        "Name": "CreateMediumPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateMediumPositive",
+        "Summary": "Creates a medium positive random number of the specified type."
+      },
+      {
+        "Name": "CreateLargePositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateLargePositive",
+        "Summary": "Creates a large positive random number of the specified type."
+      },
+      {
+        "Name": "CreateStrictlyPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateStrictlyPositive",
+        "Summary": "Creates a strictly positive random number of the specified type."
+      },
+      {
+        "Name": "CreateSmallStrictlyPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateSmallStrictlyPositive",
+        "Summary": "Creates a small and strictly positive random number of the specified type."
+      },
+      {
+        "Name": "CreateMediumStrictlyPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateMediumStrictlyPositive",
+        "Summary": "Creates a medium and strictly positive random number of the specified type."
+      },
+      {
+        "Name": "CreateLargeStrictlyPositive",
+        "Signature": "M:TestFabric.Data.IRandomNumberFactory\u00601.CreateLargeStrictlyPositive",
+        "Summary": "Creates a large and strictly positive random number of the specified type."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IRange\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IRange\u00601",
+    "Summary": "Represents a range of values",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.IntPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.IntPicker",
+    "Summary": "A class for picking an integer from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.IntPicker.PickFromRange(TestFabric.Data.NumberRange{System.Int32})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.ItemPicker\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.ItemPicker\u00601",
+    "Summary": "A Class for picking a random item from a specified range. Inherits from abstract class RangePicker and implements IPicker interface.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.ItemPicker\u00601.PickFromRange(TestFabric.Data.ItemRange{\u00600})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.ItemRange\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.ItemRange\u00601",
+    "Summary": "Represents a range of items.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ItemRange\u00601",
+        "Signature": "M:TestFabric.Data.ItemRange\u00601.#ctor(System.Collections.Generic.IEnumerable{\u00600})",
+        "Summary": "Represents a range of items."
+      },
+      {
+        "Name": "Items",
+        "Signature": "P:TestFabric.Data.ItemRange\u00601.Items",
+        "Summary": "Represents the collection of items within an ItemRange."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.LongPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.LongPicker",
+    "Summary": "A class for picking an long integer from a specified range. Inherits from .",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.LongPicker.PickFromRange(TestFabric.Data.NumberRange{System.Int64})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.NumberRange\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.NumberRange\u00601",
+    "Summary": "Represents a range between two values, inclusive the start value, exclusive the end value.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "NumberRange\u00601",
+        "Signature": "M:TestFabric.Data.NumberRange\u00601.#ctor(\u00600,\u00600)",
+        "Summary": "Represents a range between two values, inclusive the start value, exclusive the end value."
+      },
+      {
+        "Name": "Start",
+        "Signature": "P:TestFabric.Data.NumberRange\u00601.Start",
+        "Summary": "Inclusive start of the range."
+      },
+      {
+        "Name": "End",
+        "Signature": "P:TestFabric.Data.NumberRange\u00601.End",
+        "Summary": "Exclusive end of the range."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.ObjectBuilder\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.ObjectBuilder\u00601",
+    "Summary": "Class for building instances of a specific type T. Provides methods to configure and generate objects using AutoFixture.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "ObjectBuilder\u00601",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.#ctor(AutoFixture.Dsl.IPostprocessComposer{\u00600},System.Nullable{System.Int32})",
+        "Summary": "Class for building instances of a specific type T. Provides methods to configure and generate objects using AutoFixture."
+      },
+      {
+        "Name": "With\u0060\u00601",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.With\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}},\u0060\u00600)",
+        "Summary": ""
+      },
+      {
+        "Name": "Without\u0060\u00601",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.Without\u0060\u00601(System.Linq.Expressions.Expression{System.Func{\u00600,\u0060\u00600}})",
+        "Summary": ""
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.Create",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.CreateMany",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.CreateMany(System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMany",
+        "Signature": "M:TestFabric.Data.ObjectBuilder\u00601.CreateMany(System.Int32,System.Int32)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.RandomDoubleFactory",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.RandomDoubleFactory",
+    "Summary": "Factory class for generating random doubles within specified bounds.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "RandomDoubleFactory",
+        "Signature": "M:TestFabric.Data.RandomDoubleFactory.#ctor(System.Nullable{System.Int32})",
+        "Summary": "Factory class for generating random doubles within specified bounds."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.RandomDoubleFactory.Create(System.Double,System.Double)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreatePositive",
+        "Signature": "M:TestFabric.Data.RandomDoubleFactory.CreatePositive(System.Double,System.Double)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.RandomIntFactory",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.RandomIntFactory",
+    "Summary": "Factory class for generating random integers within specified bounds.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "RandomIntFactory",
+        "Signature": "M:TestFabric.Data.RandomIntFactory.#ctor(System.Nullable{System.Int32})",
+        "Summary": "Factory class for generating random integers within specified bounds."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.RandomIntFactory.Create(System.Int32,System.Int32)",
+        "Summary": ""
+      },
+      {
+        "Name": "CreatePositive",
+        "Signature": "M:TestFabric.Data.RandomIntFactory.CreatePositive(System.Int32,System.Int32)",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.RandomNumberFactory\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.RandomNumberFactory\u00601",
+    "Summary": "Represents an abstract base class for creating random numbers of a specified type.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "RandomNumberFactory\u00601",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.#ctor(\u00600,\u00600,\u00600,\u00600,\u00600,System.Nullable{System.Int32})",
+        "Summary": "Represents an abstract base class for creating random numbers of a specified type."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.Create",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateSmall",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateSmall",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMedium",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateMedium",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateLarge",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateLarge",
+        "Summary": ""
+      },
+      {
+        "Name": "CreatePositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreatePositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateSmallPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateSmallPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMediumPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateMediumPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateLargePositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateLargePositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateStrictlyPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateStrictlyPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateSmallStrictlyPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateSmallStrictlyPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateMediumStrictlyPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateMediumStrictlyPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateLargeStrictlyPositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateLargeStrictlyPositive",
+        "Summary": ""
+      },
+      {
+        "Name": "CreateRandom",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateRandom(System.Int32,System.Int32)",
+        "Summary": "Creates a random number within the specified bounds."
+      },
+      {
+        "Name": "CreateSign",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreateSign",
+        "Summary": "Creates a random sign (-1 or 1)."
+      },
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.Create(\u00600,\u00600)",
+        "Summary": "Creates a random number within the specified bounds."
+      },
+      {
+        "Name": "CreatePositive",
+        "Signature": "M:TestFabric.Data.RandomNumberFactory\u00601.CreatePositive(\u00600,\u00600)",
+        "Summary": "Creates a random positive number within the specified bounds."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.RangePicker\u00602",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.RangePicker\u00602",
+    "Summary": "Abstract class for picking an element from a specified range. The type parameter TRange must implement the IRange\u003CT\u003E interface.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "RangePicker\u00602",
+        "Signature": "M:TestFabric.Data.RangePicker\u00602.#ctor(System.Nullable{System.Int32})",
+        "Summary": "Abstract class for picking an element from a specified range. The type parameter TRange must implement the IRange\u003CT\u003E interface."
+      },
+      {
+        "Name": "Random",
+        "Signature": "F:TestFabric.Data.RangePicker\u00602.Random",
+        "Summary": "Provides methods for generating random numbers. This implementation is used internally by the RangePicker class to select elements from a range."
+      },
+      {
+        "Name": "Pick",
+        "Signature": "M:TestFabric.Data.RangePicker\u00602.Pick(TestFabric.Data.IRange{\u00600})",
+        "Summary": "Selects an element from the specified range."
+      },
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.RangePicker\u00602.PickFromRange(\u00601)",
+        "Summary": "Selects an element from the specified range."
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.TimeSpanPicker",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.TimeSpanPicker",
+    "Summary": "Picker for values.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "PickFromRange",
+        "Signature": "M:TestFabric.Data.TimeSpanPicker.PickFromRange(TestFabric.Data.NumberRange{System.TimeSpan})",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.FactoryBuilders.Normal",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data.FactoryBuilders",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.FactoryBuilders.Normal",
+    "Summary": "Factory builder for creating normal data instances.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.FactoryBuilders.Normal.Create",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.Data.FactoryBuilders.WithRecursion",
+    "Kind": "Type",
+    "Namespace": "TestFabric.Data.FactoryBuilders",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.Data.FactoryBuilders.WithRecursion",
+    "Summary": "Factory builder for creating data instances with recursion enabled.",
+    "Remarks": "",
+    "Members": [
+      {
+        "Name": "Create",
+        "Signature": "M:TestFabric.Data.FactoryBuilders.WithRecursion.Create",
+        "Summary": ""
+      }
+    ],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00601",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00601",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00602",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00602",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00603",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00603",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00604",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00604",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00605",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00605",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.MockBuilder\u00601.OutCallback\u00606",
+    "Kind": "Type",
+    "Namespace": "TestFabric.MockBuilder\u00601",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.MockBuilder\u00601.OutCallback\u00606",
+    "Summary": "Delegate representing a method that returns an output value based on input parameters.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.TestSuite.Normal",
+    "Kind": "Type",
+    "Namespace": "TestFabric.TestSuite",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.TestSuite.Normal",
+    "Summary": "Base class for test suites that use a normal factory builder to create data instances.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  },
+  {
+    "Symbol": "TestFabric.TestSuite.WithRecursion",
+    "Kind": "Type",
+    "Namespace": "TestFabric.TestSuite",
+    "Assembly": "TestFabric",
+    "Signature": "T:TestFabric.TestSuite.WithRecursion",
+    "Summary": "Base class for test suites that use a factory builder to create data instances with recursion enabled.",
+    "Remarks": "",
+    "Members": [],
+    "Examples": [],
+    "Tags": [],
+    "Links": []
+  }
+]

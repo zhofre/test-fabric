@@ -10,10 +10,6 @@ public record Example(
     string Code,
     string Notes);
 
-public record Link(
-    string Rel,
-    string Href);
-
 public record IndexRecord(
     string Symbol,
     string Kind,
@@ -24,5 +20,4 @@ public record IndexRecord(
     string Remarks,
     Member[] Members,
     Example[] Examples,
-    string[] Tags,
-    Link[] Links);
+    string[] Tags);

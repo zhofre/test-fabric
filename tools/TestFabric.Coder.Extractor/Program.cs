@@ -18,11 +18,13 @@ var xmlFile = Path.Combine(
     "TestFabric.xml");
 
 Console.WriteLine("Reading XML from: " + xmlFile);
-IndexRecord[] records = [];
-
+var records = XmlTools.CreateIndexFromXml(xmlFile);
 
 Console.WriteLine("Enriching index with README.md and samples from tests/samples");
+var examples = Enrich.CreateExamples();
 
+
+// todo: merge examples into records
 
 Console.WriteLine("Writing index.json");
 // Write to tools/TestFabric.Coder.Mcp/index.json (relative to build output dir)
@@ -38,7 +40,9 @@ var targetPath = Path.GetFullPath(
         "index.json"));
 
 Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
-var body = JsonSerializer.Serialize(records);
+var body = JsonSerializer.Serialize(records, new JsonSerializerOptions { WriteIndented = true });
 File.WriteAllText(targetPath, body);
 
 Console.WriteLine($"index.json written to: {targetPath}");
+
+// -------------- Helpers --------------
