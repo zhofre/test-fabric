@@ -36,7 +36,7 @@ Success Metrics
 - MCP server (C#) exposing:
     - Tool: `TestFabricTools`
     - Resources for “VIP” concepts (e.g., `IMockBuilder`, `MockBuilder<T>`, `TestSuite`, test naming conventions,
-      `Random<>`, `ILogger`/`ILogger<T>` patterns)
+      `Random<>`, `InRange<>`, `ILogger`/`ILogger<T>` patterns)
     - (Optional) Prompt templates for common authoring tasks
 - Doc extraction utility (C# console app) that builds a JSON index from the TestFabric source and XML docs
 - JSON index schema and a sample populated index committed under `tools/TestFabric.Coder.Mcp/index.json` (generated
